@@ -6,6 +6,9 @@ Mail: project@pgrouting.org
 Copyright (c) 2015 Celia Virginia Vergara Castillo
 mail: vicky_vergara@hotmail.com
 
+Copyright (c) 2019 Hang Wu
+mail: nike0good@gmail.com
+
 ------
 
 This program is free software; you can redistribute it and/or modify
@@ -25,90 +28,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ********************************************************************PGR-GNU*/
 
 ---------------
--- _pgr_bar
+---------------
+-- bar
+---------------
 ---------------
 
--- ONE to ONE
 CREATE OR REPLACE FUNCTION _pgr_bar(
-    TEXT,   -- edges_sql (required)
-    BIGINT, -- from_vid (required)
-    BIGINT, -- to_vid (required)
-
+    edges_sql TEXT,
+    start_vids ANYARRAY,
+    end_vids ANYARRAY,
     directed BOOLEAN DEFAULT true,
-
-    OUT seq INTEGER,
-    OUT path_seq INTEGER,
-    OUT node BIGINT,
-    OUT edge BIGINT,
-    OUT cost FLOAT,
-    OUT agg_cost FLOAT)
-RETURNS SETOF RECORD AS
-$BODY$
-    SELECT a.seq, a.path_seq, a.node, a.edge, a.cost, a.agg_cost
-    FROM __pgr_bar(_pgr_get_statement($1), ARRAY[$2]::BIGINT[], ARRAY[$3]::BIGINT[], $4, false, true) AS a;
-$BODY$
-LANGUAGE sql VOLATILE STRICT
-COST 100
-ROWS 1000;
-
-
--- ONE to MANY
-CREATE OR REPLACE FUNCTION _pgr_bar(
-    TEXT,     -- edges_sql (required)
-    BIGINT,   -- from_vid (required)
-    ANYARRAY, -- to_vids (required)
-
-    directed BOOLEAN DEFAULT true,
-
-    OUT seq INTEGER,
-    OUT path_seq INTEGER,
-    OUT end_vid BIGINT,
-    OUT node BIGINT,
-    OUT edge BIGINT,
-    OUT cost FLOAT,
-    OUT agg_cost FLOAT)
-RETURNS SETOF RECORD AS
-$BODY$
-    SELECT a.seq, a.path_seq, a.end_vid, a.node, a.edge, a.cost, a.agg_cost
-    FROM __pgr_bar(_pgr_get_statement($1), ARRAY[$2]::BIGINT[], $3::BIGINT[], $4, false, true) AS a;
-$BODY$
-LANGUAGE sql VOLATILE STRICT
-COST 100
-ROWS 1000;
-
-
--- MANY to ONE
-CREATE OR REPLACE FUNCTION _pgr_bar(
-    TEXT,     -- edges_sql (required)
-    ANYARRAY, -- from_vids (required)
-    BIGINT,   -- to_vid (required)
-
-    directed BOOLEAN DEFAULT true,
-
-    OUT seq INTEGER,
-    OUT path_seq INTEGER,
-    OUT start_vid BIGINT,
-    OUT node BIGINT,
-    OUT edge BIGINT,
-    OUT cost FLOAT,
-    OUT agg_cost FLOAT)
-RETURNS SETOF RECORD AS
-$BODY$
-    SELECT a.seq, a.path_seq, a.start_vid, a.node, a.edge, a.cost, a.agg_cost
-    FROM __pgr_bar(_pgr_get_statement($1), $2::BIGINT[], ARRAY[$3]::BIGINT[], $4, false, false) AS a;
-$BODY$
-LANGUAGE sql VOLATILE STRICT
-COST 100
-ROWS 1000;
-
-
--- MANY to MANY
-CREATE OR REPLACE FUNCTION _pgr_bar(
-    TEXT,     -- edges_sql (required)
-    ANYARRAY, -- from_vids (required)
-    ANYARRAY, -- to_vids (required)
-
-    directed BOOLEAN DEFAULT true,
+    only_cost BOOLEAN DEFAULT false,
+    normal BOOLEAN DEFAULT true,
+    n_goals BIGINT DEFAULT 0,
 
     OUT seq INTEGER,
     OUT path_seq INTEGER,
@@ -119,60 +51,10 @@ CREATE OR REPLACE FUNCTION _pgr_bar(
     OUT cost FLOAT,
     OUT agg_cost FLOAT)
 RETURNS SETOF RECORD AS
-$BODY$
-    SELECT a.seq, a.path_seq, a.start_vid, a.end_vid, a.node, a.edge, a.cost, a.agg_cost
-    FROM __pgr_bar(_pgr_get_statement($1), $2::BIGINT[], $3::BIGINT[], $4, false, true) AS a;
-$BODY$
-LANGUAGE sql VOLATILE STRICT
-COST 100
-ROWS 1000;
+'MODULE_PATHNAME', 'many_to_many_bar'
+LANGUAGE C VOLATILE STRICT;
 
 -- COMMENTS
 
-COMMENT ON FUNCTION _pgr_bar(TEXT, BIGINT, BIGINT, BOOLEAN)
-IS '_pgr_bar(One to One)
-- Parameters:
-   - Edges SQL with columns: id, source, target, cost [,reverse_cost]
-   - From vertex identifier
-   - To vertex identifier
-- Optional Parameters
-   - directed := true
-- Documentation:
-   - ${PGROUTING_DOC_LINK}/_pgr_bar.html
-';
-
-COMMENT ON FUNCTION _pgr_bar(TEXT, BIGINT, ANYARRAY, BOOLEAN)
-IS '_pgr_bar(One to Many)
-- Parameters:
-   - Edges SQL with columns: id, source, target, cost [,reverse_cost]
-   - From vertex identifier
-   - To ARRAY[vertices identifiers]
-- Optional Parameters
-   - directed := true
-- Documentation:
-   - ${PGROUTING_DOC_LINK}/_pgr_bar.html
-';
-
-COMMENT ON FUNCTION _pgr_bar(TEXT, ANYARRAY, BIGINT, BOOLEAN)
-IS '_pgr_bar(Many to One)
-- Parameters:
-   - Edges SQL with columns: id, source, target, cost [,reverse_cost]
-   - From ARRAY[vertices identifiers]
-   - To vertex identifier
-- Optional Parameters
-   - directed := true
-- Documentation:
-   - ${PGROUTING_DOC_LINK}/_pgr_bar.html
-';
-
-COMMENT ON FUNCTION _pgr_bar(TEXT, ANYARRAY, ANYARRAY, BOOLEAN)
-IS '_pgr_bar(Many to Many)
-- Parameters:
-   - Edges SQL with columns: id, source, target, cost [,reverse_cost]
-   - From ARRAY[vertices identifiers]
-   - To ARRAY[vertices identifiers]
-- Optional Parameters
-   - directed := true
-- Documentation:
-   - ${PGROUTING_DOC_LINK}/_pgr_bar.html
-';
+COMMENT ON FUNCTION _pgr_bar(TEXT, ANYARRAY, ANYARRAY, BOOLEAN, BOOLEAN, BOOLEAN, BIGINT)
+IS 'pgRouting internal function';

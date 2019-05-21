@@ -6,6 +6,9 @@ Mail: project@pgrouting.org
 Copyright (c) 2015 Celia Virginia Vergara Castillo
 mail: vicky_vergara@hotmail.com
 
+Copyright (c) 2019 Hang Wu
+mail: nike0good@gmail.com
+
 ------
 
 This program is free software; you can redistribute it and/or modify
