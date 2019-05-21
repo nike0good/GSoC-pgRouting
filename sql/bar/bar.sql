@@ -25,11 +25,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ********************************************************************PGR-GNU*/
 
 ---------------
--- pgr_dijkstra
+-- pgr_bar
 ---------------
 
 -- ONE to ONE
-CREATE OR REPLACE FUNCTION pgr_dijkstra(
+CREATE OR REPLACE FUNCTION pgr_bar(
     TEXT,   -- edges_sql (required)
     BIGINT, -- from_vid (required)
     BIGINT, -- to_vid (required)
@@ -45,7 +45,7 @@ CREATE OR REPLACE FUNCTION pgr_dijkstra(
 RETURNS SETOF RECORD AS
 $BODY$
     SELECT a.seq, a.path_seq, a.node, a.edge, a.cost, a.agg_cost
-    FROM _pgr_dijkstra(_pgr_get_statement($1), ARRAY[$2]::BIGINT[], ARRAY[$3]::BIGINT[], $4, false, true) AS a;
+    FROM _pgr_bar(_pgr_get_statement($1), ARRAY[$2]::BIGINT[], ARRAY[$3]::BIGINT[], $4, false, true) AS a;
 $BODY$
 LANGUAGE sql VOLATILE STRICT
 COST 100
@@ -53,7 +53,7 @@ ROWS 1000;
 
 
 -- ONE to MANY
-CREATE OR REPLACE FUNCTION pgr_dijkstra(
+CREATE OR REPLACE FUNCTION pgr_bar(
     TEXT,     -- edges_sql (required)
     BIGINT,   -- from_vid (required)
     ANYARRAY, -- to_vids (required)
@@ -70,7 +70,7 @@ CREATE OR REPLACE FUNCTION pgr_dijkstra(
 RETURNS SETOF RECORD AS
 $BODY$
     SELECT a.seq, a.path_seq, a.end_vid, a.node, a.edge, a.cost, a.agg_cost
-    FROM _pgr_dijkstra(_pgr_get_statement($1), ARRAY[$2]::BIGINT[], $3::BIGINT[], $4, false, true) AS a;
+    FROM _pgr_bar(_pgr_get_statement($1), ARRAY[$2]::BIGINT[], $3::BIGINT[], $4, false, true) AS a;
 $BODY$
 LANGUAGE sql VOLATILE STRICT
 COST 100
@@ -78,7 +78,7 @@ ROWS 1000;
 
 
 -- MANY to ONE
-CREATE OR REPLACE FUNCTION pgr_dijkstra(
+CREATE OR REPLACE FUNCTION pgr_bar(
     TEXT,     -- edges_sql (required)
     ANYARRAY, -- from_vids (required)
     BIGINT,   -- to_vid (required)
@@ -95,7 +95,7 @@ CREATE OR REPLACE FUNCTION pgr_dijkstra(
 RETURNS SETOF RECORD AS
 $BODY$
     SELECT a.seq, a.path_seq, a.start_vid, a.node, a.edge, a.cost, a.agg_cost
-    FROM _pgr_dijkstra(_pgr_get_statement($1), $2::BIGINT[], ARRAY[$3]::BIGINT[], $4, false, false) AS a;
+    FROM _pgr_bar(_pgr_get_statement($1), $2::BIGINT[], ARRAY[$3]::BIGINT[], $4, false, false) AS a;
 $BODY$
 LANGUAGE sql VOLATILE STRICT
 COST 100
@@ -103,7 +103,7 @@ ROWS 1000;
 
 
 -- MANY to MANY
-CREATE OR REPLACE FUNCTION pgr_dijkstra(
+CREATE OR REPLACE FUNCTION pgr_bar(
     TEXT,     -- edges_sql (required)
     ANYARRAY, -- from_vids (required)
     ANYARRAY, -- to_vids (required)
@@ -121,7 +121,7 @@ CREATE OR REPLACE FUNCTION pgr_dijkstra(
 RETURNS SETOF RECORD AS
 $BODY$
     SELECT a.seq, a.path_seq, a.start_vid, a.end_vid, a.node, a.edge, a.cost, a.agg_cost
-    FROM _pgr_dijkstra(_pgr_get_statement($1), $2::BIGINT[], $3::BIGINT[], $4, false, true) AS a;
+    FROM _pgr_bar(_pgr_get_statement($1), $2::BIGINT[], $3::BIGINT[], $4, false, true) AS a;
 $BODY$
 LANGUAGE sql VOLATILE STRICT
 COST 100
@@ -129,8 +129,8 @@ ROWS 1000;
 
 -- COMMENTS
 
-COMMENT ON FUNCTION pgr_dijkstra(TEXT, BIGINT, BIGINT, BOOLEAN)
-IS 'pgr_dijkstra(One to One)
+COMMENT ON FUNCTION pgr_bar(TEXT, BIGINT, BIGINT, BOOLEAN)
+IS 'pgr_bar(One to One)
 - Parameters:
    - Edges SQL with columns: id, source, target, cost [,reverse_cost]
    - From vertex identifier
@@ -138,11 +138,11 @@ IS 'pgr_dijkstra(One to One)
 - Optional Parameters
    - directed := true
 - Documentation:
-   - ${PGROUTING_DOC_LINK}/pgr_dijkstra.html
+   - ${PGROUTING_DOC_LINK}/pgr_bar.html
 ';
 
-COMMENT ON FUNCTION pgr_dijkstra(TEXT, BIGINT, ANYARRAY, BOOLEAN)
-IS 'pgr_dijkstra(One to Many)
+COMMENT ON FUNCTION pgr_bar(TEXT, BIGINT, ANYARRAY, BOOLEAN)
+IS 'pgr_bar(One to Many)
 - Parameters:
    - Edges SQL with columns: id, source, target, cost [,reverse_cost]
    - From vertex identifier
@@ -150,11 +150,11 @@ IS 'pgr_dijkstra(One to Many)
 - Optional Parameters
    - directed := true
 - Documentation:
-   - ${PGROUTING_DOC_LINK}/pgr_dijkstra.html
+   - ${PGROUTING_DOC_LINK}/pgr_bar.html
 ';
 
-COMMENT ON FUNCTION pgr_dijkstra(TEXT, ANYARRAY, BIGINT, BOOLEAN)
-IS 'pgr_dijkstra(Many to One)
+COMMENT ON FUNCTION pgr_bar(TEXT, ANYARRAY, BIGINT, BOOLEAN)
+IS 'pgr_bar(Many to One)
 - Parameters:
    - Edges SQL with columns: id, source, target, cost [,reverse_cost]
    - From ARRAY[vertices identifiers]
@@ -162,11 +162,11 @@ IS 'pgr_dijkstra(Many to One)
 - Optional Parameters
    - directed := true
 - Documentation:
-   - ${PGROUTING_DOC_LINK}/pgr_dijkstra.html
+   - ${PGROUTING_DOC_LINK}/pgr_bar.html
 ';
 
-COMMENT ON FUNCTION pgr_dijkstra(TEXT, ANYARRAY, ANYARRAY, BOOLEAN)
-IS 'pgr_dijkstra(Many to Many)
+COMMENT ON FUNCTION pgr_bar(TEXT, ANYARRAY, ANYARRAY, BOOLEAN)
+IS 'pgr_bar(Many to Many)
 - Parameters:
    - Edges SQL with columns: id, source, target, cost [,reverse_cost]
    - From ARRAY[vertices identifiers]
@@ -174,5 +174,5 @@ IS 'pgr_dijkstra(Many to Many)
 - Optional Parameters
    - directed := true
 - Documentation:
-   - ${PGROUTING_DOC_LINK}/pgr_dijkstra.html
+   - ${PGROUTING_DOC_LINK}/pgr_bar.html
 ';
