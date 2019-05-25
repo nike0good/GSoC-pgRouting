@@ -41,8 +41,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "c_common/arrays_input.h"
 #include "drivers/bar/bar_driver.h"
 
+#if 0
 PG_MODULE_MAGIC;
-
+#endif
 PGDLLEXPORT Datum many_to_many_bar(PG_FUNCTION_ARGS);
 PG_FUNCTION_INFO_V1(many_to_many_bar);
 
