@@ -69,7 +69,6 @@ pgr_bar(
             targets.end());
 #if 0
     pgrouting::Pgr_bar< G > fn_bar;
-#endif
     auto paths = fn_bar.bar(
             graph,
             sources, targets,
@@ -81,6 +80,7 @@ pgr_bar(
         }
     }
     return paths;
+#endif
 }
 
 
