@@ -40,7 +40,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <algorithm>
 #include <limits>
 
-#include "bar/pgr_bar.hpp"
+#if 0
+#include "dijiktra/pgr_dijiktra.hpp"
+#endif
 
 #include "cpp_common/pgr_alloc.hpp"
 #include "cpp_common/pgr_assert.h"
