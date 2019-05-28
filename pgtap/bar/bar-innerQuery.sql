@@ -28,11 +28,11 @@ SELECT function_returns('pgr_bar',
 
 
 -- ONE TO ONE
-SELECT style_bar('pgr_bar', ', 2, 3, true)');
+SELECT style_dijkstra('pgr_bar', ', 2, 3, true)');
 -- ONE TO MANY
-SELECT style_bar('pgr_bar', ', 2, ARRAY[3], true)');
+SELECT style_dijkstra('pgr_bar', ', 2, ARRAY[3], true)');
 -- MANY TO ONE
-SELECT style_bar('pgr_bar', ', ARRAY[2], 3, true)');
+SELECT style_dijkstra('pgr_bar', ', ARRAY[2], 3, true)');
 -- MANY TO MANY
 SELECT style_dijkstra('pgr_bar', ', ARRAY[2], ARRAY[3], true)');
 
