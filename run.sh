@@ -18,7 +18,7 @@ dijkstra driving_distance ksp lineGraph max_flow mincut spanningTree
 pickDeliver topology trsp tsp vrp_basic vrppdtw withPoints
 alpha_shape
 "
-TESTDIR="foobar"
+TESTDIR="bar"
 #TESTDIR=""
 
 # Compiler setup

@@ -1,7 +1,7 @@
 \i setup.sql
 
-SELECT plan(188);
---SELECT plan(8);
+--SELECT plan(188);
+SELECT plan(8);
 
 
 SELECT has_function('pgr_bar',
