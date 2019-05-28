@@ -79,8 +79,9 @@ pgr_bar(
             path.reverse();
         }
     }
-    return paths;
 #endif
+    std::deque< Path >paths;
+    return paths;
 }
 
 

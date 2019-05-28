@@ -23,7 +23,7 @@ TESTDIR="bar"
 
 # Compiler setup
 COMPILER="4.8 4.9 5 6 7 8"
-COMPILER="8"
+COMPILER="Default"
 #COMPILER='Default'
 
 # when more than one postgres version is installed on the computer
@@ -31,7 +31,7 @@ PGSQL_VER="10"
 PGPORT=5433
 PGSQL_VER="9.5"
 PGPORT=5432
-PGUSER="vicky"
+PGUSER="wuhang"
 
 function test_compile {
 
@@ -98,13 +98,13 @@ echo --------------------------------------------
 
 for t in $TESTDIR
 do
-#    tools/testers/algorithm-tester.pl  -alg $t -pgport $PGPORT -docmentation
+    tools/testers/algorithm-tester.pl  -alg $t -pgport $PGPORT -docmentation
     sleep 1
 #    tools/testers/algorithm-tester.pl  -alg $t -pgport $PGPORT -debug1
 #    sleep 1
     tools/developer/taptest.sh $t
     sleep 1
-#    tools/testers/algorithm-tester.pl  -alg $t -pgport $PGPORT
+    tools/testers/algorithm-tester.pl  -alg $t -pgport $PGPORT
     sleep 1
 done
 
