@@ -35,6 +35,7 @@ BEGIN
     '(SELECT id FROM edge_table_vertices_pgr  WHERE id IN (-1))'
     ]::TEXT[];
 
+    PERFORM todo_start('query must return results');
     RETURN query SELECT * FROM no_crash_test('pgr_bar', params, subs);
 
     subs = ARRAY[
@@ -43,6 +44,7 @@ BEGIN
     'NULL::BIGINT'
     ]::TEXT[];
     RETURN query SELECT * FROM no_crash_test('pgr_bar', params, subs);
+    PERFORM todo_end();
 
     -- one to many
     params = ARRAY['$$edges$$','1', 'ARRAY[2,5]::BIGINT[]']::TEXT[];
@@ -52,6 +54,7 @@ BEGIN
     '(SELECT array_agg(id) FROM edge_table_vertices_pgr  WHERE id IN (-1))'
     ]::TEXT[];
 
+    PERFORM todo_start('query must return results');
     RETURN query SELECT * FROM no_crash_test('pgr_bar', params, subs);
 
     subs = ARRAY[
@@ -60,6 +63,7 @@ BEGIN
     'NULL::BIGINT[]'
     ]::TEXT[];
     RETURN query SELECT * FROM no_crash_test('pgr_bar', params, subs);
+    PERFORM todo_end();
 
     -- many to one
     params = ARRAY['$$edges$$', 'ARRAY[2,5]::BIGINT[]', '1']::TEXT[];
@@ -68,7 +72,7 @@ BEGIN
     '(SELECT array_agg(id) FROM edge_table_vertices_pgr  WHERE id IN (-1))',
     '(SELECT id FROM edge_table_vertices_pgr  WHERE id IN (-1))'
     ]::TEXT[];
-
+    PERFORM todo_start('query must return results');
     RETURN query SELECT * FROM no_crash_test('pgr_bar', params, subs);
 
     subs = ARRAY[
@@ -77,6 +81,7 @@ BEGIN
     'NULL::BIGINT'
     ]::TEXT[];
     RETURN query SELECT * FROM no_crash_test('pgr_bar', params, subs);
+    PERFORM todo_end();
 
     -- many to many
     params = ARRAY['$$edges$$','ARRAY[1]::BIGINT[]', 'ARRAY[2,5]::BIGINT[]']::TEXT[];
@@ -86,6 +91,7 @@ BEGIN
     '(SELECT array_agg(id) FROM edge_table_vertices_pgr  WHERE id IN (-1))'
     ]::TEXT[];
 
+    PERFORM todo_start('query must return results');
     RETURN query SELECT * FROM no_crash_test('pgr_bar', params, subs);
 
     subs = ARRAY[
@@ -94,6 +100,7 @@ BEGIN
     'NULL::BIGINT[]'
     ]::TEXT[];
     RETURN query SELECT * FROM no_crash_test('pgr_bar', params, subs);
+    PERFORM todo_end();
 
 END
 $BODY$
