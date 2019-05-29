@@ -50,12 +50,14 @@ static
 void
 process(
         char* edges_sql,
-        ArrayType *starts,
-        ArrayType *ends,
-        General_path_element_t **result_tuples,
+        pgr_topological_sort_t **result_tuples,
         size_t *result_count) {
     pgr_SPI_connect();
 
+    pgr_edge_t *edges = NULL;
+    size_t total_edges = 0;
+    pgr_get_edges(edges_sql, &edges, &total_edges);
+    
     PGR_DBG("Starting timer");
     clock_t start_t = clock();
     char* log_msg = NULL;
@@ -160,8 +162,7 @@ topological_sort(PG_FUNCTION_ARGS) {
         }
 
         values[0] = Int32GetDatum(call_cntr + 1);
-        values[1] = Int32GetDatum(result_tuples[call_cntr].seq);
-        values[2] = Int64GetDatum(result_tuples[call_cntr].sorted_v);
+        values[1] = Int32GetDatum(result_tuples[call_cntr].sorted_v);
         /**********************************************************************/
 
         tuple = heap_form_tuple(tuple_desc, values, nulls);
