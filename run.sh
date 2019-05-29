@@ -29,7 +29,8 @@ COMPILER="Default"
 # when more than one postgres version is installed on the computer
 PGSQL_VER="10"
 PGPORT=5433
-PGSQL_VER="9.5"
+PGSQL_VER="11.3"
+#PGSQL_VER="9.5"
 PGPORT=5432
 PGUSER="wuhang"
 
