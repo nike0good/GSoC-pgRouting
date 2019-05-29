@@ -40,9 +40,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "c_common/edges_input.h"
 #include "c_common/arrays_input.h"
 #include "drivers/topological_sort/topological_sort_driver.h"
-
+#if 0
 PG_MODULE_MAGIC;
-
+#endif
 PGDLLEXPORT Datum topological_sort(PG_FUNCTION_ARGS);
 PG_FUNCTION_INFO_V1(topological_sort);
 
