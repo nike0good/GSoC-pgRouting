@@ -38,17 +38,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #if 0
 #include "topological_sort/pgr_topological_sort.hpp"
 #endif
+//TODO(nike0good) : Remove below headers once pgr_topological_sort.hpp is implemented.
+#include "cpp_common/basePath_SSEC.hpp"
+#include "cpp_common/pgr_base_graph.hpp"
+//TODO(nike0good) : Complete file once pgr_topological_sort.hpp is implemented. 
 
 #include "cpp_common/pgr_alloc.hpp"
 #include "cpp_common/pgr_assert.h"
 
 template < class G >
 static
-std::vector<pgr_topological_sort>
+std::vector<pgr_topological_sort_t>
 pgr_topological_sort(
         G &graph) {
+#if 0
     Pgr_topological_sort< G > fn_topological_sort;
     return fn_topological_sort.topological_sort(graph);
+#endif
+    std::vector<pgr_topological_sort_t> vv;
+    return vv;
 }
 
 
@@ -61,7 +69,7 @@ do_pgr_topological_sort(
         size_t total_edges,
         
 
-        pgr_topological_sort **return_tuples,
+        pgr_topological_sort_t **return_tuples,
         size_t *return_count,
         char ** log_msg,
         char ** notice_msg,
@@ -80,10 +88,12 @@ do_pgr_topological_sort(
 
         graphType gType =  DIRECTED;
 
+        std::vector<pgr_topological_sort_t> results; 
+
         log << "Working with Directed Graph\n";
         pgrouting::DirectedGraph digraph(gType);
         digraph.insert_edges(data_edges, total_edges);
-        results = pgr_strongComponents(
+        results = pgr_topological_sort(
                 digraph);
 
         auto count = results.size();
