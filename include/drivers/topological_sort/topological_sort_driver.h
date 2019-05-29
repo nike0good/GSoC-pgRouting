@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 ********************************************************************PGR-GNU*/
 
-#ifndef INCLUDE_DRIVERS_#include "c_types/pgr_stoerWagner_t.h"
+#ifndef INCLUDE_DRIVERS_TOPOLOGICAL_SORT_TOPOLOGICAL_SORT_DRIVER_H_
 #define INCLUDE_DRIVERS_TOPOLOGICAL_SORT_TOPOLOGICAL_SORT_DRIVER_H_
 
 /* for size-t */
@@ -39,7 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 
 #include "c_types/pgr_edge_t.h"
-#include "c_types/pgr_stoerWagner_t.h"
+#include "c_types/pgr_topological_sort_t.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -62,4 +62,4 @@ extern "C" {
     }
 #endif
 
-#endif  // INCLUDE_DRIVERS_TOPOLOGICAL_SORT_TOPOLOGICAL_SORT_DRIVER_H_
+#endif  // INCLUDE_DRIVERS_TOPOLOGICAL_SORT_DRIVER_H_
