@@ -1,0 +1,266 @@
+BEGIN;
+BEGIN
+SET client_min_messages TO NOTICE;
+SET
+-- q1
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2, 3
+);
+ERROR:  function pgr_bar(unknown, integer, integer) does not exist
+LINE 1: SELECT * FROM pgr_bar(
+                      ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+-- q2
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2, 3,
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+-- q3
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    2, ARRAY[3,5],
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+-- q4
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    ARRAY[2,11], 5
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+-- q5
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    ARRAY[2,11], ARRAY[3,5],
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+-- q6
+-- q7
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2, 3
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2, 5
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2, ARRAY[3,5]
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    11, 3
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    11, 5
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    ARRAY[2,11], 5
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    ARRAY[2, 11], ARRAY[3,5]
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+-- q8
+-- q9
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2, 3,
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2, 5,
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    11, 3,
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    11, 5,
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    ARRAY[2,11], 5,
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2, ARRAY[3,5],
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    ARRAY[2, 11], ARRAY[3,5],
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+-- q10
+-- q11
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    2, 3
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    2, 5
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    11, 3
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    11, 5
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    ARRAY[2,11], 5
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    2, ARRAY[3,5]
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    ARRAY[2, 11], ARRAY[3,5]
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+-- q12
+-- q13
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    2, 3,
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    2, 5,
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    11, 3,
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    11, 5,
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    ARRAY[2,11], 5,
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    2, ARRAY[3,5],
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost FROM edge_table',
+    ARRAY[2, 11], ARRAY[3,5],
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+-- q14
+-- q15
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2, 3,
+    TRUE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2,3
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2, ARRAY[3],
+    TRUE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2, ARRAY[3]
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    ARRAY[2], ARRAY[3],
+    TRUE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    ARRAY[2], ARRAY[3]
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+-- q16
+-- q17
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2, 3,
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    2, ARRAY[3],
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    ARRAY[2], 3,
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+SELECT * FROM pgr_bar(
+    'SELECT id, source, target, cost, reverse_cost FROM edge_table',
+    ARRAY[2], ARRAY[3],
+    FALSE
+);
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+-- q18
+ROLLBACK;
+ROLLBACK
