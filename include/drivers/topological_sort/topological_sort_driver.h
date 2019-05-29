@@ -1,14 +1,14 @@
 /*PGR-GNU*****************************************************************
 
-File: dijkstra_driver.h
+File: topological_sort_driver.h
 
 Generated with Template by:
 Copyright (c) 2015 pgRouting developers
 Mail: project@pgrouting.org
 
 Function's developer:
-Copyright (c) 2015 Celia Virginia Vergara Castillo
-Mail: vicky_vergara@hotmail.com
+Copyright (c) 2019 Hang Wu
+mail: nike0good@gmail.com
 
 ------
 
@@ -46,24 +46,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 extern "C" {
 #endif
 
-    //  CREATE OR REPLACE FUNCTION pgr_dijkstra(
+    //  CREATE OR REPLACE FUNCTION pgr_topological_sort(
     //  sql text,
-    //  start_vids anyarray,
-    //  end_vids anyarray,
-    //  directed boolean default true,
-    void do_pgr_many_to_many_dijkstra(
+    void do_pgr_topological_sort(
             pgr_edge_t  *data_edges,
             size_t total_tuples,
-            int64_t  *start_vidsArr,
-            size_t size_start_vidsArr,
-            int64_t  *end_vidsArr,
-            size_t size_end_vidsArr,
-            bool directed,
-            bool only_cost,
-            bool normal,
-            int64_t n_goals,
 
-            General_path_element_t **return_tuples,
+            pgr_topological_sort_t **return_tuples,
             size_t *return_count,
 
             char** log_msg,
