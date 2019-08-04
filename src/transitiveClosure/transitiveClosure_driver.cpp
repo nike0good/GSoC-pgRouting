@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sstream>
 #include <deque>
 #include <vector>
+#include <algorithm>
 
 #include "transitiveClosure/pgr_transitiveClosure.hpp"
 
@@ -46,7 +47,7 @@ namespace {
   @result The vids Identifiers with at least one contracted vertex
 */
 template <typename G>
-Identifiers<int64_t> get_modified_vertices(const G& graph) {
+Identifiers<int64_t> get_vertices(const G& graph) {
     Identifiers<int64_t> vids;
     for (auto v : boost::make_iterator_range(boost::vertices(graph.graph))) {
             vids += graph[v].id;
@@ -71,16 +72,16 @@ template <typename G>
 static
 void get_postgres_result(
         G &graph,
-        contracted_rt **return_tuples,
+        transitiveClosure_rt **return_tuples,
         size_t *count) {
 
     auto vertices(get_vertices(graph));
     
-    (*count) = modified_vertices.size();
+    (*count) = vertices.size();
     (*return_tuples) = pgr_alloc((*count), (*return_tuples));
     size_t sequence = 0;
 
-    for (const auto id : modified_vertices) {
+    for (const auto id : vertices) {
         auto v = graph.get_V(id);
         int64_t* target_array = NULL;
         auto vids = graph[v].target_array();

@@ -96,8 +96,6 @@ process(char* edges_sql,
     if (notice_msg) pfree(notice_msg);
     if (err_msg) pfree(err_msg);
     if (edges) pfree(edges);
-    if (forbidden_vertices) pfree(forbidden_vertices);
-    if (contraction_order) pfree(contraction_order);
     pgr_SPI_finish();
 }
 
