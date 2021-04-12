@@ -4,50 +4,62 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
 
-.. _pgr_biconnectedComponents:
-
-pgr_biconnectedComponents - Experimental
+pgr_biconnectedComponents
 ===============================================================================
 
 ``pgr_biconnectedComponents`` — Return the biconnected components of an undirected graph.
 In particular, the algorithm implemented by Boost.Graph.
 
 .. figure:: images/boost-inside.jpeg
-   :target: http://www.boost.org/libs/graph/doc/biconnected_components.html
+   :target: https://www.boost.org/libs/graph/doc/biconnected_components.html
 
    Boost Graph Inside
 
-.. include:: proposed.rst
-   :start-after: begin-warn-expr
-   :end-before: end-warn-expr
+.. rubric:: Availability
 
+* Version 3.0.0
 
-Synopsis
+  * Return columns change:
+
+    *  ``n_seq`` is removed
+    * ``seq`` changed type to ``BIGINT``
+
+  * **Official** function
+
+* Version 2.5.0
+
+  * New **experimental** function
+
+.. rubric:: Support
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/pgr_biconnectedComponents.html>`__)
+
+* **Unsupported versions:**
+  `2.6 <https://docs.pgrouting.org/2.6/en/pgr_biconnectedComponents.html>`__
+  `2.5 <https://docs.pgrouting.org/2.5/en/pgr_biconnectedComponents.html>`__
+
+Description
 -------------------------------------------------------------------------------
 
 The biconnected components of an undirected graph are the maximal subsets of vertices such that the removal of a vertex from
 particular component will not disconnect the component. Unlike connected components, vertices may belong to multiple biconnected
 components. Vertices can be present in multiple biconnected components, but each edge can only be contained in a single biconnected
-component. So, the output only has edge version.
+component.
 
-This implementation can only be used with an undirected graph.
+**The main characteristics are:**
 
-Characteristics
--------------------------------------------------------------------------------
+- The signature is for an **undirected** graph.
+- Components are described by edges.
+- The returned values are ordered:
 
-The main Characteristics are:
+  - `component` ascending.
+  - `edge` ascending.
 
-  - Components are described by edges
-
-  - The returned values are ordered:
-
-    - `component` ascending
-    - `edge` ascending
-
-  - Running time: :math:`O(V + E)`
+- Running time: :math:`O(V + E)`
 
 Signatures
 -------------------------------------------------------------------------------
@@ -57,47 +69,59 @@ Signatures
 
 .. code-block:: none
 
-    pgr_biconnectedComponents(edges_sql)
+    pgr_biconnectedComponents(Edges SQL)
 
-    RETURNS SET OF (seq, component, n_seq, edge)
-        OR EMPTY SET
+    RETURNS SET OF (seq, component, edge)
+    OR EMPTY SET
 
-The signature is for a **undirected** graph.
-
-:Example:
+:Example: The biconnected components of the graph
 
 .. literalinclude:: doc-pgr_biconnectedComponents.queries
    :start-after: -- q1
    :end-before: -- q2
 
-.. image:: images/bcc_sampledata.png
-   :width: 705px
-   :height: 373px
-
-Description of the Signatures
+Parameters
 -------------------------------------------------------------------------------
-
-.. include:: components-family.rst
-    :start-after: components_edges_sql_start
-    :end-before: components_edges_sql_end
 
 .. include:: components-family.rst
     :start-after: components_parameters_start
     :end-before: components_parameters_end
 
-.. include:: components-family.rst
-    :start-after: return_componentsE_start
-    :end-before: return_componentsE_end
+Inner query
+-------------------------------------------------------------------------------
 
+:edges SQL: an SQL query of an **undirected** graph, which should return a set of rows with the following columns:
+
+.. include:: pgRouting-concepts.rst
+    :start-after: basic_edges_sql_start
+    :end-before: basic_edges_sql_end
+
+Result Columns
+-------------------------------------------------------------------------------
+
+.. return_componentsE_start
+
+Returns set of ``(seq, component, edge)``
+
+============== ========== =================================================
+Column         Type       Description
+============== ========== =================================================
+**seq**        ``BIGINT``    Sequential value starting from **1**.
+**component**  ``BIGINT`` Component identifier. It is equal to the minimum edge identifier in the component.
+**edge**       ``BIGINT`` Identifier of the edge.
+============== ========== =================================================
+
+.. return_componentsE_end
 
 See Also
 -------------------------------------------------------------------------------
 
-* http://en.wikipedia.org/wiki/Biconnected_component
+* :doc:`components-family`
 * The queries use the :doc:`sampledata` network.
+* Boost: `Biconnected components <https://www.boost.org/libs/graph/doc/biconnected_components.html>`__
+* wikipedia: `Biconnected component <https://en.wikipedia.org/wiki/Biconnected_component>`__
 
 .. rubric:: Indices and tables
 
 * :ref:`genindex`
 * :ref:`search`
-

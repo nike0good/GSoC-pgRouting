@@ -10,17 +10,21 @@ Copyright (c) 2017 Anthony Nicola Tasca
 Mail: atasca10@gmail.com
 
 ------
+
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
+
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
+
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
  ********************************************************************PGR-GNU*/
 
 #ifndef INCLUDE_LINEGRAPH_PGR_LINEGRAPHFULL_HPP_
@@ -50,11 +54,12 @@ class Pgr_lineGraphFull : public Pgr_base_graph<G, T_V, T_E> {
     typedef typename boost::graph_traits < G >::in_edge_iterator EI_i;
 
 
-    explicit Pgr_lineGraphFull< G, T_V, T_E >(graphType gtype)
-        : Pgr_base_graph< G, T_V, T_E >(gtype) {
+    explicit Pgr_lineGraphFull< G, T_V, T_E >(const graphType &gtype)
+        : Pgr_base_graph< G, T_V, T_E >(gtype),
+        m_num_edges(0) {
         }
 
-    Pgr_lineGraphFull< G, T_V, T_E >(const pgrouting::DirectedGraph &digraph)
+    explicit Pgr_lineGraphFull< G, T_V, T_E >(const pgrouting::DirectedGraph &digraph)
         : Pgr_base_graph< G, T_V, T_E >(graphType::DIRECTED) {
             apply_transformation(digraph);
             store_edge_costs(digraph);

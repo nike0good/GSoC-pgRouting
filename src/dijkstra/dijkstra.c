@@ -6,7 +6,7 @@ Generated with Template by:
 Copyright (c) 2015 pgRouting developers
 Mail: project@pgrouting.org
 
-Function's developer: 
+Function's developer:
 Copyright (c) 2015 Celia Virginia Vergara Castillo
 Mail: vicky_vergara@hotmail.com
 
@@ -26,10 +26,13 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
+
+#include <stdbool.h>
 
 #include "c_common/postgres_connection.h"
 #include "utils/array.h"
+
 
 #include "c_common/debug_macro.h"
 #include "c_common/e_report.h"
@@ -40,8 +43,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 PG_MODULE_MAGIC;
 
-PGDLLEXPORT Datum many_to_many_dijkstra(PG_FUNCTION_ARGS);
-PG_FUNCTION_INFO_V1(many_to_many_dijkstra);
+PGDLLEXPORT Datum _pgr_dijkstra(PG_FUNCTION_ARGS);
+PG_FUNCTION_INFO_V1(_pgr_dijkstra);
 
 static
 void
@@ -52,6 +55,7 @@ process(
         bool directed,
         bool only_cost,
         bool normal,
+        int64_t n_goals,
         General_path_element_t **result_tuples,
         size_t *result_count) {
     pgr_SPI_connect();
@@ -98,6 +102,7 @@ process(
             directed,
             only_cost,
             normal,
+            n_goals,
 
             result_tuples,
             result_count,
@@ -131,7 +136,7 @@ process(
 }
 
 PGDLLEXPORT Datum
-many_to_many_dijkstra(PG_FUNCTION_ARGS) {
+_pgr_dijkstra(PG_FUNCTION_ARGS) {
     FuncCallContext     *funcctx;
     TupleDesc            tuple_desc;
 
@@ -162,6 +167,7 @@ many_to_many_dijkstra(PG_FUNCTION_ARGS) {
                 PG_GETARG_BOOL(3),
                 PG_GETARG_BOOL(4),
                 PG_GETARG_BOOL(5),
+                PG_GETARG_INT64(6),
                 &result_tuples,
                 &result_count);
 

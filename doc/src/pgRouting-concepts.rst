@@ -4,7 +4,7 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
 
 .. _pgrouting_concepts:
@@ -80,7 +80,7 @@ used for routing with pgrouting. We provide a tool that will help with this:
 
     select pgr_createTopology('myroads', 0.000001);
 
-* :ref:`pgr_create_topology`
+* :doc:`pgr_createTopology`
 
 .. _check_graph:
 
@@ -106,9 +106,9 @@ but we have some basic tools that might help.
                                          direction)
     select pgr_nodeNetwork('myroads', 0.001);
 
-* :ref:`pgr_analyze_graph`
-* :ref:`pgr_analyze_oneway`
-* :ref:`pgr_node_network`
+* :doc:`pgr_analyzeGraph`
+* :doc:`pgr_analyzeOneWay`
+* :doc:`pgr_nodeNetwork`
 
 
 .. _compute_path:
@@ -131,7 +131,54 @@ node id along with the cost or geometry for the step in the path from *start*
 to *end*. Using the ids you can join these result back to your edge table
 to get more information about each step in the path.
 
-* :ref:`pgr_dijkstra`
+* :doc:`pgr_dijkstra`
+
+Group of Functions
+-------------------------------------------------------------------------------
+
+A function might have different overloads.
+Across this documentation, to indicate which overload we use the following terms:
+
+* `One to One`_
+* `One to Many`_
+* `Many to One`_
+* `Many to Many`_
+
+Depending on the overload are the parameters used, keeping consistency across
+all functions.
+
+One to One
+...............................................................................
+
+When routing from:
+
+* From **one** starting vertex
+* to **one** ending vertex
+
+One to Many
+...............................................................................
+
+When routing from:
+
+* From **one** starting vertex
+* to **many** ending vertices
+
+Many to One
+...............................................................................
+
+When routing from:
+
+* From **many** starting vertices
+* to **one** ending vertex
+
+Many to Many
+...............................................................................
+
+When routing from:
+
+* From **many** starting vertices
+* to **many** ending vertices
+
 
 
 
@@ -156,12 +203,11 @@ Where:
 
 .. where_definition_ends
 
-.. basic_edges_sql_start
 
 Description of the edges_sql query for dijkstra like functions
 ...............................................................................
 
-:edges_sql: an SQL query, which should return a set of rows with the following columns:
+.. basic_edges_sql_start
 
 ================= =================== ======== =================================================
 Column            Type                 Default  Description
@@ -184,13 +230,12 @@ Where:
 :ANY-INTEGER: SMALLINT, INTEGER, BIGINT
 :ANY-NUMERICAL: SMALLINT, INTEGER, BIGINT, REAL, FLOAT
 
-
 .. basic_edges_sql_end
+
 
 .. no_id_edges_sql_start
 
-Description of the edges_sql query (id is not necessary)
-...............................................................................
+.. rubric:: Description of the edges_sql query (id is not necessary)
 
 :edges_sql: an SQL query, which should return a set of rows with the following columns:
 
@@ -220,8 +265,8 @@ Where:
 
 .. pgr_dijkstra_via_parameters_start
 
-Description of the parameters of the signatures
-...............................................................................
+Parameters
+-------------------------------------------------------------------------------
 
 =================== ====================== ========= =========================================
 Parameter           Type                   Default   Description
@@ -239,10 +284,11 @@ Parameter           Type                   Default   Description
 .. pgr_dijkstra_via_parameters_end
 
 
-.. xy_edges_sql_start
 
-Description of the edges_sql query for astar like functions
-...............................................................................
+edges_sql query for :doc:`aStar-family` and :doc:`aStar-family` functions
+.............................................................................................
+
+.. xy_edges_sql_start
 
 :edges_sql: an SQL query, which should return a set of rows with the following columns:
 
@@ -274,42 +320,23 @@ Where:
 
 .. xy_edges_sql_end
 
-.. flow_edges_sql_start
 
-Description of the edges_sql query for Max-flow like functions
-...............................................................................
+.. rubric:: For :doc:`pgr_pushRelabel <pgr_pushRelabel>`, :doc:`pgr_edmondsKarp <pgr_edmondsKarp>`, :doc:`pgr_boykovKolmogorov <pgr_boykovKolmogorov>` :
 
-:edges_sql: an SQL query, which should return a set of rows with the following columns:
+.. include:: flow-family.rst
+   :start-after: flow_edges_sql_start
+   :end-before: flow_edges_sql_end
 
-==================== =================== ======== =================================================
-Column               Type                Default  Description
-==================== =================== ======== =================================================
-**id**               ``ANY-INTEGER``              Identifier of the edge.
-**source**           ``ANY-INTEGER``              Identifier of the first end point vertex of the edge.
-**target**           ``ANY-INTEGER``              Identifier of the second end point vertex of the edge.
-**capacity**         ``ANY-INTEGER``              Weight of the edge  `(source, target)`
+.. rubric:: For :doc:`pgr_maxFlowMinCost` and :doc:`pgr_maxFlowMinCost_Cost`:
 
-                                                  - When negative: edge `(source, target)` does not exist, therefore it's not part of the graph.
-
-**reverse_capacity** ``ANY-INTEGER``       -1     Weight of the edge `(target, source)`,
-
-                                                  - When negative: edge `(target, source)` does not exist, therefore it's not part of the graph.
-
-==================== =================== ======== =================================================
-
-Where:
-
-:ANY-INTEGER: SMALLINT, INTEGER, BIGINT
-
-
-.. flow_edges_sql_end
-
+.. include:: flow-family.rst
+   :start-after: costFlow_edges_sql_start
+   :end-before: costFlow_edges_sql_end
 
 
 .. points_sql_start
 
-Description of the Points SQL query
-...............................................................................
+.. rubric:: Description of the Points SQL query
 
 :points_sql: an SQL query, which should return a set of rows with the following columns:
 
@@ -349,10 +376,10 @@ Return columns & values
 
 There are several kinds of columns returned are depending of the function.
 
-.. return_path_start
-
-Description of the return values for a path
+Return values for a path
 ...............................................................................
+
+.. return_path_short_start
 
 Returns set of ``(seq, path_seq [, start_vid] [, end_vid], node, edge, cost, agg_cost)``
 
@@ -360,10 +387,54 @@ Returns set of ``(seq, path_seq [, start_vid] [, end_vid], node, edge, cost, agg
 Column         Type       Description
 ============== ========== =================================================
 **seq**        ``INT``    Sequential value starting from **1**.
+**path_seq**   ``INT``    Relative position in the path. Has value **1** for the beginning of a path.
+**start_vid**  ``BIGINT`` Identifier of the starting vertex.
+                          Returned when multiple starting vetrices are in the query.
+
+                          * `Many to One`_
+                          * `Many to Many`_
+
+**end_vid**    ``BIGINT`` Identifier of the ending vertex.
+                          Returned when multiple ending vertices are in the query.
+
+                          * `One to Many`_
+                          * `Many to Many`_
+
+**node**       ``BIGINT`` Identifier of the node in the path from ``start_vid`` to ``end_vid``.
+**edge**       ``BIGINT`` Identifier of the edge used to go from ``node`` to the next node in the path sequence. ``-1`` for the last node of the path.
+**cost**       ``FLOAT``  Cost to traverse from ``node`` using ``edge`` to the next node in the path sequence.
+**agg_cost**   ``FLOAT``  Aggregate cost from ``start_v`` to ``node``.
+============== ========== =================================================
+
+.. return_path_short_end
+
+
+Return values for multiple paths from the same source and destination
+...............................................................................
+
+.. return_path_start
+
+Returns set of ``(seq, path_id, path_seq [, start_vid] [, end_vid], node, edge, cost, agg_cost)``
+
+============== ========== =================================================
+Column         Type       Description
+============== ========== =================================================
+**seq**        ``INT``    Sequential value starting from **1**.
 **path_id**    ``INT``    Path identifier. Has value **1** for the first of a path. Used when there are multiple paths for the same ``start_vid`` to ``end_vid`` combination.
 **path_seq**   ``INT``    Relative position in the path. Has value **1** for the beginning of a path.
-**start_vid**  ``BIGINT`` Identifier of the starting vertex. Used when multiple starting vetrices are in the query.
-**end_vid**    ``BIGINT`` Identifier of the ending vertex. Used when multiple ending vertices are in the query.
+**start_vid**  ``BIGINT`` Identifier of the starting vertex.
+                          Returned when multiple starting vetrices are in the query.
+
+                          * `Many to One`_
+                          * `Many to Many`_
+
+
+**end_vid**    ``BIGINT`` Identifier of the ending vertex.
+                          Returned when multiple ending vertices are in the query.
+
+                          * `One to Many`_
+                          * `Many to Many`_
+
 **node**       ``BIGINT`` Identifier of the node in the path from ``start_vid`` to ``end_vid``.
 **edge**       ``BIGINT`` Identifier of the edge used to go from ``node`` to the next node in the path sequence. ``-1`` for the last node of the path.
 **cost**       ``FLOAT``  Cost to traverse from ``node`` using ``edge`` to the next node in the path sequence.
@@ -372,12 +443,13 @@ Column         Type       Description
 
 .. return_path_end
 
-.. return_cost_start
 
-Description of the return values for a Cost function
+Description of the return values for a :doc:`costMatrix-category` function
 ...............................................................................
 
-Returns set of ``(start_vid, end_vid, agg_cost)``
+.. return_cost_start
+
+Returns SET OF ``(start_vid, end_vid, agg_cost)``
 
 ============== ========== =================================================
 Column         Type       Description
@@ -391,23 +463,21 @@ Column         Type       Description
 
 
 
-.. result_flow_start
-
 Description of the Return Values
 .....................................................................
 
-=====================  ====================  =================================================
-Column                 Type                  Description
-=====================  ====================  =================================================
-**seq**                ``INT``               Sequential value starting from **1**.
-**edge_id**            ``BIGINT``            Identifier of the edge in the original query(edges_sql).
-**source**             ``BIGINT``            Identifier of the first end point vertex of the edge.
-**target**             ``BIGINT``            Identifier of the second end point vertex of the edge.
-**flow**               ``BIGINT``            Flow through the edge in the direction (source, target).
-**residual_capacity**  ``BIGINT``            Residual capacity of the edge in the direction (source, target).
-=====================  ====================  =================================================
+.. rubric:: For :doc:`pgr_pushRelabel <pgr_pushRelabel>`, :doc:`pgr_edmondsKarp <pgr_edmondsKarp>`, :doc:`pgr_boykovKolmogorov <pgr_boykovKolmogorov>` :
 
-.. result_flow_end
+.. include:: flow-family.rst
+    :start-after: result_flow_start
+    :end-before: result_flow_end
+
+.. rubric:: For :doc:`pgr_maxFlowMinCost`
+
+.. include:: flow-family.rst
+    :start-after: result_costFlow_start
+    :end-before: result_costFlow_end
+
 
 .. _advanced_topics:
 
@@ -427,7 +497,7 @@ Routing Topology
 
 Typically when GIS files are loaded into the data database for use with pgRouting they do not have topology information associated with them. To create a useful topology the data needs to be "noded". This means that where two or more roads form an intersection there it needs to be a node at the intersection and all the road segments need to be broken at the intersection, assuming that you can navigate from any of these segments to any other segment via that intersection.
 
-You can use the :ref:`graph analysis functions <analytics>` to help you see where you might have topology problems in your data. If you need to node your data, we also have a function :ref:`pgr_nodeNetwork() <pgr_node_network>` that might work for you. This function splits ALL crossing segments and nodes them. There are some cases where this might NOT be the right thing to do.
+You can use the :ref:`graph analysis functions <analytics>` to help you see where you might have topology problems in your data. If you need to node your data, we also have a function :doc:`pgr_nodeNetwork() <pgr_nodeNetwork>` that might work for you. This function splits ALL crossing segments and nodes them. There are some cases where this might NOT be the right thing to do.
 
 For example, when you have an overpass and underpass intersection, you do not want these noded, but pgr_nodeNetwork does not know that is the case and will node them which is not good because then the router will be able to turn off the overpass onto the underpass like it was a flat 2D intersection. To deal with this problem some data sets use z-levels at these types of intersections and other data might not node these intersection which would be ok.
 
@@ -452,7 +522,7 @@ For those cases where topology needs to be added the following functions may be 
 
     SELECT pgr_createTopology('edge_table', 0.000001, 'the_geom', 'id');
 
-The function :ref:`pgr_createTopology() <pgr_create_topology>` will create the ``vertices_tmp`` table and populate the ``source`` and ``target`` columns. The following example populated the remaining columns. In this example, the ``fcc`` column contains feature class code and the ``CASE`` statements converts it to an average speed.
+The function :doc:`pgr_createTopology <pgr_createTopology>` will create the ``vertices_tmp`` table and populate the ``source`` and ``target`` columns. The following example populated the remaining columns. In this example, the ``fcc`` column contains feature class code and the ``CASE`` statements converts it to an average speed.
 
 .. code-block:: sql
 
@@ -534,7 +604,7 @@ We do not current have any visualization tools for these problems, but I have us
 Analyze a Graph
 ...............................................................................
 
-With :ref:`pgr_analyze_graph` the graph can be checked for errors. For example for table "mytab" that has "mytab_vertices_pgr" as the vertices table:
+With :doc:`pgr_analyzeGraph` the graph can be checked for errors. For example for table "mytab" that has "mytab_vertices_pgr" as the vertices table:
 
 .. code-block:: sql
 
@@ -593,7 +663,7 @@ If you want to visualize these on a graphic image, then you can use something li
 Analyze One Way Streets
 ...............................................................................
 
-:ref:`pgr_analyze_oneway` analyzes one way streets in a graph and identifies any flipped segments. Basically if you count the edges coming into a node and the edges exiting a node the number has to be greater than one.
+:doc:`pgr_analyzeOneWay` analyzes one way streets in a graph and identifies any flipped segments. Basically if you count the edges coming into a node and the edges exiting a node the number has to be greater than one.
 
 This query will add two columns to the vertices_tmp table ``ein int`` and ``eout int`` and populate it with the appropriate counts. After running this on a graph you can identify nodes with potential problems with the following query.
 
@@ -711,7 +781,7 @@ How to contribute
 .. rubric:: Adding Functionaity to pgRouting
 
 
-Consult the `developer's documentation <http://docs.pgrouting.org/doxy/2.4/index.html>`_
+Consult the `developer's documentation <https://docs.pgrouting.org/doxy/2.4/index.html>`_
 
 
 

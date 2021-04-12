@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 
 #include "drivers/yen/ksp_driver.h"
@@ -37,13 +37,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "cpp_common/pgr_base_graph.hpp"
 
 
+using pgrouting::yen::Pgr_ksp;
+
 
 void  do_pgr_ksp(
         pgr_edge_t *data_edges,
         size_t total_edges,
         int64_t  start_vid,
         int64_t  end_vid,
-        int k,
+        size_t k,
         bool directed,
         bool heap_paths,
         General_path_element_t **return_tuples,

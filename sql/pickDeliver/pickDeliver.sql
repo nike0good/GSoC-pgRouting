@@ -25,12 +25,13 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
-CREATE OR REPLACE FUNCTION _pgr_pickDeliver(
-    TEXT, -- orders_sql
-    TEXT, -- vehicles_sql
+CREATE OR REPLACE FUNCTION pgr_pickDeliver(
+    TEXT, -- orders_sql (required)
+    TEXT, -- vehicles_sql (required)
     TEXT, -- matrix_cell_sql
+
     factor FLOAT DEFAULT 1,
     max_cycles INTEGER DEFAULT 10,
     initial_sol INTEGER DEFAULT 4,
@@ -47,11 +48,41 @@ CREATE OR REPLACE FUNCTION _pgr_pickDeliver(
     OUT arrival_time FLOAT,
     OUT wait_time FLOAT,
     OUT service_time FLOAT,
-    OUT departure_time FLOAT
-)
-
+    OUT departure_time FLOAT)
 RETURNS SETOF RECORD AS
- '${MODULE_PATHNAME}', 'pickDeliver'
-LANGUAGE c VOLATILE STRICT;
+$BODY$
+    SELECT *
+    FROM _pgr_pickDeliver(_pgr_get_statement($1), _pgr_get_statement($2), $3, $4, $5);
+$BODY$
+LANGUAGE SQL VOLATILE STRICT;
 
+-- COMMENTS
 
+COMMENT ON FUNCTION pgr_pickDeliver(TEXT, TEXT, TEXT, FLOAT, INTEGER, INTEGER)
+IS 'pgr_pickDeliver
+ - EXPERIMENTAL
+ - Parameters:
+   - orders SQL with columns:
+     - id, demand, p_node_id, p_open, p_close, d_node_id, d_open, d_close
+     - optional columns:
+        - p_service := 0
+        - d_service := 0
+   - vehicles SQL with columns:
+     - id, capacity, start_open, start_close
+     - optional columns:
+        - speed := 1
+        - start_service := 0
+        - end_open := start_open
+        - end_close := start_close
+        - end_service := 0
+   - Matrix
+     - start_vid
+     - end_vid
+     - agg_cost
+ - Optional Parameters:
+   - factor: default := 1
+   - max_cycles: default := 10
+   - initial_sol: default := 4
+- Documentation:
+   - ${PGROUTING_DOC_LINK}/pgr_pickDeliver.html
+';

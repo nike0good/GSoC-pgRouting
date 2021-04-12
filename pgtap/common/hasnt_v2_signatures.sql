@@ -3,7 +3,6 @@
 
 SELECT plan(30);
 
-SELECT todo_start();
 
 -- auxiliary
 SELECT hasnt_function('pgr_flipedges');
@@ -30,7 +29,7 @@ SELECT hasnt_function('pgr_ksp',ARRAY['text', 'integer', 'integer', 'integer', '
 SELECT hasnt_function('pgr_drivingdistance',ARRAY['text', 'integer', 'double precision', 'boolean', 'boolean']);
 SELECT hasnt_function('pgr_bdastar',ARRAY['text', 'integer', 'integer', 'boolean', 'boolean']);
 SELECT hasnt_function('pgr_bddijkstra',ARRAY['text', 'integer', 'integer', 'boolean', 'boolean']);
-SELECT hasnt_function('pgr_tsp',ARRAY['(double precision[]', 'integer', 'integer']);
+SELECT hasnt_function('pgr_tsp',ARRAY['double precision[]', 'integer', 'integer']);
 
 -- deprecated functions
 SELECT hasnt_function('pgr_kdijkstracost');
@@ -44,8 +43,6 @@ SELECT hasnt_function('pgr_maxflowboykovkolmogorov');
 SELECT hasnt_function('pgr_maxflowpushrelable');
 SELECT hasnt_function('pgr_maxflowedmondskarp');
 SELECT hasnt_function('pgr_maximumcardinalitymatching');
-
-SELECT todo_end();
 
 
 

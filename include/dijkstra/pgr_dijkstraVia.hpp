@@ -4,7 +4,7 @@ File: pgr_dijkstraVia.hpp
 Generated with Template by:
 Copyright (c) 2015 pgRouting developers
 
-Function's developer: 
+Function's developer:
 Copyright (c) 2015 Celia Virginia Vergara Castillo
 
 ------
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #ifndef INCLUDE_DIJKSTRA_PGR_DIJKSTRAVIA_HPP_
 #define INCLUDE_DIJKSTRA_PGR_DIJKSTRAVIA_HPP_
@@ -44,7 +44,7 @@ template <class G>
 void
 pgr_dijkstraVia(
         G &graph,
-        const std::vector< int64_t > via_vertices,
+        const std::vector< int64_t > &via_vertices,
         std::deque< Path > &paths,
         bool strict,
         bool U_turn_on_edge,

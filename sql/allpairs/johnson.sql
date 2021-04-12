@@ -7,7 +7,7 @@ Copyright (c) 2015 pgRouting developers
 Mail: project@pgrouting.org
 
 Function developer:
-Copyright (c) 2013 Vicky Vergara
+Copyright (c) 2015 Vicky Vergara
 vicky_vergara@hotmail.com
 
 ------
@@ -26,11 +26,32 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
-CREATE OR REPLACE FUNCTION pgr_johnson(edges_sql TEXT, directed BOOLEAN DEFAULT TRUE,
-  OUT start_vid BIGINT, OUT end_vid BIGINT, OUT agg_cost float)
-  RETURNS SETOF RECORD AS
- '${MODULE_PATHNAME}', 'johnson'
-    LANGUAGE c VOLATILE STRICT;
+CREATE OR REPLACE FUNCTION pgr_johnson(
+    TEXT,    -- edges_sql (required)
+    directed BOOLEAN DEFAULT true,
 
+    OUT start_vid BIGINT,
+    OUT end_vid BIGINT,
+    OUT agg_cost FLOAT)
+RETURNS SETOF RECORD AS
+$BODY$
+
+    SELECT *
+    FROM _pgr_johnson(_pgr_get_statement($1), $2);
+
+$BODY$
+LANGUAGE SQL VOLATILE STRICT;
+
+-- COMMENTS
+
+COMMENT ON FUNCTION pgr_johnson(TEXT, BOOLEAN)
+IS 'pgr_johnson
+- Parameters:
+    - edges SQL with columns: source, target, cost [,reverse_cost])
+- Optional Parameters:
+    - directed := true
+- Documentation:
+    - ${PGROUTING_DOC_LINK}/pgr_johnson.html
+';

@@ -1,11 +1,15 @@
 /*PGR-GNU*****************************************************************
+File: withPointsVia.sql
 
-Template:
+Generated with Template by:
 Copyright (c) 2015 pgRouting developers
+Mail: project@pgrouting.org
 
-Function developer:
-Copyright (c) 2015 Vicky Vergara
-vicky_vergara@hotmail.com
+Function's developer:
+Copyright (c) 2015 Celia Virginia Vergara Castillo
+Mail:
+
+------
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,14 +25,18 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
+
+----------------------
+-- _pgr_withPointsVia
+----------------------
 
 
 CREATE OR REPLACE FUNCTION  _pgr_withPointsVia(
-    sql text,
-    via_edges bigint[],
-    fraction float[],
+    sql TEXT,
+    via_edges BIGINT[],
+    fraction FLOAT[],
     directed BOOLEAN DEFAULT TRUE,
 
     OUT seq INTEGER,
@@ -163,3 +171,8 @@ CREATE OR REPLACE FUNCTION  _pgr_withPointsVia(
   ROWS 1000;
 
 
+-- COMMENTS
+
+
+COMMENT ON FUNCTION _pgr_withPointsVia(TEXT, BIGINT[], FLOAT[], BOOLEAN)
+IS 'pgRouting internal function';

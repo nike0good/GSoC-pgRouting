@@ -4,116 +4,93 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
-
-.. _pgr_withPointsKSP:
 
 pgr_withPointsKSP - Proposed
 ===============================================================================
 
-
-Name
--------------------------------------------------------------------------------
-
 ``pgr_withPointsKSP`` - Find the K shortest paths using Yen's algorithm.
-
 
 .. include:: proposed.rst
    :start-after: begin-warning
    :end-before: end-warning
 
 .. figure:: images/boost-inside.jpeg
-   :target: http://www.boost.org/libs/graph
+   :target: https://www.boost.org/libs/graph/doc/table_of_contents.html
 
    Boost Graph Inside
 
-.. rubric:: Availability: 2.2.0
+.. rubric:: Availability
 
-Synopsis
+* Version 2.2.0
+
+  * New **proposed** function
+
+.. rubric:: Support
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/pgr_withPointsKSP.html>`__)
+
+* **Unsupported versions:**
+  `2.6 <https://docs.pgrouting.org/2.6/en/pgr_withPointsKSP.html>`__
+  `2.5 <https://docs.pgrouting.org/2.5/en/pgr_withPointsKSP.html>`__
+  `2.4 <https://docs.pgrouting.org/2.4/en/pgr_withPointsKSP.html>`__
+  `2.3 <https://docs.pgrouting.org/2.3/en/src/withPoints/doc/pgr_withPointsKSP.html>`__
+  `2.2 <https://docs.pgrouting.org/2.2/en/src/withPoints/doc/pgr_withPointsKSP.html>`__
+
+Description
 -------------------------------------------------------------------------------
 
 Modifies the graph to include the points defined in the ``points_sql`` and
-using Yen algorithm, finds the K shortest paths.
-
-
-Signature Summary
------------------
-
-.. code-block:: none
-
-    pgr_withPointsKSP(edges_sql, points_sql, start_pid, end_pid, K)
-    pgr_withPointsKSP(edges_sql, points_sql, start_pid, end_pid, K, directed, heap_paths, driving_side, details)
-    RETURNS SET OF (seq, path_id, path_seq, node, edge, cost, agg_cost)
+using Yen algorithm, finds the :math:`K` shortest paths.
 
 Signatures
------------
+-------------------------------------------------------------------------------
 
-.. index::
-    single: withPointsKSP(Minimal Signature) - Proposed
+.. rubric:: Summary
 
-Minimal Usage
-....................................
+.. code-block:: none
 
-The minimal usage:
-    - Is for a **directed** graph.
-    - The driving side is set as **b** both. So arriving/departing to/from the point(s) can be in any direction.
-    - No **details** are given about distance of other points of the query.
-    - No **heap paths** are returned.
+    pgr_withPointsKSP(edges_sql, points_sql, start_pid, end_pid, K [, directed] [, heap_paths] [, driving_side] [, details])
+    RETURNS SET OF (seq, path_id, path_seq, node, edge, cost, agg_cost)
+
+.. rubric:: Using defaults
 
 .. code-block:: none
 
     pgr_withPointsKSP(edges_sql, points_sql, start_pid, end_pid, K)
     RETURNS SET OF (seq, path_id, path_seq, node, edge, cost, agg_cost)
 
+:Example: From point :math:`1` to point :math:`2` in :math:`2` cycles
 
-:Example:
+- For a **directed** graph.
+- The driving side is set as **b** both. So arriving/departing to/from the point(s) can be in any direction.
+- No **details** are given about distance of other points of the query.
+- No **heap paths** are returned.
 
 .. literalinclude:: doc-pgr_withPointsKSP.queries
    :start-after: --q1
    :end-before: --q2
 
-.. index::
-    single: withPointsKSP(Complete Signature) - Proposed
-
 Complete Signature
-....................................
+...............................................................................
 
-Finds the K shortest paths depending on the optional parameters setup.
+Finds the :math:`K` shortest paths depending on the optional parameters setup.
 
 .. code-block:: none
 
-    pgr_withPointsKSP(edges_sql, points_sql, start_pid, end_pid, K,
-        directed:=true, heap_paths:=false, driving_side:='b', details:=false)
+    pgr_withPointsKSP(edges_sql, points_sql, start_pid, end_pid, K [, directed] [, heap_paths] [, driving_side] [, details])
     RETURNS SET OF (seq, path_id, path_seq, node, edge, cost, agg_cost)
 
-
-:Example: With details.
+:Example: From point :math:`1` to vertex :math:`6` in :math:`2` cycles with details.
 
 .. literalinclude:: doc-pgr_withPointsKSP.queries
    :start-after: --q2
    :end-before: --q3
 
-Description of the Signatures
--------------------------------
-
-
-..
-    description of the sql queries
-
-.. include:: pgRouting-concepts.rst
-    :start-after: basic_edges_sql_start
-    :end-before: basic_edges_sql_end
-
-.. include:: pgRouting-concepts.rst
-    :start-after: points_sql_start
-    :end-before: points_sql_end
-
-
-
-Description of the parameters of the signatures
-..............................................................
-
+Parameters
+-------------------------------------------------------------------------------
 
 ================ ================= =================================================
 Parameter        Type              Description
@@ -134,11 +111,21 @@ Parameter        Type              Description
                                    Default is ``false`` which ignores other points of the points_sql.
 ================ ================= =================================================
 
+Inner query
+-------------------------------------------------------------------------------
+..
+    description of the sql queries
 
-Description of the return values
-..............................................................
+.. include:: pgRouting-concepts.rst
+    :start-after: basic_edges_sql_start
+    :end-before: basic_edges_sql_end
 
-Returns set of ``(seq, path_id, path_seq, node, edge, cost, agg_cost)``
+.. include:: pgRouting-concepts.rst
+    :start-after: points_sql_start
+    :end-before: points_sql_end
+
+Result Columns
+-------------------------------------------------------------------------------
 
 ============ =========== =================================================
 Column           Type              Description
@@ -158,18 +145,16 @@ Column           Type              Description
 
 ============ =========== =================================================
 
-
-
-Examples
+Additional Examples
 --------------------------------------------------------------------------------------
 
-:Example: Left side driving topology with details.
+:Example: Left side driving topology from point :math:`1` to point :math:`2` in :math:`2` cycles, with details
 
 .. literalinclude:: doc-pgr_withPointsKSP.queries
    :start-after: --q3
    :end-before: --q4
 
-:Example: Right side driving topology with heap paths and details.
+:Example: Right side driving topology from point :math:`1` to point :math:`2` in :math:`2` cycles, with heap paths and details
 
 .. literalinclude:: doc-pgr_withPointsKSP.queries
    :start-after: --q4
@@ -177,15 +162,10 @@ Examples
 
 The queries use the :doc:`sampledata` network.
 
-.. rubric:: History
-
-* Proposed in version 2.2
-
-
 See Also
 -------------------------------------------------------------------------------
 
-* :ref:`withPoints`
+* :doc:`withPoints-family`
 
 .. rubric:: Indices and tables
 

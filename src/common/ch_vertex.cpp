@@ -5,9 +5,9 @@ Generated with Template by:
 Copyright (c) 2015 pgRouting developers
 Mail: project@pgrouting.org
 
-Function's developer: 
+Function's developer:
 Copyright (c) 2016 Rohith Reddy
-Mail: 
+Mail:
 
 ------
 
@@ -40,6 +40,11 @@ const Identifiers<int64_t>&
     return m_contracted_vertices;
 }
 
+Identifiers<int64_t>&
+    CH_vertex::contracted_vertices() {
+    return m_contracted_vertices;
+}
+
 
 bool CH_vertex::has_contracted_vertices() const {
     if (m_contracted_vertices.size() == 0)
@@ -47,10 +52,9 @@ bool CH_vertex::has_contracted_vertices() const {
     return true;
 }
 
-void CH_vertex::add_contracted_vertex(CH_vertex& v, int64_t vid) {
-    m_contracted_vertices += vid;
+void CH_vertex::add_contracted_vertex(CH_vertex& v) {
+    m_contracted_vertices += v.id;
     m_contracted_vertices += v.contracted_vertices();
-    v.clear_contracted_vertices();
 }
 
 std::ostream& operator <<(std::ostream& os, const CH_vertex& v) {

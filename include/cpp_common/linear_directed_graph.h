@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 /*! @file */
 
 #ifndef INCLUDE_CPP_COMMON_LINEAR_DIRECTED_GRAPH_H_
@@ -49,7 +49,7 @@ namespace pgrouting {
  *      pgrouting::Line_vertex,
  *      pgrouting::Basic_edge > line(graphType::DIRECTED);
  * ~~~~
- */    
+ */
 typedef boost::adjacency_list < boost::vecS, boost::vecS,
     boost::bidirectionalS,
     Line_vertex, Basic_edge > LinearDirectedGraph;

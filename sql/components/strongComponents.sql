@@ -25,16 +25,29 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 CREATE OR REPLACE FUNCTION pgr_strongComponents(
-    TEXT,                       -- edges_sql
-        OUT seq INTEGER,        -- seq
-    OUT component BIGINT,       -- the lowest number of the node in the component
-    OUT n_seq INTEGER,          -- nth_seq of the node in the component
-    OUT node BIGINT)            -- the number of the node
+    TEXT, -- edges_sql (required)
 
+    OUT seq BIGINT,
+    OUT component BIGINT,
+    OUT node BIGINT)
 RETURNS SETOF RECORD AS
-'$libdir/${PGROUTING_LIBRARY_NAME}', 'strongComponents'
-LANGUAGE c IMMUTABLE STRICT;
+$BODY$
+    SELECT *
+    FROM _pgr_strongComponents(_pgr_get_statement($1));
+$BODY$
+LANGUAGE SQL VOLATILE STRICT;
+
+-- COMMENTS
+
+COMMENT ON FUNCTION pgr_strongComponents(TEXT)
+IS'pgr_strongComponents
+- Directed graph
+- Parameters:
+  - Edges SQL with columns: id, source, target, cost [,reverse_cost]
+- Documentation:
+  - ${PGROUTING_DOC_LINK}/pgr_strongComponents.html
+';
 

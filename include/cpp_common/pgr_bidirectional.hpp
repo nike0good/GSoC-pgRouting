@@ -1,5 +1,5 @@
 /*PGR-GNU*****************************************************************
-File: pgr_bdAstar.hpp 
+File: pgr_bdAstar.hpp
 
 Generated with Template by:
 Copyright (c) 2015 pgRouting developers
@@ -25,7 +25,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 /*! @file */
 
@@ -35,8 +35,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <boost/config.hpp>
-#include <boost/graph/adjacency_list.hpp>
+
+#if BOOST_VERSION_OK
 #include <boost/graph/dijkstra_shortest_paths.hpp>
+#else
+#include "boost/dijkstra_shortest_paths.hpp"
+#endif
+
+#include <boost/graph/adjacency_list.hpp>
 
 #include <string>
 #include <queue>
@@ -44,6 +50,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <vector>
 #include <limits>
 #include <functional>
+#include <numeric>
 
 
 #include "cpp_common/pgr_assert.h"
@@ -72,9 +79,10 @@ class Pgr_bidirectional {
  public:
     explicit Pgr_bidirectional(G &pgraph):
         graph(pgraph),
-        INF((std::numeric_limits<double>::max)()) {
+        INF((std::numeric_limits<double>::max)()),
+        best_cost(0) {
         m_log << "constructor\n";
-    };
+    }
 
     ~Pgr_bidirectional() = default;
 
@@ -168,7 +176,7 @@ class Pgr_bidirectional {
                 v_min_node,
                 forward_predecessor,
                 forward_cost,
-                only_cost,
+                false,
                 true);
         Path backward_path(
                 graph,
@@ -176,14 +184,16 @@ class Pgr_bidirectional {
                 v_min_node,
                 backward_predecessor,
                 backward_cost,
-                only_cost,
+                false,
                 false);
         m_log << forward_path;
         backward_path.reverse();
         m_log << backward_path;
         forward_path.append(backward_path);
+        auto p = Path(graph, forward_path, only_cost);
         m_log << forward_path;
-        return forward_path;
+        m_log << p;
+        return p;
     }
 
 
@@ -218,12 +228,12 @@ class Pgr_bidirectional {
 
     double INF;  //!< infinity
 
+    double best_cost;
+    bool cost_only;
+
     mutable std::ostringstream m_log;
     Priority_queue forward_queue;
     Priority_queue backward_queue;
-
-    double best_cost;
-    bool cost_only;
 
     std::vector<bool> backward_finished;
     std::vector<int64_t> backward_edge;

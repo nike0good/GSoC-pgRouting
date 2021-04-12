@@ -5,7 +5,7 @@ Generated with Template by:
 Copyright (c) 2015 pgRouting developers
 Mail: project@pgrouting.org
 
-Function's developer: 
+Function's developer:
 Copyright (c) 2015 Celia Virginia Vergara Castillo
 Mail: vicky_vergara@hotmail.com
 
@@ -25,7 +25,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #include "drivers/dijkstra/dijkstra_driver.h"
 
@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <deque>
 #include <vector>
 #include <algorithm>
+#include <limits>
 
 #include "dijkstra/pgr_dijkstra.hpp"
 
@@ -46,7 +47,8 @@ pgr_dijkstra(
         std::vector < int64_t > sources,
         std::vector < int64_t > targets,
         bool only_cost,
-        bool normal) {
+        bool normal,
+        int64_t n_goals) {
     std::sort(sources.begin(), sources.end());
     sources.erase(
             std::unique(sources.begin(), sources.end()),
@@ -57,8 +59,11 @@ pgr_dijkstra(
             std::unique(targets.begin(), targets.end()),
             targets.end());
 
-    Pgr_dijkstra< G > fn_dijkstra;
-    auto paths = fn_dijkstra.dijkstra(graph, sources, targets, only_cost);
+    pgrouting::Pgr_dijkstra< G > fn_dijkstra;
+    auto paths = fn_dijkstra.dijkstra(
+            graph,
+            sources, targets,
+            only_cost, n_goals);
 
     if (!normal) {
         for (auto &path : paths) {
@@ -86,6 +91,8 @@ do_pgr_many_to_many_dijkstra(
         bool directed,
         bool only_cost,
         bool normal,
+        int64_t n_goals,
+
         General_path_element_t **return_tuples,
         size_t *return_count,
         char ** log_msg,
@@ -111,6 +118,8 @@ do_pgr_many_to_many_dijkstra(
         std::vector< int64_t >
             end_vertices(end_vidsArr, end_vidsArr + size_end_vidsArr);
 
+        size_t n = n_goals <= 0? (std::numeric_limits<size_t>::max)() : n_goals;
+
         std::deque< Path >paths;
         if (directed) {
             log << "\nWorking with directed Graph";
@@ -119,7 +128,7 @@ do_pgr_many_to_many_dijkstra(
             paths = pgr_dijkstra(
                     digraph,
                     start_vertices, end_vertices,
-                    only_cost, normal);
+                    only_cost, normal, n);
         } else {
             log << "\nWorking with Undirected Graph";
             pgrouting::UndirectedGraph undigraph(gType);
@@ -127,7 +136,7 @@ do_pgr_many_to_many_dijkstra(
             paths = pgr_dijkstra(
                     undigraph,
                     start_vertices, end_vertices,
-                    only_cost, normal);
+                    only_cost, normal, n);
         }
 
         size_t count(0);

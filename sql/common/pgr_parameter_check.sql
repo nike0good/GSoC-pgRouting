@@ -21,7 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 
 /*
@@ -161,4 +161,6 @@ CREATE OR REPLACE FUNCTION _pgr_parameter_check(fn text, sql text, big boolean d
   LANGUAGE plpgsql VOLATILE
   COST 1;
 
+COMMENT ON FUNCTION _pgr_parameter_check(TEXT, TEXT, BOOLEAN)
+IS 'pgRouting internal function';
 

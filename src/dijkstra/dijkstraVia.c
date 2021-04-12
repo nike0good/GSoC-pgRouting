@@ -4,7 +4,7 @@ File: dijkstraViaVertex.c
 Generated with Template by:
 Copyright (c) 2015 pgRouting developers
 
-Function's developer: 
+Function's developer:
 Copyright (c) 2015 Celia Virginia Vergara Castillo
 
 ------
@@ -23,8 +23,9 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
+#include <stdbool.h>
 #include "c_common/postgres_connection.h"
 #include "utils/array.h"
 
@@ -35,8 +36,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "c_common/arrays_input.h"
 #include "drivers/dijkstra/dijkstraVia_driver.h"
 
-PGDLLEXPORT Datum dijkstraVia(PG_FUNCTION_ARGS);
-PG_FUNCTION_INFO_V1(dijkstraVia);
+PGDLLEXPORT Datum _pgr_dijkstravia(PG_FUNCTION_ARGS);
+PG_FUNCTION_INFO_V1(_pgr_dijkstravia);
 
 static
 void
@@ -49,9 +50,8 @@ process(char* edges_sql,
         size_t *result_count) {
     pgr_SPI_connect();
 
-    int64_t* via_vidsArr = NULL;
     size_t size_via_vidsArr = 0;
-    via_vidsArr = (int64_t*) pgr_get_bigIntArray(&size_via_vidsArr, vias);
+    int64_t* via_vidsArr = (int64_t*) pgr_get_bigIntArray(&size_via_vidsArr, vias);
 
     pgr_edge_t* edges = NULL;
     size_t total_edges = 0;
@@ -99,7 +99,7 @@ process(char* edges_sql,
 
 
 PGDLLEXPORT Datum
-dijkstraVia(PG_FUNCTION_ARGS) {
+_pgr_dijkstravia(PG_FUNCTION_ARGS) {
     FuncCallContext     *funcctx;
     TupleDesc            tuple_desc;
 

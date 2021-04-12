@@ -22,7 +22,15 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
+
+----------------
+----------------
+-- bdAstar
+----------------
+----------------
+
+
 
 CREATE OR REPLACE FUNCTION _pgr_bdAstar(
     TEXT,
@@ -43,7 +51,12 @@ CREATE OR REPLACE FUNCTION _pgr_bdAstar(
     OUT cost FLOAT,
     OUT agg_cost FLOAT)
 RETURNS SETOF RECORD AS
-    '${MODULE_PATHNAME}', 'bd_astar'
+    'MODULE_PATHNAME'
 LANGUAGE C VOLATILE STRICT;
 
+
+-- COMMENTS
+
+COMMENT ON FUNCTION _pgr_bdAstar(TEXT, ANYARRAY, ANYARRAY, BOOLEAN, INTEGER, FLOAT, FLOAT, BOOLEAN)
+IS 'pgRouting internal function';
 

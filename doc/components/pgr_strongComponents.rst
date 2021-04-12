@@ -4,47 +4,59 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
 
-.. _pgr_strongComponents:
-
-pgr_strongComponents - Experimental
+pgr_strongComponents
 ===============================================================================
 
-``pgr_strongComponents`` — Return the strongly connected components of a directed graph using Tarjan's algorithm based on DFS.
-In particular, the algorithm implemented by Boost.Graph.
+``pgr_strongComponents`` — Strongly connected components of a directed graph using Tarjan's algorithm based on DFS.
 
 .. figure:: images/boost-inside.jpeg
-   :target: http://www.boost.org/libs/graph/doc/strong_components.html
+   :target: https://www.boost.org/libs/graph/doc/strong_components.html
 
    Boost Graph Inside
 
-.. include:: proposed.rst
-   :start-after: begin-warn-expr
-   :end-before: end-warn-expr
+.. rubric:: Availability
 
+* Version 3.0.0
 
-Synopsis
+  * Return columns change:
+
+    *  ``n_seq`` is removed
+    * ``seq`` changed type to ``BIGINT``
+
+  * **Official** function
+
+* Version 2.5.0
+
+  * New **experimental** function
+
+.. rubric:: Support
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/pgr_strongComponents.html>`__)
+
+* **Unsupported versions:**
+  `2.6 <https://docs.pgrouting.org/2.6/en/pgr_strongComponents.html>`__
+  `2.5 <https://docs.pgrouting.org/2.5/en/pgr_strongComponents.html>`__
+
+Description
 -------------------------------------------------------------------------------
 
 A strongly connected component of a directed graph is a set of vertices that are all reachable
 from each other.
-This implementation can only be used with a directed graph.
 
-Characteristics
--------------------------------------------------------------------------------
+**The main characteristics are:**
 
-The main Characteristics are:
+- The signature is for a **directed** graph.
+- Components are described by vertices
+- The returned values are ordered:
 
-  - Components are described by vertices
+  - `component` ascending
+  - `node` ascending
 
-  - The returned values are ordered:
-
-    - `component` ascending
-    - `node` ascending
-
-  - Running time: :math:`O(V + E)`
+- Running time: :math:`O(V + E)`
 
 Signatures
 -------------------------------------------------------------------------------
@@ -54,44 +66,49 @@ Signatures
 
 .. code-block:: none
 
-    pgr_strongComponents(edges_sql)
+    pgr_strongComponents(Edges SQL)
 
-    RETURNS SET OF (seq, component, n_seq, node)
-        OR EMPTY SET
+    RETURNS SET OF (seq, component, node)
+    OR EMPTY SET
 
-The signature is for a **directed** graph.
-
-:Example:
+:Example: The strong components of the graph
 
 .. literalinclude:: doc-pgr_strongComponents.queries
    :start-after: -- q1
    :end-before: -- q2
 
-.. image:: images/scc_sampledata.png
-   :width: 707px
-   :height: 355px
-
-Description of the Signatures
+Parameters
 -------------------------------------------------------------------------------
 
-.. include:: components-family.rst
-    :start-after: components_edges_sql_start
-    :end-before: components_edges_sql_end
 
 .. include:: components-family.rst
     :start-after: components_parameters_start
     :end-before: components_parameters_end
 
-.. include:: components-family.rst
+Inner query
+-------------------------------------------------------------------------------
+
+:edges SQL: an SQL query of a **directed** graph, which should return a set of rows with the following columns:
+
+.. include:: pgRouting-concepts.rst
+    :start-after: basic_edges_sql_start
+    :end-before: basic_edges_sql_end
+
+
+Result Columns
+-------------------------------------------------------------------------------
+
+.. include:: pgr_connectedComponents.rst
     :start-after: return_componentsV_start
     :end-before: return_componentsV_end
-
 
 See Also
 -------------------------------------------------------------------------------
 
-* http://en.wikipedia.org/wiki/Strongly_connected_component
+* :doc:`components-family`
 * The queries use the :doc:`sampledata` network.
+* Boost: `Strong components <https://www.boost.org/libs/graph/doc/strong_components.html>`__
+* wikipedia: `Strongly connected component <https://en.wikipedia.org/wiki/Strongly_connected_component>`__
 
 .. rubric:: Indices and tables
 

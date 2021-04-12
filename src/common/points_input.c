@@ -20,9 +20,15 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #include "c_common/points_input.h"
+
+/* for bool */
+#   include <stdbool.h>
+/* for size_t */
+#   include <stddef.h>
+
 
 #include "c_types/column_info_t.h"
 
@@ -66,7 +72,6 @@ pgr_get_points(
         size_t *total_points) {
     const int tuple_limit = 1000;
 
-    size_t ntuples;
     size_t total_tuples;
     Column_info_t info[4];
 
@@ -108,7 +113,7 @@ pgr_get_points(
             pgr_fetch_column_info(info, 4);
         }
 
-        ntuples = SPI_processed;
+        size_t ntuples = SPI_processed;
         total_tuples += ntuples;
 
         if (ntuples > 0) {

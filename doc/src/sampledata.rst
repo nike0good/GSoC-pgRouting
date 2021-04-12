@@ -4,7 +4,7 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
 
 Sample Data
@@ -17,15 +17,22 @@ To be able to execute the sample queries, run the following SQL commands to crea
 .. rubric:: Create table
 
 .. literalinclude:: ../../tools/testers/sampledata.sql
-   :start-after: --EDGE TABLE CREATE
-   :end-before: --EDGE TABLE ADD DATA
+   :start-after: --EDGE TABLE CREATE start
+   :end-before: --EDGE TABLE CREATE end
 
 
 .. rubric:: Insert data
 
 .. literalinclude:: ../../tools/testers/sampledata.sql
-   :start-after: --EDGE TABLE ADD DATA
-   :end-before: --EDGE TABLE TOPOLOGY
+   :start-after: --EDGE TABLE ADD DATA start
+   :end-before: --EDGE TABLE ADD DATA end
+
+
+.. rubric:: Updating geometry
+
+.. literalinclude:: ../../tools/testers/sampledata.sql
+   :start-after: --EDGE TABLE update geometry start
+   :end-before: --EDGE TABLE update geometry end
 
 
 .. rubric:: Topology
@@ -33,42 +40,25 @@ To be able to execute the sample queries, run the following SQL commands to crea
 - Before you test a routing function use this query to create a topology (fills the ``source`` and ``target`` columns).
 
 .. literalinclude:: ../../tools/testers/sampledata.sql
-   :start-after: --EDGE TABLE TOPOLOGY
-   :end-before: --POINTS CREATE
+   :start-after: --EDGE TABLE TOPOLOGY start
+   :end-before: --EDGE TABLE TOPOLOGY end
 
 .. rubric:: Points of interest
 
 - When points outside of the graph.
-- Used with the :ref:`withPoints` functions.
+- Used with the :doc:`withPoints-family` functions.
 
 .. literalinclude:: ../../tools/testers/sampledata.sql
-   :start-after: --POINTS CREATE
-   :end-before: --RESTRICTIONS CREATE
+   :start-after: --POINTS CREATE start
+   :end-before: --POINTS CREATE end
 
 .. rubric:: Restrictions
 
-- Used with the :ref:`trsp` functions.
+- Used with the :doc:`pgr_trsp` functions.
 
 .. literalinclude:: ../../tools/testers/sampledata.sql
-   :start-after: --RESTRICTIONS CREATE
-   :end-before: --RESTRICTIONS END
-
-.. rubric:: Categories
-
-- Used with the :ref:`maxFlow` functions.
-
-.. literalinclude:: ../../tools/testers/sampledata.sql
-   :start-after: --RESTRICTIONS END
-   :end-before: --CATEGORIES END
-
-.. rubric:: Vertex table
-
-- Used in some deprecated signatures or deprecated functions.
-
-.. literalinclude:: ../../tools/testers/sampledata.sql
-   :start-after: --CATEGORIES END
-   :end-before: --VERTEX TABLE END
-
+   :start-after: --RESTRICTIONS CREATE start
+   :end-before: --RESTRICTIONS CREATE end
 
 Images
 ----------------

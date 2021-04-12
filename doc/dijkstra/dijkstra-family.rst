@@ -4,25 +4,34 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
-
-.. _dijkstra:
 
 Dijkstra - Family of functions
 ===============================================================================
 
 .. index from here
 
-* :ref:`pgr_dijkstra` - Dijkstra's algorithm for the shortest paths.
-* :ref:`pgr_dijkstraCost` - Get the aggregate cost of the shortest paths.
-* :ref:`pgr_dijkstraCostMatrix` - Use pgr_dijkstra to create a costs matrix.
-* :ref:`pgr_drivingDistance` - Use pgr_dijkstra to calculate catchament information.
-* :ref:`pgr_ksp` - Use Yen algorithm with pgr_dijkstra to get the K shortest paths.
-* :ref:`pgr_dijkstraVia` - Get a route of a seuence of vertices.
+* :doc:`pgr_dijkstra` - Dijkstra's algorithm for the shortest paths.
+* :doc:`pgr_dijkstraCost` - Get the aggregate cost of the shortest paths.
+* :doc:`pgr_dijkstraCostMatrix` - Use pgr_dijkstra to create a costs matrix.
+* :doc:`pgr_drivingDistance` - Use pgr_dijkstra to calculate catchament information.
+* :doc:`pgr_KSP` - Use Yen algorithm with pgr_dijkstra to get the K shortest paths.
 
 .. index to here
 
+.. rubric:: proposed
+
+.. include:: proposed.rst
+   :start-after: stable-begin-warning
+   :end-before: stable-end-warning
+
+
+.. index proposed from here
+
+* :doc:`pgr_dijkstraVia` - Get a route of a seuence of vertices.
+
+.. index proposed to here
 
 .. toctree::
     :hidden:
@@ -33,6 +42,18 @@ Dijkstra - Family of functions
     pgr_drivingDistance
     pgr_KSP
     pgr_dijkstraVia
+
+.. rubric:: Previous versions of this page
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/dijkstra-family.html>`__)
+  `2.6 <https://docs.pgrouting.org/2.6/en/dijkstra-family.html>`__
+
+* **Unsupported versions:**
+  `2.5 <https://docs.pgrouting.org/2.5/en/dijkstra-family.html>`__
+  `2.4 <https://docs.pgrouting.org/2.4/en/dijkstra-family.html>`__
+  `2.3 <https://docs.pgrouting.org/2.3/en/src/dijkstra/doc/dijkstra.html>`__
+  `2.2 <https://docs.pgrouting.org/2.2/en/src/dijkstra/doc/dijkstra.html>`__
 
 
 The problem definition (Advanced documentation)

@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #include "c_common/coordinates_input.h"
 
@@ -62,7 +62,6 @@ void pgr_get_coordinates(
 
     const int tuple_limit = 1000000;
 
-    size_t ntuples;
     size_t total_tuples = 0;
 
     Column_info_t info[3];
@@ -99,7 +98,7 @@ void pgr_get_coordinates(
         if (total_tuples == 0)
             pgr_fetch_column_info(info, 3);
 
-        ntuples = SPI_processed;
+        size_t ntuples = SPI_processed;
         total_tuples += ntuples;
 
         if (ntuples > 0) {

@@ -22,7 +22,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #ifndef INCLUDE_MAX_FLOW_PGR_MAXFLOW_HPP_
 #define INCLUDE_MAX_FLOW_PGR_MAXFLOW_HPP_
@@ -45,7 +45,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "c_types/pgr_flow_t.h"
 #include "c_types/pgr_edge_t.h"
 #include "c_types/general_path_element_t.h"
-
+#include "cpp_common/interruption.h"
 
 
 namespace pgrouting {
@@ -70,6 +70,8 @@ class PgrFlowGraph {
 
  public:
      int64_t push_relabel() {
+         /* abort in case of an interruption occurs (e.g. the query is being cancelled) */
+         CHECK_FOR_INTERRUPTS();
          return boost::push_relabel_max_flow(
                  graph,
                  supersource,
@@ -77,6 +79,8 @@ class PgrFlowGraph {
      }
 
      int64_t edmonds_karp() {
+         /* abort in case of an interruption occurs (e.g. the query is being cancelled) */
+         CHECK_FOR_INTERRUPTS();
          return boost::edmonds_karp_max_flow(
                  graph,
                  supersource,
@@ -84,18 +88,17 @@ class PgrFlowGraph {
      }
 
      int64_t boykov_kolmogorov() {
-         size_t num_v = boost::num_vertices(graph);
-         std::vector<boost::default_color_type> color(num_v);
-         std::vector<int64_t> distance(num_v);
+         /* abort in case of an interruption occurs (e.g. the query is being cancelled) */
+         CHECK_FOR_INTERRUPTS();
          return boost::boykov_kolmogorov_max_flow(
                  graph,
                  supersource,
                  supersink);
      }
+
      std::vector<General_path_element_t> edge_disjoint_paths() {
-         size_t num_v = boost::num_vertices(graph);
-         std::vector<boost::default_color_type> color(num_v);
-         std::vector<int64_t> distance(num_v);
+         /* abort in case of an interruption occurs (e.g. the query is being cancelled) */
+         CHECK_FOR_INTERRUPTS();
          auto flow = boost::boykov_kolmogorov_max_flow(
                  graph,
                  supersource,

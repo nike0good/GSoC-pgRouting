@@ -4,26 +4,27 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
-
-
-.. _withPoints:
 
 withPoints - Family of functions
 ===============================================================================
 
 When points are also given as input:
 
-.. index from here
+.. include:: proposed.rst
+   :start-after: begin-warning
+   :end-before: end-warning
 
-- :ref:`pgr_withPoints` - Route from/to points anywhere on the graph.
-- :ref:`pgr_withPointsCost` - Costs of the shortest paths.
-- :ref:`pgr_withPointsCostMatrix` - Costs of the shortest paths.
-- :ref:`pgr_withPointsKSP` - K shortest paths.
-- :ref:`pgr_withPointsDD` - Driving distance.
+.. index proposed from here
 
-.. index to here
+- :doc:`pgr_withPoints` - Route from/to points anywhere on the graph.
+- :doc:`pgr_withPointsCost` - Costs of the shortest paths.
+- :doc:`pgr_withPointsCostMatrix` - Costs of the shortest paths.
+- :doc:`pgr_withPointsKSP` - K shortest paths.
+- :doc:`pgr_withPointsDD` - Driving distance.
+
+.. index proposed to here
 
 .. toctree::
     :hidden:
@@ -36,9 +37,17 @@ When points are also given as input:
 
 
 
-.. include:: proposed.rst
-   :start-after: begin-warning
-   :end-before: end-warning
+.. rubric:: Previous versions of this page
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/withPoints-family.html>`__)
+  `2.6 <https://docs.pgrouting.org/2.6/en/withPoints-family.html>`__
+
+* **Unsupported versions:**
+  `2.5 <https://docs.pgrouting.org/2.5/en/withPoints-family.html>`__
+  `2.4 <https://docs.pgrouting.org/2.4/en/withPoints-family.html>`__
+  `2.3 <https://docs.pgrouting.org/2.3/en/src/withPoints/doc/withPoints.html>`__
+  `2.2 <https://docs.pgrouting.org/2.2/en/src/withPoints/doc/withPoints.html>`__
 
 
 

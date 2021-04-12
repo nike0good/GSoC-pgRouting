@@ -22,7 +22,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #ifndef INCLUDE_ASTAR_PGR_ASTAR_HPP_
 #define INCLUDE_ASTAR_PGR_ASTAR_HPP_
@@ -44,6 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include "cpp_common/basePath_SSEC.hpp"
 #include "cpp_common/pgr_base_graph.hpp"
+#include "cpp_common/interruption.h"
 
 namespace pgrouting {
 namespace algorithms {
@@ -88,10 +89,12 @@ class Pgr_astar {
          // perform the algorithm
          astar_1_to_1(graph, v_source, v_target, heuristic, factor, epsilon);
 
-         return  Path(graph,
+         auto solution = Path(graph, Path(graph,
                  v_source, v_target,
                  predecessors, distances,
-                 only_cost);
+                 false), only_cost);
+
+         return solution;
      }
 
      //! astar 1 to many
@@ -185,7 +188,7 @@ class Pgr_astar {
               }
           distance_heuristic(
                   B_G &g,
-                  std::vector< V > goals,
+                  const std::vector< V > &goals,
                   int heuristic,
                   double factor)
               : m_g(g),
@@ -263,7 +266,7 @@ class Pgr_astar {
      //! class for stopping when all targets are found
      class astar_many_goals_visitor : public boost::default_astar_visitor {
       public:
-          explicit astar_many_goals_visitor(std::vector< V > goals)
+          explicit astar_many_goals_visitor(const std::vector< V > &goals)
               :m_goals(goals.begin(), goals.end()) {}
           template <class B_G>
               void examine_vertex(V u, B_G &g) {
@@ -291,6 +294,8 @@ class Pgr_astar {
              double factor,
              double epsilon) {
          bool found = false;
+         /* abort in case of an interruption occurs (e.g. the query is being cancelled) */
+         CHECK_FOR_INTERRUPTS();
          try {
              // Call A* named parameter interface
              boost::astar_search(
@@ -318,6 +323,8 @@ class Pgr_astar {
              double factor,
              double epsilon) {
          bool found = false;
+         /* abort in case of an interruption occurs (e.g. the query is being cancelled) */
+         CHECK_FOR_INTERRUPTS();
          try {
              boost::astar_search(
                      graph.graph, source,
@@ -348,11 +355,11 @@ class Pgr_astar {
              bool only_cost) const {
          std::deque<Path> paths;
          for (const auto &target : targets) {
-             paths.push_back(
-                     Path(graph,
+             auto p = Path(graph,
                          source, target,
                          predecessors, distances,
-                         only_cost));
+                         false);
+             paths.push_back(Path(graph, p, only_cost));
          }
          return paths;
      }

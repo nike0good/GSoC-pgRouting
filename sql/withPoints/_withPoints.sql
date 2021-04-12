@@ -25,7 +25,20 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
+
+
+------------------
+------------------
+-- withPoints
+------------------
+------------------
+
+
+------------------
+-- _pgr_withPoints
+------------------
+
 
 CREATE OR REPLACE FUNCTION _pgr_withPoints(
     edges_sql TEXT,
@@ -49,6 +62,12 @@ CREATE OR REPLACE FUNCTION _pgr_withPoints(
     OUT cost FLOAT,
     OUT agg_cost FLOAT)
 RETURNS SETOF RECORD AS
-'${MODULE_PATHNAME}', 'withPoints'
+'MODULE_PATHNAME'
 LANGUAGE c VOLATILE;
 
+
+-- COMMENTS
+
+
+COMMENT ON FUNCTION _pgr_withPoints(TEXT, TEXT, ANYARRAY, ANYARRAY, BOOLEAN, CHAR, BOOLEAN, BOOLEAN, BOOLEAN)
+IS 'pgRouting internal function';

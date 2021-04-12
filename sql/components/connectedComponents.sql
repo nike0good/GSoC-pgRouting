@@ -25,16 +25,39 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
+
+---------------
+---------------
+--  COMPONENTS
+---------------
+---------------
+
+--------------------------
+-- pgr_connectedComponents
+--------------------------
 
 CREATE OR REPLACE FUNCTION pgr_connectedComponents(
-    TEXT,                       -- edges_sql
-        OUT seq INTEGER,        -- seq
-    OUT component BIGINT,       -- the lowest number of the node in the component
-    OUT n_seq INTEGER,          -- nth_seq of the node in the component
-    OUT node BIGINT)            -- the number of the node
+    TEXT, -- edges_sql (required)
 
+    OUT seq BIGINT,
+    OUT component BIGINT,
+    OUT node BIGINT)
 RETURNS SETOF RECORD AS
-'$libdir/${PGROUTING_LIBRARY_NAME}', 'connectedComponents'
-LANGUAGE c IMMUTABLE STRICT;
+$BODY$
+    SELECT *
+    FROM _pgr_connectedComponents(_pgr_get_statement($1));
+$BODY$
+LANGUAGE SQL VOLATILE STRICT;
 
+
+-- COMMENTS
+
+COMMENT ON FUNCTION pgr_connectedComponents(TEXT)
+IS'pgr_connectedComponents
+- Undirected graph
+- Parameters:
+  - Edges SQL with columns: id, source, target, cost [,reverse_cost]
+- Documentation:
+  - ${PGROUTING_DOC_LINK}/pgr_connectedComponents.html
+';

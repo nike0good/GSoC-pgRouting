@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 /*! @file */
 
@@ -76,7 +76,7 @@ std::vector < Basic_vertex > extract_vertices(
         const pgr_edge_t *data_edges, int64_t count);
 
 std::vector < Basic_vertex > extract_vertices(
-        const std::vector < pgr_edge_t > data_edges);
+        const std::vector < pgr_edge_t > &data_edges);
 
 
 }  // namespace pgrouting

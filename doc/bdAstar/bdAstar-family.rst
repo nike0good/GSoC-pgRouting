@@ -4,19 +4,17 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
-
-.. _bdastar:
 
 Bidirectional A* - Family of functions
 ===============================================================================
 
 .. index from here
 
-* :ref:`pgr_bdAstar` - Bidirectional A* algorithm for obtaining paths.
-* :ref:`pgr_bdAstarCost` - Bidirectional A* algorithm to calculate the cost of the paths.
-* :ref:`pgr_bdAstarCostMatrix` - Bidirectional A* algorithm to calculate a cost matrix of paths.
+* :doc:`pgr_bdAstar` - Bidirectional A* algorithm for obtaining paths.
+* :doc:`pgr_bdAstarCost` - Bidirectional A* algorithm to calculate the cost of the paths.
+* :doc:`pgr_bdAstarCostMatrix` - Bidirectional A* algorithm to calculate a cost matrix of paths.
 
 .. index to here
 
@@ -27,9 +25,16 @@ Bidirectional A* - Family of functions
     pgr_bdAstarCost
     pgr_bdAstarCostMatrix
 
+.. rubric:: Previous versions of this page
 
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/bdAstar-family.html>`__)
+  `2.6 <https://docs.pgrouting.org/2.6/en/bdAstar-family.html>`__
 
-Synopsis
+* **Unsupported versions:**
+  `2.5 <https://docs.pgrouting.org/2.5/en/bdAstar-family.html>`__
+
+Description
 -------------------------------------------------------------------------------
 
 Based on A* algorithm, the bidirectional search finds a shortest path from
@@ -37,9 +42,6 @@ a starting vertex (``start_vid``) to an ending vertex (``end_vid``).
 It runs two simultaneous searches: one forward from the ``start_vid``, and one backward from the ``end_vid``,
 stopping when the two meet in the middle.
 This implementation can be used with a directed graph and an undirected graph.
-
-Characteristics
--------------------------------------------------------------------------------
 
 The main Characteristics are:
 
@@ -59,8 +61,8 @@ The main Characteristics are:
 
   - It is expected to terminate faster than pgr_astar
 
-Description of the Signatures
---------------------------------
+Signatures
+-------------------------------------------------------------------------------
 
 .. include:: pgRouting-concepts.rst
     :start-after: xy_edges_sql_start
@@ -68,8 +70,8 @@ Description of the Signatures
 
 .. parameters_begin
 
-Description of the parameters of the signatures
-.................................................
+Parameters
+-------------------------------------------------------------------------------
 
 ================ ====================== =================================================
 Parameter        Type                   Description

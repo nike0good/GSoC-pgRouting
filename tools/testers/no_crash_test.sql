@@ -24,13 +24,18 @@ BEGIN
 
         q1 := q1 || ')';
 
+        -- RAISE WARNING '%', q1;
 
 
         RETURN query SELECT * FROM lives_ok(q1);
         IF i = 0 THEN
             RETURN query SELECT * FROM isnt_empty(q1);
         ELSE
-            RETURN query SELECT * FROM is_empty(q1);
+            IF func='pgr_alphashape' THEN
+                RETURN query SELECT * FROM isnt_empty(q1);
+            ELSE
+                RETURN query SELECT * FROM is_empty(q1);
+            END IF;
         END IF;
 
     END LOOP;

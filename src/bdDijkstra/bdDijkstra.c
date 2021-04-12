@@ -26,11 +26,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
+#include <stdbool.h>
 #include "c_common/postgres_connection.h"
 #include "utils/array.h"
-
 
 #include "c_common/debug_macro.h"
 #include "c_common/e_report.h"
@@ -41,8 +41,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include "drivers/bdDijkstra/bdDijkstra_driver.h"
 
-PGDLLEXPORT Datum bdDijkstra(PG_FUNCTION_ARGS);
-PG_FUNCTION_INFO_V1(bdDijkstra);
+PGDLLEXPORT Datum _pgr_bddijkstra(PG_FUNCTION_ARGS);
+PG_FUNCTION_INFO_V1(_pgr_bddijkstra);
 
 
 /******************************************************************************/
@@ -59,14 +59,12 @@ process(
         size_t *result_count) {
     pgr_SPI_connect();
 
-    int64_t* start_vidsArr = NULL;
     size_t size_start_vidsArr = 0;
-    start_vidsArr = (int64_t*)
+    int64_t* start_vidsArr = (int64_t*)
         pgr_get_bigIntArray(&size_start_vidsArr, starts);
 
-    int64_t* end_vidsArr = NULL;
     size_t size_end_vidsArr = 0;
-    end_vidsArr = (int64_t*)
+    int64_t* end_vidsArr = (int64_t*)
         pgr_get_bigIntArray(&size_end_vidsArr, ends);
 
     pgr_edge_t *edges = NULL;
@@ -121,7 +119,7 @@ process(
 /*                                                                            */
 /******************************************************************************/
 
-PGDLLEXPORT Datum bdDijkstra(PG_FUNCTION_ARGS) {
+PGDLLEXPORT Datum _pgr_bddijkstra(PG_FUNCTION_ARGS) {
     FuncCallContext     *funcctx;
     TupleDesc           tuple_desc;
 

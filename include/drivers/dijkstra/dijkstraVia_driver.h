@@ -4,7 +4,7 @@ File: dijkstraViaVertex.c
 Generated with Template by:
 Copyright (c) 2015 pgRouting developers
 
-Function's developer: 
+Function's developer:
 Copyright (c) 2015 Celia Virginia Vergara Castillo
 
 ------
@@ -23,11 +23,14 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #ifndef INCLUDE_DRIVERS_DIJKSTRA_DIJKSTRAVIA_DRIVER_H_
 #define INCLUDE_DRIVERS_DIJKSTRA_DIJKSTRAVIA_DRIVER_H_
 #pragma once
+
+#include <stddef.h>
+
 
 #include "c_types/routes_t.h"
 #include "c_types/pgr_edge_t.h"

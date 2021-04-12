@@ -4,31 +4,30 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
 
-.. _VRP:
-
-Vehicle Routing Functions Category
+Vehicle Routing Functions - Category (Experimental)
 ===============================================================================
 
-.. contents::
-
-.. include:: proposed.rst
+.. include:: experimental.rst
    :start-after: begin-warn-expr
    :end-before: end-warn-expr
 
-.. index from here
-.. rubric:: Pickup and delivery problem
+.. index experimental from here
 
-- :doc:`pgr_pickDeliver` - Pickup & Delivery using a Cost Matrix
-- :doc:`pgr_pickDeliverEuclidean` - Pickup & Delivery with Euclidean distances
+* Pickup and delivery problem
 
-.. rubric:: Experimental functions
+  - :doc:`pgr_pickDeliver` - Pickup & Delivery using a Cost Matrix
+  - :doc:`pgr_pickDeliverEuclidean` - Pickup & Delivery with Euclidean distances
 
-- :doc:`pgr_vrpOneDepot` - VRP One Depot
+* Distribution problem
 
-.. index to here
+  - :doc:`pgr_vrpOneDepot` - From a single depot, distributes orders
+
+.. index experimental to here
+
+.. contents::
 
 .. toctree::
   :hidden:
@@ -36,6 +35,11 @@ Vehicle Routing Functions Category
   pgr_pickDeliver
   pgr_pickDeliverEuclidean
   pgr_vrpOneDepot
+
+.. rubric:: Previous versions of this page
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/VRP-category.html>`__)
 
 
 Introduction

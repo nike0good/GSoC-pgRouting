@@ -4,15 +4,15 @@ set -e
 
 
 cd build/
-rm -rf *
+rm -rf ./*
 cmake -DHTML=ON -DDOC_USE_BOOTSTRAP=ON ..
 make doc
 cd ..
 
 
-#tools/testers/algorithm-tester.pl -alg pickDeliver
+#tools/testers/doc_queries_generator.pl -alg pickDeliver
 
-#tools/testers/algorithm-tester.pl -documentation
+#tools/testers/doc_queries_generator.pl -documentation
 cd build
 #make doc
 cd ..

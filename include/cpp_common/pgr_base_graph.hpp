@@ -1,9 +1,7 @@
 /*PGR-GNU*****************************************************************
  *
-
 Copyright (c) 2015 Celia Virginia Vergara Castillo
 vicky_vergara@hotmail.com
-
 ------
 
 This program is free software; you can redistribute it and/or modify
@@ -20,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 /*! @file */
 
@@ -50,57 +48,40 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 namespace pgrouting {
 
 /*! @brief boost::graph simplified to pgRouting needs
-
   This class gives the handling basics of a boost::graph of kind G
   where G:
   can be an undirected graph or a directed graph.
-
 Requiremets:
 ============
-
 A vertex class T_V
 ------------------
-
 Current Available vertex classes:
 - Basic_vertex
 - XY_vertex
-
-
 An edge class T_E
 -----------------
-
 Current Available edge classes:
 - Basic_edge
-
 extract_vertices function
 -------------------------
-
 Data obtained from postgresql is stored in
 A C array of pgr_edge_t type.
-
 ~~~~{.c}
 std::vector< T_V >
 extract_vertices(pgr_edge_t *, size_t)
 ~~~~
-
-
 Data obtained from postgresql is stored in
 o a vector container.
-
 ~~~~{.c}
 std::vector< T_V >
 extract_vertices(std::vector< pgr_edge_t >)
 ~~~~
-
 Boost Graph
 -------------
-
 The code is prepared to be used for:
 - boost::adjacency_list graph type
 - boost::undirectedS when the graph is UNDIRECTED
 - boost::bidirectionalS when the graph is DIRECTED
-
-
 ~~~~{.c}
 boost::adjacency_list
 < boost::vecS,  // not tested with other values
@@ -109,21 +90,14 @@ boost::undirectedS,  // USinG UNDIRECTED
 Basic_vertex,  // the vertex class
 Basic_edge >   // the edge class
 ~~~~
-
-
-
 Example Usage:
 =============
-
 For this example we will use:
 - Basic_vertex
 - Basic_edge
 - pgr_edge_t
-
-
 Create Graph type
 -----------------
-
 ~~~~{.c}
 typedef typename
 graph::Pgr_base_graph <
@@ -135,18 +109,12 @@ boost::vecS,
     Basic_edge >,
     Basic_vertex,
     Basic_edge >
-
     DirectedGraph;
 ~~~~
-
-
 Initializing the graph
 ------------------------------
-
 Graph initialization is for seting the Vertices of the graph.
-
 //TODO discuss if also the edges
-
 Vector of unique vertices of the graph
 ~~~~{.c}
 size_t total_edges;
@@ -154,60 +122,45 @@ pgr_edge_t *my_edges = NULL;
 pgr_get_edges(edges_sql, &my_edges, &total_tuples);
 std::vector< Basic_Vertex > vertices(pgrouting::extract_vertices(my_edges));
 ~~~~
-
 There are several ways to initialize the graph
-
 ~~~~{.c}
 // 1. Initializes an empty graph
 pgrouting::DirectedGraph digraph(gType);
-
 // 2. Initializes a graph based on the vertices
 pgrouting::DirectedGraph digraph(
     verices,
     gType);
 vertices.clear();
-
 3. Initializes a graph based on the extracted vertices
 pgrouting::DirectedGraph digraph(
     pgrouting::extract_vertices(my_edges, total_edges);
     gType);
-
 4. Initializes a graph based on the extracted vertices
 pgrouting::DirectedGraph digraph(
     pgrouting::extract_vertices(my_edges);
     gType);
 ~~~~
-
 1. Initializes an empty graph
   - vertices vector size is 0
-
 2. Initializes a graph based on the vertices:
   - vertices vector size is vertices.size()
   - the vertices are inserted
   - vertices container can be clared to free memory
-
 3. Initializes a graph based on the vertices extracted
   - from edges stored on a C array
   - the vertices are inserted
-
 4. Initializes a graph based on the vertices extracted
   - from edges stored on a vector
   - the vertices are inserted
-
-
 Fill the graph
 ---------------------
-
 After initializing the graph with the vertices, the edges can be added.
-
 ~~~~{.c}
 // inserting edges from a C array
 digraph.insert_edges(my_edges, total_edges);
-
 // adding more edges to the graph from a vector container
 digraph.insert_edges(new_edges);
 ~~~~
-
 */
 
 namespace graph {
@@ -255,7 +208,7 @@ boost::adjacency_list < boost::listS, boost::vecS,
 
 namespace graph {
 
-template <class G, typename T_V, typename T_E>
+template <typename G, typename T_V, typename T_E>
 class Pgr_base_graph {
  public:
      /** @name Graph related types
@@ -419,39 +372,61 @@ class Pgr_base_graph {
              }
          }
 
+      template < typename T >
+         void insert_negative_edges(const T *edges, int64_t count) {
+             insert_negative_edges(std::vector < T >(edges, edges + count));
+         }
 
      /*! @brief Inserts *count* edges of type *pgr_edge_t* into the graph
-
         The set of edges should not have an illegal vertex defined
-
         When the graph is empty calls:
         - @b extract_vertices
         and throws an exception if there are illegal vertices.
-
-
         When developing:
           - if an illegal vertex is found an exception is thrown
           - That means that the set of vertices should be checked in the
             code that is being developed
-
         No edge is inserted when there is an error on the vertices
-
         @param edges
+        @param normal
       */
-     template < typename T >
-         void insert_edges(const std::vector<T> &edges, bool normal = true) {
+     template <typename T>
+     void
+     insert_edges(const std::vector<T> &edges, bool normal = true) {
 #if 0
-             // This code does not work with contraction
-             if (num_vertices() == 0) {
-                 auto vertices = pgrouting::extract_vertices(edges);
-                 pgassert(pgrouting::check_vertices(vertices) == 0);
-                 add_vertices(vertices);
-             }
-#endif
-             for (const auto edge : edges) {
-                 graph_add_edge(edge, normal);
-             }
+         // This code does not work with contraction
+         if (num_vertices() == 0) {
+             auto vertices = pgrouting::extract_vertices(edges);
+             pgassert(pgrouting::check_vertices(vertices) == 0);
+             add_vertices(vertices);
          }
+#endif
+         for (const auto edge : edges) {
+             graph_add_edge(edge, normal);
+         }
+     }
+
+     template <typename T>
+     void insert_min_edges_no_parallel(const T *edges, int64_t count) {
+         insert_edges(std::vector<T>(edges, edges + count));
+     }
+
+     template <typename T>
+     void
+     insert_min_edges_no_parallel(const std::vector<T> &edges) {
+         for (const auto edge : edges) {
+             graph_add_min_edge_no_parallel(edge);
+         }
+     }
+
+     template < typename T >
+     void insert_negative_edges(
+             const std::vector<T> &edges,
+             bool normal = true) {
+         for (const auto edge : edges) {
+             graph_add_neg_edge(edge, normal);
+         }
+     }
      //@}
 
  private:
@@ -466,7 +441,7 @@ class Pgr_base_graph {
       * for (vertex : vertices)
       *    precondition(!has_vertex(vertex.id));
       * ~~~~~
-      * 
+      *
       *
       * POSTCONDITIONS:
       * ~~~~~{.c}
@@ -509,7 +484,6 @@ class Pgr_base_graph {
 
      /*!
        @returns 0: The out degree of a vertex that its not in the graph
-
        @param [in] vertex_id original vertex id
        */
      degree_size_type out_degree(int64_t vertex_id) const {
@@ -529,10 +503,8 @@ class Pgr_base_graph {
 
 
      /*! @brief get the vertex descriptor of the vertex
-
        When the vertex does not exist
        - creates a new vetex
-
        @return V: The vertex descriptor of the vertex
        */
      V get_V(const T_V &vertex) {
@@ -548,9 +520,7 @@ class Pgr_base_graph {
      }
 
      /*! @brief get the vertex descriptor of the vid
-
        Call has_vertex(vid) before calling this function
-
        @return V: The vertex descriptor of the vertex
        */
      V get_V(int64_t vid) const {
@@ -623,14 +593,11 @@ class Pgr_base_graph {
      //@{
      //! @brief Disconnects all edges from p_from to p_to
      /*!
-
        - No edge is disconnected if the vertices id's do not exist in the graph
        - All removed edges are stored for future reinsertion
        - All parallel edges are disconnected (automatically by boost)
-
        ![disconnect_edge(2,3) on an UNDIRECTED graph](disconnectEdgeUndirected.png)
        ![disconnect_edge(2,3) on a DIRECTED graph](disconnectEdgeDirected.png)
-
        @param [in] p_from original vertex id of the starting point of the edge
        @param [in] p_to   original vertex id of the ending point of the edge
        */
@@ -639,11 +606,9 @@ class Pgr_base_graph {
 
      //! @brief Disconnects the outgoing edges of a vertex
      /*!
-
        - No edge is disconnected if it doesn't exist in the graph
        - Removed edges are stored for future reinsertion
        - all outgoing edges with the edge_id are removed if they exist
-
        @param [in] vertex_id original vertex
        @param [in] edge_id original edge_id
        */
@@ -656,14 +621,11 @@ class Pgr_base_graph {
      /*!
        boost::graph doesn't recommend th to insert/remove vertices, so a vertex removal is
        simulated by disconnecting the vertex from the graph
-
        - No edge is disconnected if the vertices id's do not exist in the graph
        - All removed edges are stored for future reinsertion
        - All parallel edges are disconnected (automatically by boost)
-
        ![disconnect_vertex(2) on an UNDIRECTED graph](disconnectVertexUndirected.png)
        ![disconnect_vertex(2) on a DIRECTED graph](disconnectVertexDirected.png)
-
        @param [in] p_vertex original vertex id of the starting point of the edge
        */
      void disconnect_vertex(int64_t p_vertex);
@@ -704,6 +666,38 @@ class Pgr_base_graph {
 
      int64_t get_edge_id(V from, V to, double &distance) const;
 
+     E get_edge(
+             V from,
+             V to,
+             double &distance) const {
+         E e;
+         EO_i out_i, out_end;
+         V v_source, v_target;
+         double minCost =  (std::numeric_limits<double>::max)();
+         E minEdge;
+         bool valid = false;
+         for (boost::tie(out_i, out_end) = boost::out_edges(from, graph);
+                 out_i != out_end; ++out_i) {
+             e = *out_i;
+             if (!valid) {
+                 minEdge = e;
+                 valid = true;
+             }
+             v_target = target(e);
+             v_source = source(e);
+             if ((from == v_source) && (to == v_target)
+                     && (distance == graph[e].cost)) {
+                 return e;
+             }
+             if ((from == v_source) && (to == v_target)
+                     && (minCost > graph[e].cost)) {
+                 minCost = graph[e].cost;
+                 minEdge = e;
+             }
+         }
+         return minEdge;
+     }
+
      size_t num_vertices() const { return boost::num_vertices(graph);}
      size_t num_edges() const { return boost::num_edges(graph);}
 
@@ -713,7 +707,11 @@ class Pgr_base_graph {
      template < typename T >
          void graph_add_edge(const T &edge, bool normal = true);
 
+     template < typename T >
+         void graph_add_min_edge_no_parallel(const T &edge);
 
+      template < typename T >
+         void graph_add_neg_edge(const T &edge, bool normal = true);
      /**
       *  Use this function when the vertices are already inserted in the graph
       */
@@ -745,6 +743,7 @@ class Pgr_base_graph {
              graph[e].cost = edge.cost;
              graph[e].id = edge.id;
          }
+
 
          if (edge.reverse_cost >= 0 && (is_directed()
                      || (is_undirected() && edge.cost != edge.reverse_cost))) {
@@ -870,6 +869,8 @@ Pgr_base_graph< G, T_V, T_E >::restore_graph() {
 }
 
 
+
+
 template < class G, typename T_V, typename T_E >
 int64_t
 Pgr_base_graph< G, T_V, T_E >::get_edge_id(
@@ -903,7 +904,6 @@ Pgr_base_graph< G, T_V, T_E >::get_edge_id(
 template < class G, typename T_V, typename T_E >
 void
 Pgr_base_graph< G, T_V, T_E >::graph_add_edge(const T_E &edge ) {
-    bool inserted;
     typename Pgr_base_graph< G, T_V, T_E >::LI vm_s, vm_t;
     typename Pgr_base_graph< G, T_V, T_E >::E e;
 
@@ -920,6 +920,7 @@ Pgr_base_graph< G, T_V, T_E >::graph_add_edge(const T_E &edge ) {
     }
 
     if (edge.cost >= 0) {
+        bool inserted;
         boost::tie(e, inserted) =
             boost::add_edge(vm_s->second, vm_t->second, graph);
         graph[e].cp_members(edge);
@@ -954,7 +955,7 @@ Pgr_base_graph< G, T_V, T_E >::graph_add_edge(const T &edge, bool normal) {
 
     if (edge.reverse_cost >= 0
             && (m_gType == DIRECTED
-              || (m_gType == UNDIRECTED && edge.cost != edge.reverse_cost))) {
+                || (m_gType == UNDIRECTED && edge.cost != edge.reverse_cost))) {
         boost::tie(e, inserted) =
             boost::add_edge(vm_t, vm_s, graph);
 
@@ -963,6 +964,107 @@ Pgr_base_graph< G, T_V, T_E >::graph_add_edge(const T &edge, bool normal) {
     }
 }
 
+template < class G, typename T_V, typename T_E >
+template < typename T>
+void
+Pgr_base_graph< G, T_V, T_E >::graph_add_min_edge_no_parallel(const T &edge) {
+    bool inserted;
+    typename Pgr_base_graph< G, T_V, T_E >::E e;
+    if ((edge.cost < 0) && (edge.reverse_cost < 0))
+        return;
+
+    /*
+     * true: for source
+     * false: for target
+     */
+    auto vm_s = get_V(T_V(edge, true));
+    auto vm_t = get_V(T_V(edge, false));
+
+    pgassert(vertices_map.find(edge.source) != vertices_map.end());
+    pgassert(vertices_map.find(edge.target) != vertices_map.end());
+    if (edge.cost >= 0) {
+        E e1;
+        bool found;
+        boost::tie(e1, found) = edge(vm_s, vm_t, graph);
+        if (found) {
+            if (edge.cost < graph[e1].cost) {
+                graph[e1].cost = edge.cost;
+                graph[e1].id = edge.id;
+            }
+        } else {
+            boost::tie(e, inserted) =
+                boost::add_edge(vm_s, vm_t, graph);
+            graph[e].cost = edge.cost;
+            graph[e].id = edge.id;
+        }
+    }
+
+    if (edge.reverse_cost >= 0
+            && (m_gType == DIRECTED
+                || (m_gType == UNDIRECTED && edge.cost != edge.reverse_cost))) {
+        E e1;
+        bool found;
+        boost::tie(e1, found) = edge(vm_t, vm_s, graph);
+        if (found) {
+            if (edge.reverse_cost < graph[e1].cost) {
+                graph[e1].cost = edge.reverse_cost;
+                graph[e1].id = edge.id;
+            }
+        } else {
+            boost::tie(e, inserted) =
+                boost::add_edge(vm_t, vm_s, graph);
+
+            graph[e].cost = edge.reverse_cost;
+            graph[e].id = edge.id;
+        }
+    }
+}
+
+#if 1
+/*
+Add edges with negative cost(either cost or reverse_cost or both)
+Reading them into graph as positive cost ( edge_cost = (-1)* edge_negative_cost) [L931 & L941]
+To Do: Read and apply edges with negative cost in function as it is
+*/
+
+template < class G, typename T_V, typename T_E >
+template < typename T>
+void
+Pgr_base_graph< G, T_V, T_E >::graph_add_neg_edge(const T &edge, bool normal) {
+    bool inserted;
+    typename Pgr_base_graph< G, T_V, T_E >::E e;
+
+    auto vm_s = get_V(T_V(edge, true));
+    auto vm_t = get_V(T_V(edge, false));
+
+    pgassert(vertices_map.find(edge.source) != vertices_map.end());
+    pgassert(vertices_map.find(edge.target) != vertices_map.end());
+
+    boost::tie(e, inserted) =
+            boost::add_edge(vm_s, vm_t, graph);
+        if (edge.cost < 0) {
+            // reading negative edges as positive
+            graph[e].cost = (-0.5)*edge.cost;
+        } else {
+            graph[e].cost = edge.cost;
+        }
+        graph[e].id = edge.id;
+
+    if (m_gType == DIRECTED
+              || (m_gType == UNDIRECTED && edge.cost > edge.reverse_cost)) {
+        boost::tie(e, inserted) =
+            boost::add_edge(vm_t, vm_s, graph);
+        if (edge.reverse_cost < 0) {
+            // reading negative edges as positive
+            graph[e].cost = (-0.5)*edge.reverse_cost;
+        } else {
+            graph[e].cost = edge.reverse_cost;
+        }
+
+        graph[e].id = normal? edge.id : -edge.id;
+      }
+}
+#endif
 
 /******************  PRIVATE *******************/
 

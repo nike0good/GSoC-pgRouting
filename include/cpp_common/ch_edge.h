@@ -5,9 +5,9 @@ Generated with Template by:
 Copyright (c) 2015 pgRouting developers
 Mail: project@pgrouting.org
 
-Function's developer: 
+Function's developer:
 Copyright (c) 2016 Rohith Reddy
-Mail: 
+Mail:
 
 ------
 
@@ -48,13 +48,14 @@ class CH_edge {
 
      void cp_members(const CH_edge &other);
 
-     void add_contracted_vertex(CH_vertex& v, int64_t vid);
+     void add_contracted_vertex(CH_vertex& v);
      void add_contracted_edge_vertices(CH_edge& e);
 
      bool has_contracted_vertices() const;
 
      void clear_contracted_vertices() {m_contracted_vertices.clear();}
      const Identifiers<int64_t>& contracted_vertices() const;
+     Identifiers<int64_t>& contracted_vertices();
      friend std::ostream& operator <<(std::ostream& os, const CH_edge& e);
 
  public:

@@ -11,17 +11,18 @@ if [[ -z  $1 ]]; then
     exit 1;
 fi
 
-DIR=$1
+DIR="$1"
 shift
 PGFLAGS=$*
 
 PGDATABASE="___pgr___test___"
 
-dropdb $PGFLAGS --if-exists ___pgr___test___
-createdb  $PGFLAGS  ___pgr___test___
+dropdb --if-exists "${PGFLAGS}" "${PGDATABASE}"
+createdb "${PGFLAGS}" "${PGDATABASE}"
 
+echo "../../pgtap/${DIR}"
 
 cd tools/testers/
-psql $PGFLAGS  -f setup_db.sql -d ___pgr___test___
-pg_prove $PGFLAGS  -d ___pgr___test___ ../../pgtap/$DIR
-dropdb $PGFLAGS  ___pgr___test___
+psql "$PGFLAGS"  -f setup_db.sql -d "${PGDATABASE}"
+pg_prove --recurse --ext .sql "${PGFLAGS}"  -d "${PGDATABASE}" "../../pgtap/${DIR}"
+dropdb --if-exists "${PGFLAGS}" "${PGDATABASE}"

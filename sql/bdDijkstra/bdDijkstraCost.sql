@@ -22,14 +22,22 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 
+----------------------
+-- pgr_bdDijkstraCost
+----------------------
+
+
+-- ONE TO ONE
 CREATE OR REPLACE FUNCTION pgr_bdDijkstraCost(
-    edges_sql TEXT,
-    BIGINT,
-    BIGINT,
-    directed BOOLEAN DEFAULT TRUE,
+    TEXT,   -- edges_sql (required)
+    BIGINT, -- from_vid (required)
+    BIGINT, -- to_vid (required)
+
+    directed BOOLEAN DEFAULT true,
+
     OUT start_vid BIGINT,
     OUT end_vid BIGINT,
     OUT agg_cost FLOAT)
@@ -42,12 +50,15 @@ LANGUAGE sql VOLATILE STRICT
 COST 100
 ROWS 1000;
 
+
 -- ONE TO MANY
 CREATE OR REPLACE FUNCTION pgr_bdDijkstraCost(
-    edges_sql TEXT,
-    BIGINT,
-    end_vids ANYARRAY,
-    directed BOOLEAN DEFAULT TRUE,
+    TEXT,     -- edges_sql (required)
+    BIGINT,   -- from_vid (required)
+    ANYARRAY, -- to_vids (required)
+
+    directed BOOLEAN DEFAULT true,
+
     OUT start_vid BIGINT,
     OUT end_vid BIGINT,
     OUT agg_cost FLOAT)
@@ -63,10 +74,12 @@ ROWS 1000;
 
 -- MANY TO ONE
 CREATE OR REPLACE FUNCTION pgr_bdDijkstraCost(
-    edges_sql TEXT,
-    start_vids ANYARRAY,
-    BIGINT,
-    directed BOOLEAN DEFAULT TRUE,
+    TEXT,     -- edges_sql (required)
+    ANYARRAY, -- from_vids (required)
+    BIGINT,   -- to_vid (required)
+
+    directed BOOLEAN DEFAULT true,
+
     OUT start_vid BIGINT,
     OUT end_vid BIGINT,
     OUT agg_cost FLOAT)
@@ -80,13 +93,14 @@ COST 100
 ROWS 1000;
 
 
-
 -- MANY TO MANY
 CREATE OR REPLACE FUNCTION pgr_bdDijkstraCost(
-    edges_sql TEXT,
-    start_vids ANYARRAY,
-    end_vids ANYARRAY,
-    directed BOOLEAN DEFAULT TRUE,
+    TEXT,     -- edges_sql (required)
+    ANYARRAY, -- from_vids (required)
+    ANYARRAY, -- to_vids (required)
+
+    directed BOOLEAN DEFAULT true,
+
     OUT start_vid BIGINT,
     OUT end_vid BIGINT,
     OUT agg_cost FLOAT)
@@ -98,3 +112,57 @@ $BODY$
 LANGUAGE SQL VOLATILE STRICT
 COST 100
 ROWS 1000;
+
+
+-- COMMENTS
+
+COMMENT ON FUNCTION pgr_bdDijkstraCost(TEXT, BIGINT, BIGINT, BOOLEAN)
+IS 'pgr_bdDijkstraCost(One to One)
+- Parameters:
+  - Edges SQL with columns: id, source, target, cost [,reverse_cost]
+  - From vertex identifier
+  - To vertex identifier
+- Optional Parameters
+  - directed := true
+- Documentation:
+  - ${PGROUTING_DOC_LINK}/pgr_bdDijkstraCost.html
+';
+
+
+COMMENT ON FUNCTION pgr_bdDijkstraCost(TEXT, BIGINT, ANYARRAY, BOOLEAN)
+IS 'pgr_bdDijkstraCost(One to Many)
+- Parameters:
+  - Edges SQL with columns: id, source, target, cost [,reverse_cost]
+  - From vertex identifier
+  - To ARRAY[vertices identifiers]
+- Optional Parameters
+  - directed := true
+- Documentation:
+  - ${PGROUTING_DOC_LINK}/pgr_bdDijkstraCost.html
+';
+
+
+COMMENT ON FUNCTION pgr_bdDijkstraCost(TEXT, ANYARRAY, BIGINT, BOOLEAN)
+IS 'pgr_bdDijkstraCost(Many to One)
+- Parameters:
+  - Edges SQL with columns: id, source, target, cost [,reverse_cost]
+  - From ARRAY[vertices identifiers]
+  - To vertex identifier
+- Optional Parameters
+  - directed := true
+- Documentation:
+  - ${PGROUTING_DOC_LINK}/pgr_bdDijkstraCost.html
+';
+
+
+COMMENT ON FUNCTION pgr_bdDijkstraCost(TEXT, ANYARRAY, ANYARRAY, BOOLEAN)
+IS 'pgr_bdDijkstraCost(Many to Many)
+- Parameters:
+  - Edges SQL with columns: id, source, target, cost [,reverse_cost]
+  - From ARRAY[vertices identifiers]
+  - To ARRAY[vertices identifiers]
+- Optional Parameters
+  - directed := true
+- Documentation:
+  - ${PGROUTING_DOC_LINK}/pgr_bdDijkstraCost.html
+';

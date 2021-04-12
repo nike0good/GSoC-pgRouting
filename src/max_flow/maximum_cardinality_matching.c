@@ -25,7 +25,9 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
+
+#include <stdbool.h>
 
 #include "c_common/postgres_connection.h"
 
@@ -37,7 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 PGDLLEXPORT Datum
-maximum_cardinality_matching(PG_FUNCTION_ARGS);
+_pgr_maxcardinalitymatch(PG_FUNCTION_ARGS);
 
 /******************************************************************************/
 /*                          MODIFY AS NEEDED                                  */
@@ -95,9 +97,9 @@ process(
     pgr_SPI_finish();
 }
 
-PG_FUNCTION_INFO_V1(maximum_cardinality_matching);
+PG_FUNCTION_INFO_V1(_pgr_maxcardinalitymatch);
 PGDLLEXPORT Datum
-maximum_cardinality_matching(PG_FUNCTION_ARGS) {
+_pgr_maxcardinalitymatch(PG_FUNCTION_ARGS) {
     FuncCallContext *funcctx;
     TupleDesc tuple_desc;
 

@@ -4,26 +4,37 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
 
-.. _pgr_pickDeliverEuclidean:
-
-pgr_pickDeliverEuclidean - Proposed
+pgr_pickDeliverEuclidean - Experimental
 ===============================================================================
-
-.. warning:: Documentation is being updated
 
 ``pgr_pickDeliverEuclidean`` - Pickup and delivery Vehicle Routing Problem
 
+.. include:: experimental.rst
+   :start-after: begin-warn-expr
+   :end-before: end-warn-expr
+
 .. rubric:: Availability
 
-* New as proposed in 2.5.0
+* Version 3.0.0
 
+  * Replaces ``pgr_gsoc_vrppdtw``
+  * New **experimental** function
 
-.. include:: proposed.rst
-   :start-after: stable-begin-warning
-   :end-before: stable-end-warning
+.. rubric:: Support
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/pgr_pickDeliverEuclidean.html>`__)
+
+* **Unsupported versions:**
+  `2.6 <https://docs.pgrouting.org/2.6/en/pgr_gsoc_vrppdtw.html>`__
+  `2.5 <https://docs.pgrouting.org/2.5/en/pgr_gsoc_vrppdtw.html>`__
+  `2.4 <https://docs.pgrouting.org/2.4/en/pgr_gsoc_vrppdtw.html>`__
+  `2.3 <https://docs.pgrouting.org/2.3/en/src/vrppdtw/doc/pgr_gsoc_vrppdtw.html>`__
+  `2.2 <https://docs.pgrouting.org/2.2/en/src/vrppdtw/doc/index.html>`__
+  `2.1 <https://docs.pgrouting.org/2.1/en/src/vrppdtw/doc/index.html>`__
 
 
 Synopsis
@@ -70,7 +81,7 @@ Characteristics
 
 
 .. index::
-    single: pgr_pickDeliverEuclidean - Proposed
+    single: pgr_pickDeliverEuclidean - Experimental
 
 
 Signature
@@ -194,7 +205,7 @@ This example use the following data: TODO put link
 See Also
 -------------------------------------------------------------------------------
 
-* :ref:`VRP`
+* :doc:`VRP-category`
 * The queries use the :doc:`sampledata` network.
 
 .. rubric:: Indices and tables

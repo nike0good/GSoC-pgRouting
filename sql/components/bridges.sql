@@ -25,14 +25,26 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 CREATE OR REPLACE FUNCTION pgr_bridges(
-    TEXT,                       -- edges_sql
-        OUT seq INTEGER,        -- seq
-    OUT edge BIGINT)            -- the number of the edge
+    TEXT,  -- edges_sql (required)
 
-RETURNS SETOF RECORD AS
-'$libdir/${PGROUTING_LIBRARY_NAME}', 'bridges'
-LANGUAGE c IMMUTABLE STRICT;
+    OUT edge BIGINT)
+RETURNS SETOF BIGINT AS
+$BODY$
+    SELECT edge
+    FROM _pgr_bridges(_pgr_get_statement($1));
+$BODY$
+LANGUAGE SQL VOLATILE STRICT;
 
+-- COMMENTS
+
+COMMENT ON FUNCTION pgr_bridges(TEXT)
+IS'pgr_bridges
+- Undirected graph
+- Parameters:
+  - Edges SQL with columns: id, source, target, cost [,reverse_cost]
+- Documentation:
+  - ${PGROUTING_DOC_LINK}/pgr_bridges.html
+';

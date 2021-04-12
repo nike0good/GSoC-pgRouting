@@ -4,7 +4,7 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
 
 .. _installation:
@@ -24,7 +24,7 @@ Installation
 
 Instructions for downloading and installing binaries for different Operative systems instructions and additional notes and corrections not included in this documentation can be found in `Installation wiki <https://github.com/pgRouting/pgrouting/wiki/Notes-on-Download%2C-Installation-and-building-pgRouting>`__
 
-To use pgRouting postGIS needs to be installed, please read the information about installation in this `Install Guide <http://www.postgis.us/presentations/postgis_install_guide_22.html>`__
+To use pgRouting postGIS needs to be installed, please read the information about installation in this `Install Guide <https://www.postgis.us/presentations/postgis_install_guide_22.html>`__
 
 .. _install-short:
 
@@ -54,7 +54,7 @@ Once pgRouting is installed, it needs to be enabled in each individual database 
 .. code-block:: bash
 
     createdb routing
-    psql routing -c 'CREATE EXTENSION postGIS'
+    psql routing -c 'CREATE EXTENSION PostGIS'
     psql routing -c 'CREATE EXTENSION pgRouting'
 
 
@@ -115,7 +115,7 @@ To upgrade pgRouting in the database to version ${PGROUTING_VERSION} use the fol
 
    ALTER EXTENSION pgrouting UPDATE TO "${PGROUTING_VERSION}";
 
-More information can be found in https://www.postgresql.org/docs/current/static/sql-createextension.html
+More information can be found in https://www.postgresql.org/docs/current/sql-createextension.html
 
 
 .. _install_dependencies:
@@ -130,10 +130,8 @@ To be able to compile pgRouting, make sure that the following dependencies are m
 * C and C++0x compilers
   * g++ version >= 4.8
 * Postgresql version >= 9.3
-* PostGIS version >= 2.2
 * The Boost Graph Library (BGL). Version >= 1.53
 * CMake >= 3.2
-* CGAL >=  4.2
 
 
 .. rubric:: optional dependencies
@@ -152,6 +150,9 @@ For testing
 * pgtap
 * pg_prove
 
+For using:
+
+* PostGIS version >= 2.2
 
 .. rubric:: Example: Installing dependencies on linux
 
@@ -174,8 +175,7 @@ Installing the compilation dependencies
     sudo apt-get install
         cmake \
         g++ \
-        libboost-graph-dev \
-        libcgal-dev
+        libboost-graph-dev
 
 .. rubric:: Optional dependencies
 
@@ -304,7 +304,7 @@ The following instructions start from *path/to/pgrouting/*
 
 .. code-block:: none
 
-    tools/testers/algorithm-tester.pl
+    tools/testers/doc_queries_generator.pl
     createdb  -U <user> ___pgr___test___
     sh ./tools/testers/pg_prove_tests.sh <user>
     dropdb  -U <user> ___pgr___test___

@@ -20,8 +20,10 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
+#include <stdbool.h>
+#include "c_common/postgres_connection.h"
 #include "c_common/get_check_data.h"
 #include "c_common/arrays_input.h"
 
@@ -59,6 +61,7 @@ fetch_column_info(
          * [SPI_gettypeid](https://www.postgresql.org/docs/9.1/static/spi-spi-gettypeid.html)
          */
         (info->type) = SPI_gettypeid(SPI_tuptable->tupdesc, (info->colNumber));
+        PGR_DBG("%s %ld", info->name, info->type);
         if (SPI_result == SPI_ERROR_NOATTRIBUTE) {
             elog(ERROR, "Type of column '%s' not Found", info->name);
         }
@@ -103,7 +106,7 @@ void pgr_fetch_column_info(
 }
 
 /*
- * [BPCHAROID](https://doxygen.postgresql.org/include_2catalog_2pg__type_8h.html#afa7749dbe36d31874205189d9d6b21d7)  
+ * [BPCHAROID](https://doxygen.postgresql.org/include_2catalog_2pg__type_8h.html#afa7749dbe36d31874205189d9d6b21d7)
  * [INT2ARRAYOID](https://doxygen.postgresql.org/include_2catalog_2pg__type_8h.html#ac265fe7b0bb75fead13b16bf072722e9)
  */
 
@@ -148,7 +151,8 @@ void pgr_check_any_numerical_type(Column_info_t info) {
                 || info.type == INT4OID
                 || info.type == INT8OID
                 || info.type == FLOAT4OID
-                || info.type == FLOAT8OID)) {
+                || info.type == FLOAT8OID
+                || info.type == NUMERICOID)) {
         elog(ERROR,
                 "Unexpected Column '%s' type. Expected ANY-NUMERICAL",
                 info.name);
@@ -264,6 +268,10 @@ pgr_SPI_getFloat8(HeapTuple *tuple, TupleDesc *tupdesc, Column_info_t info) {
         case FLOAT8OID:
             value = DatumGetFloat8(binval);
             break;
+        case NUMERICOID:
+             /* Note: out-of-range values will be clamped to +-HUGE_VAL */
+             value = (double) DatumGetFloat8(DirectFunctionCall1(numeric_float8_no_overflow, binval));
+             break;
         default:
             elog(ERROR,
                     "Unexpected Column type of %s. Expected ANY-NUMERICAL",
@@ -271,7 +279,7 @@ pgr_SPI_getFloat8(HeapTuple *tuple, TupleDesc *tupdesc, Column_info_t info) {
     }
 /* TODO(vicky) Remove unused code */
 #if 0
-    PGR_DBG("Variable: %s Value: %lf", info.name, value);
+    PGR_DBG("Variable: %s Value: %.20f", info.name, value);
 #endif
     return value;
 }

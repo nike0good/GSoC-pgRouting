@@ -8,7 +8,11 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 if(POLICY CMP0046)
-    cmake_policy(SET CMP0046 OLD)
+    cmake_policy(SET CMP0046 NEW)
+endif()
+
+if(POLICY CMP0054)
+    cmake_policy(SET CMP0054 NEW)
 endif()
 
 if ( ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR} )
@@ -20,91 +24,37 @@ endif()
 #---------------------------------------------
 # Setting kind of build
 #---------------------------------------------
-#
-# for developing
-# cmake -DMAKE_BUILD_TYPE=Develop
-#----------------------
 
-message(STATUS "CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE}")
-if (CMAKE_BUILD_TYPE MATCHES Develop)
-    set(CMAKE_BUILD_TYPE Debug CACHE STRING
-        "Choose the type of build, options are: None Debug Release RelWithDebInfo
-        MinSizeRel."
-        FORCE)
-    set(WITH_INTERNAL_TESTS)
-endif()
-message(STATUS "CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE}")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(pgr/BuildType)
 
 
 #---------------------------------------------
 #---------------------------------------------
 #---------------------------------------------
 
-project(PGROUTING)
+project(PGROUTING VERSION 3.0.2
+    LANGUAGES C CXX )
+set(PGROUTING_VERSION_DEV "")
 
-#---------------------------------------------
-#---------------------------------------------
-#---------------------------------------------
+include(pgr/GitInfo)
 
-if(POLICY CMP0054)
-   cmake_policy(SET CMP0054 OLD)
-endif()
+include(pgr/Version)
+add_definitions(-DPGROUTING_VERSION="${PGROUTING_VERSION}${PGROUTING_VERSION_DEV}")
+set(PGROUTING_LIB_NAME "pgrouting-${PGROUTING_LIB_VERSION}")
 
-if(MSVC)
-    cmake_policy(SET CMP0046 OLD)
-endif()
+string(TIMESTAMP COMPILATION_DATE "%Y/%m/%d")
+
+
 
 #=============================================
 # Set the working directories
 #=============================================
 
 #---------------------------------------------
-#  PgRouting_SOURCE_NAMES
+#  PGROUTING_SOURCE_NAMES
 #---------------------------------------------
-#
-# Name of the directories that have C/C++ code
-#  - <directory>/src/CMakelists.txt must exist
-#  - <directory>/sql/CMakeLists.txt  must exist
-#----------------------
-configure_file("configuration.conf" "configuration.conf")
-file(STRINGS configuration.conf PgRouting_CONFIGURATION_FILE)
-
-set(PgRouting_SOURCE_NAMES "")
-set(PgRouting_SQL_DIRECTORIES "")
-set(PgRouting_DOC_DIRECTORIES "")
-foreach(line ${PgRouting_CONFIGURATION_FILE})
-    string(REGEX REPLACE "^(#).*" "\\1" comment ${line})
-    if("${comment}" MATCHES "#")
-        continue()
-    endif()
-    string(REGEX REPLACE "^(.*)\\|(.*)\\|(.*)\\|(.*)" "\\1" directory ${line})
-    string(REGEX REPLACE "^(.*)\\|(.*)\\|(.*)\\|(.*)" "\\2" has_code ${line})
-    string(REGEX REPLACE "^(.*)\\|(.*)\\|(.*)\\|(.*)" "\\3" has_sql ${line})
-    string(REGEX REPLACE "^(.*)\\|(.*)\\|(.*)\\|(.*)" "\\4" has_doc ${line})
-
-    string(STRIP ${directory} directory)
-    string(STRIP ${has_code} has_code)
-    string(STRIP ${has_sql} has_sql)
-    string(STRIP ${has_doc} has_doc)
-
-
-    if( ${has_code} MATCHES "Y")
-        list(APPEND PgRouting_SOURCE_NAMES "${directory}")
-    endif()
-    if( ${has_sql} MATCHES "Y")
-        list(APPEND PgRouting_SQL_DIRECTORIES "${directory}")
-    endif()
-    if( ${has_doc} MATCHES "Y")
-        list(APPEND PgRouting_DOC_DIRECTORIES "${directory}")
-    endif()
-endforeach()
-
-if (PGROUTING_DEBUG)
-    message(STATUS "${PgRouting_SOURCE_NAMES}")
-    message(STATUS "${PgRouting_SQL_DIRECTORIES}")
-    message(STATUS "${PgRouting_DOC_DIRECTORIES}")
-endif()
-
+include(pgr/Configure)
 
 
 #---------------------------------------------
@@ -114,7 +64,6 @@ set(DOXYGEN_MINIMUM_VERSION "1.7")
 set(SPHINX_MINIMUM_VERSION "1.1")
 set(POSTGRESQL_MINIMUM_VERSION "9.2.0")
 set(BOOST_MINIMUM_VERSION "1.53")
-set(CGAL_CXX_MINIMUM_VERSION "4.4")
 set(POSTGIS_MINIMUM_VERSION "2.0.0")
 set(GNU_CXX_MINIMUM_VERSION "4.6")
 set(MSVC_CXX_MINIMUM_VERSION "18.0")
@@ -132,7 +81,6 @@ message(STATUS "MSVC_CXX_MINIMUM_VERSION=${MSVC_CXX_MINIMUM_VERSION}")
 # adding cmake modules
 #---------------------------------------------
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 foreach(dir ${CMAKE_MODULE_PATH})
     message(STATUS "dir='${dir}'")
 endforeach()
@@ -170,58 +118,9 @@ elseif(COMPILER_SUPPORTS_CXX0X)
 else()
     message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++0x or C++11 flags support.")
 endif()
+set(COMPILER_VERSION "${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}")
 
 
-#-----------------------------------------------------------------------------
-#-----------------------------------------------------------------------------
-#-----------------------------------------------------------------------------
-# PGROUTING version variables
-#-----------------------------------------------------------------------------
-#-----------------------------------------------------------------------------
-#-----------------------------------------------------------------------------
-
-set(PGROUTING_VERSION_MAJOR "2")
-set(PGROUTING_VERSION_MINOR "6")
-set(PGROUTING_VERSION_PATCH "2")
-set(PGROUTING_VERSION_DEV "")
-
-set(PGROUTING_SHORT_VERSION "${PGROUTING_VERSION_MAJOR}.${PGROUTING_VERSION_MINOR}")
-set(PGROUTING_VERSION "${PGROUTING_VERSION_MAJOR}.${PGROUTING_VERSION_MINOR}.${PGROUTING_VERSION_PATCH}")
-set(PGROUTING_FULL_VERSION "v${PGROUTING_VERSION}${PGROUTING_VERSION_DEV}")
-
-
-#---------------------------------------------
-# Variables used in pgr_version()
-#---------------------------------------------
-file(STRINGS "${PGROUTING_SOURCE_DIR}/VERSION" PGROUTING_BUILD_STRING)
-
-set(PGROUTING_GIT_HASH "")
-string(REGEX REPLACE "^([0-9]+)-([0-9a-f]+) (.*)$" "\\2" PGROUTING_GIT_HASH ${PGROUTING_BUILD_STRING})
-string(REGEX REPLACE "^([0-9]+)-([0-9a-f]+) (.*)$" "\\3" PGROUTING_GIT_BRANCH ${PGROUTING_BUILD_STRING})
-
-#if (NOT "${PGROUTING_GIT_BRANCH}" STREQUAL "master")
-#    set (PGROUTING_GIT_HASH  "")
-#    set (PGROUTING_GIT_BRANCH  "")
-#endif()
-
-
-if (PGROUTING_DEBUG)
-    message(STATUS "PGROUTING_VERSION: ${PGROUTING_FULL_VERSION}")
-    message(STATUS "PGROUTING_SHORT_VERSION: ${PGROUTING_FULL_VERSION}")
-    message(STATUS "PGROUTING_FULL_VERSION: ${PGROUTING_FULL_VERSION}")
-    message(STATUS "VERSION file contents: ${PGROUTING_BUILD_STRING}")
-    message(STATUS "PGROUTING_GIT_HASH: ${PGROUTING_GIT_HASH}")
-    message(STATUS "PGROUTING_GIT_BRANCH: ${PGROUTING_GIT_BRANCH}")
-    message(STATUS "CMAKE_VERSION: ${CMAKE_VERSION}")
-    message(STATUS "PGROUTING_SOURCE_DIR: ${PGROUTING_SOURCE_DIR}")
-    message(STATUS "CMAKE_BINARY_DIR: ${CMAKE_BINARY_DIR}")
-endif()
-
-#----------------------
-# PGROUTING library name used in the pgr_functions
-#  '$libdir/${PGROUTING_LIBRARY_NAME}'
-#----------------------
-set(PGROUTING_LIBRARY_NAME "libpgrouting-${PGROUTING_SHORT_VERSION}")
 
 
 #-----------------------------------------------------------------------------
@@ -241,17 +140,8 @@ if(WIN32 AND NOT MSVC)
         set(BOOST_ROOT c:/ming${OS_BUILD}/msys/local)
     endif(NOT BOOST_ROOT)
 
-    if (NOT CGAL_ROOT)
-        set(CGAL_ROOT c:/ming${OS_BUILD}/msys/local)
-    endif(NOT CGAL_ROOT)
-
-    if (NOT GMP_ROOT)
-        set(GMP_ROOT c:/ming${OS_BUILD}/mingw${OS_BUILD})
-    endif(NOT GMP_ROOT)
     if (PGROUTING_DEBUG)
         message(STATUS "OS_BUILD=${OS_BUILD}")
-        message(STATUS "CGAL_ROOT=${CGAL_ROOT}")
-        message(STATUS "GMP_ROOT=${GMP_ROOT}")
         message(STATUS "BOOST_ROOT=${BOOST_ROOT}")
         message(STATUS "CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}")
     endif()
@@ -320,9 +210,7 @@ if(WIN32)
     endif(MSVC)
 endif(WIN32)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DPGSQL_VERSION=${PGSQL_VERSION}")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DPGSQL_VERSION=${PGSQL_VERSION}")
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -DPGSQL_VERSION=${PGSQL_VERSION}")
+add_definitions(-DPGSQL_VERSION=${PGSQL_VERSION})
 message(STATUS "PGSQL_VERSION=${PGSQL_VERSION}")
 
 
@@ -332,31 +220,42 @@ message(STATUS "PGSQL_VERSION=${PGSQL_VERSION}")
 #---------------------------------------------
 #---------------------------------------------
 find_package(Boost ${BOOST_MINIMUM_VERSION})
-if(Boost_INCLUDE_DIRS)
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
     message(STATUS "Boost headers were found here: ${Boost_INCLUDE_DIRS}")
-else(Boost_INCLUDE_DIRS)
+else()
     message(FATAL_ERROR " Please check your Boost installation ")
-endif(Boost_INCLUDE_DIRS)
+endif()
+set(BOOST_VERSION "${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}")
 
-include_directories(${Boost_INCLUDE_DIRS})
+
+# Boost for Chinese postman needs 1.55 at least
+# dijkstra_shortest_paths.hpp has an error fix on 1.55
+#  error affects prim
+# BOOST_VERSION_OK if 1, use the boost file copy in the repository
+if ("${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}" VERSION_LESS "1.55.0")
+    set(BOOST_VERSION_OK "0")
+else()
+    set(BOOST_VERSION_OK "1")
+endif()
+
+# Boost Geometry structure is different
+if ("${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}" VERSION_LESS "1.56.0")
+    set(BOOST_Geometry_VERSION_OK "0")
+else()
+    set(BOOST_Geometry_VERSION_OK "1")
+endif()
 
 
-#---------------------------------------------
-#---------------------------------------------
-# CGAL
-#---------------------------------------------
-#---------------------------------------------
-find_package(CGAL ${CGAL_MINIMUM_VERSION})
-if(NOT CGAL_FOUND)
-    message(FATAL_ERROR " Please check your CGAL installation, or set correct path to CGAL_INCLUDE_DIR and CGAL_LIBRARIES.")
-endif(NOT CGAL_FOUND)
 
-#-------
-include_directories(${CGAL_INCLUDE_DIR})
+message(STATUS "Boost VERSION ${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}")
+message(STATUS "BOOST_VERSION_OK ${BOOST_VERSION_OK}")
+message(STATUS "BOOST_Geometry_VERSION_OK ${BOOST_Geometry_VERSION_OK}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOOST_VERSION_OK=${BOOST_VERSION_OK} -DBOOST_Geometry_VERSION_OK=${BOOST_Geometry_VERSION_OK}")
 
 #---------------------------------------------
 #---------------------------------------------
-# PgRouting includes
+# PGROUTING includes
 #---------------------------------------------
 #---------------------------------------------
 
@@ -373,8 +272,7 @@ if (PGROUTING_DEBUG)
     message(STATUS "PERL_VERSION_STRING = ${PERL_VERSION_STRING}")
     message(STATUS "POSTGRESQL_VERSION is ${PGSQL_VERSION}")
     message(STATUS "PGSQL_VERSION is ${PGSQL_VERSION}")
-    message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
-    message(STATUS "CGAL_INCLUDE_DIR: ${CGAL_INCLUDE_DIR}")
+    message(STATUS "BOOST_VERSION_OK ${BOOST_VERSION_OK}")
     message(STATUS "PGROUTING_INCLUDE_DIRECTORIES = ${PGROUTING_INCLUDE_DIRECTORIES}")
     message(STATUS "POSTGRESQL_INCLUDE_DIR = ${POSTGRESQL_INCLUDE_DIR}")
     message(STATUS "Boost_INCLUDE_DIRS = ${Boost_INCLUDE_DIRS}")
@@ -472,18 +370,24 @@ if(WIN32 AND MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_C_FLAGS}")
 endif()
 
-CHECK_C_COMPILER_FLAG("-frounding-math" C_COMPILER_SUPPORTS_ROUNDING_MATH)
-CHECK_CXX_COMPILER_FLAG("-frounding-math" CXX_COMPILER_SUPPORTS_ROUNDING_MATH)
-if(C_COMPILER_SUPPORTS_ROUNDING_MATH)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -frounding-math ")
-endif()
-if(CXX_COMPILER_SUPPORTS_ROUNDING_MATH)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -frounding-math ")
-endif()
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    CHECK_C_COMPILER_FLAG("-frounding-math" C_COMPILER_SUPPORTS_ROUNDING_MATH)
+    CHECK_CXX_COMPILER_FLAG("-frounding-math" CXX_COMPILER_SUPPORTS_ROUNDING_MATH)
+    if(C_COMPILER_SUPPORTS_ROUNDING_MATH)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -frounding-math ")
+    endif()
+    if(CXX_COMPILER_SUPPORTS_ROUNDING_MATH)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -frounding-math ")
+    endif()
 
-# TODO use -Werror when TRSP gets rewritten
-set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG}   -Wall -Wconversion -pedantic -Wmissing-prototypes -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -fno-implicit-inline-templates -Wconversion -pedantic -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
+    # TODO use -Werror when TRSP gets rewritten
+    set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG}   -Wall -Wconversion -Wmissing-prototypes -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
+    if(BOOST_Geometry_VERSION_OK)
+        set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wconversion -pedantic -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
+    else()
+        set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
+    endif()
+endif()
 
 
 
@@ -512,14 +416,14 @@ endif()
 
 if(WITH_INTERNAL_TESTS)
     message("Including InternalQueryTests")
-    set(PgRouting_SOURCE_NAMES ${PgRouting_SOURCE_NAMES} "internalQueryTests")
+    set(PGROUTING_SOURCE_NAMES ${PGROUTING_SOURCE_NAMES} "internalQueryTests")
 endif()
 
 #-------------------
 # add the subdirectories that have the C/C++ code
 #-------------------
 
-foreach (subdir ${PgRouting_SOURCE_NAMES})
+foreach (subdir ${PGROUTING_SOURCE_NAMES})
     add_subdirectory("${PGROUTING_SOURCE_DIR}/src/${subdir}")
 endforeach()
 
@@ -539,12 +443,12 @@ else(APPLE)
 endif(APPLE)
 
 
-LINK_LIBRARIES(${CGAL_LIBRARIES} ${GMP_LIBRARIES} ${BOOST_THREAD_LIBRARIES})
+LINK_LIBRARIES(${BOOST_THREAD_LIBRARIES})
 
 #-------------------
 # pgRouting objects to be linked
 #-------------------
-foreach (subdir ${PgRouting_SOURCE_NAMES} )
+foreach (subdir ${PGROUTING_SOURCE_NAMES} )
     set(PGROUTING_OBJECTS ${PGROUTING_OBJECTS} "$<TARGET_OBJECTS:${subdir}>")
 endforeach()
 
@@ -557,7 +461,11 @@ endforeach()
 #----------------------
 # PGROUTING installation files names have the following name
 #----------------------
-set(PGROUTING_LIB_NAME "pgrouting-${PGROUTING_SHORT_VERSION}")
+
+if (PGROUTING_DEBUG)
+    message(STATUS "PGROUTING_LIB_NAME ${PGROUTING_LIB_NAME}")
+endif()
+
 
 
 add_library(${PGROUTING_LIB_NAME}
@@ -595,7 +503,7 @@ add_subdirectory(sql)
 
 install(TARGETS ${PGROUTING_LIB_NAME} DESTINATION ${LIBRARY_INSTALL_PATH})
 install(FILES
-    ${PgRouting_SQL_FILES_TO_INSTALL}
+    ${PGROUTING_SQL_FILES_TO_INSTALL}
     DESTINATION "${SHARE_DIR}"
     )
 
@@ -606,10 +514,3 @@ install(FILES
 #-----------------------------------------------------------------------------
 add_subdirectory(doxygen)
 add_subdirectory(doc)
-
-
-if (PGROUTING_DEBUG)
-    foreach (f ${PgRouting_SQL_FILES})
-        message(STATUS ${f})
-    endforeach()
-endif()

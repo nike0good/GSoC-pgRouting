@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #include "cpp_common/basic_vertex.h"
 
@@ -90,7 +90,7 @@ namespace pgrouting {
 
 
     std::vector < Basic_vertex > extract_vertices(
-            const std::vector <pgr_edge_t > data_edges) {
+            const std::vector <pgr_edge_t > &data_edges) {
         std::vector< Basic_vertex > vertices;
         if (data_edges.empty()) return vertices;
 
@@ -129,7 +129,7 @@ namespace pgrouting {
     }
 
     std::vector < Basic_vertex > extract_vertices(
-            std::vector < Basic_vertex > vertices,
+            const std::vector < Basic_vertex > &vertices,
             const pgr_edge_t *data_edges, int64_t count) {
         return extract_vertices(
                 vertices, std::vector < pgr_edge_t >(

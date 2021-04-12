@@ -25,19 +25,32 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
+
+-----------------
+-----------------
+-- _astar
+-----------------
+-----------------
+
+
+-----------------
+-- pgr_astar
+-----------------
 
 
 CREATE OR REPLACE FUNCTION _pgr_astar(
     edges_sql TEXT, -- XY edges sql
     start_vids ANYARRAY,
     end_vids ANYARRAY,
+
     directed BOOLEAN DEFAULT true,
     heuristic INTEGER DEFAULT 5,
     factor FLOAT DEFAULT 1.0,
     epsilon FLOAT DEFAULT 1.0,
     only_cost BOOLEAN DEFAULT false,
-    normal BOOLEAN DEFAULT false,
+    normal BOOLEAN DEFAULT true,
+
     OUT seq INTEGER,
     OUT path_seq INTEGER,
     OUT start_vid BIGINT,
@@ -47,5 +60,10 @@ CREATE OR REPLACE FUNCTION _pgr_astar(
     OUT cost FLOAT,
     OUT agg_cost FLOAT)
 RETURNS SETOF RECORD AS
-'${MODULE_PATHNAME}', 'astarManyToMany'
+'MODULE_PATHNAME'
 LANGUAGE c VOLATILE STRICT;
+
+-- COMMENTS
+
+COMMENT ON FUNCTION _pgr_astar(TEXT, ANYARRAY, ANYARRAY, BOOLEAN, INTEGER, FLOAT, FLOAT, BOOLEAN, BOOLEAN)
+IS 'pgRouting internal function';

@@ -25,7 +25,9 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
+
+#include <stdbool.h>
 
 #include "c_common/postgres_connection.h"
 #include "utils/array.h"
@@ -39,7 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "drivers/max_flow/max_flow_driver.h"
 
 PGDLLEXPORT Datum
-max_flow_many_to_many(PG_FUNCTION_ARGS);
+_pgr_maxflow(PG_FUNCTION_ARGS);
 
 static
 void
@@ -136,9 +138,9 @@ process(
 }
 
 
-PG_FUNCTION_INFO_V1(max_flow_many_to_many);
+PG_FUNCTION_INFO_V1(_pgr_maxflow);
 PGDLLEXPORT Datum
-max_flow_many_to_many(PG_FUNCTION_ARGS) {
+_pgr_maxflow(PG_FUNCTION_ARGS) {
     FuncCallContext *funcctx;
     TupleDesc tuple_desc;
 

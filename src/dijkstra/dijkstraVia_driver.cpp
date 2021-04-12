@@ -4,7 +4,7 @@ File: dijkstraViaVertex_driver.cpp
 Generated with Template by:
 Copyright (c) 2015 pgRouting developers
 
-Function's developer: 
+Function's developer:
 Copyright (c) 2015 Celia Virginia Vergara Castillo
 
 ------
@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #include "drivers/dijkstra/dijkstraVia_driver.h"
 

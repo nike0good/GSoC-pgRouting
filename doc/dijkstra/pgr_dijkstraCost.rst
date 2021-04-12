@@ -4,17 +4,11 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
-
-.. _pgr_dijkstraCost:
 
 pgr_dijkstraCost
 ===============================================================================
-
-
-Synopsis
--------------------------------------------------------------------------------
 
 ``pgr_dijkstraCost``
 
@@ -22,23 +16,36 @@ Using Dijkstra algorithm implemented by Boost.Graph, and extract only the
 aggregate cost of the shortest path(s) found, for the combination of vertices given.
 
 .. figure:: images/boost-inside.jpeg
-   :target: http://www.boost.org/libs/graph/doc/dijkstra_shortest_paths.html
+   :target: https://www.boost.org/libs/graph/doc/dijkstra_shortest_paths.html
 
    Boost Graph Inside
 
 .. rubric:: Availability
 
-* pgr_dijkstraCost(all signatures) 2.2.0
+* Version 2.2.0
+
+  * New **Official** function
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/pgr_dijkstraCost.html>`__)
+  `2.6 <https://docs.pgrouting.org/2.6/en/pgr_dijkstraCost.html>`__
+
+* **Unsupported versions:**
+  `2.5 <https://docs.pgrouting.org/2.5/en/pgr_dijkstraCost.html>`__
+  `2.4 <https://docs.pgrouting.org/2.4/en/pgr_dijkstraCost.html>`__
+  `2.3 <https://docs.pgrouting.org/2.3/en/src/dijkstra/doc/pgr_dijkstraCost.html#pgr-dijkstracost>`__
+  `2.3 <https://docs.pgrouting.org/2.2/en/src/dijkstra/doc/pgr_dijkstraCost.html#pgr-dijkstracost>`__
+
+
+Description
+-------------------------------------------------------------------------------
 
 The ``pgr_dijkstraCost`` algorithm, is a good choice to calculate the sum of the costs
 of the shortest path for a subset of pairs of nodes of the graph.
 We make use of the Boost's implementation of dijkstra which runs in
 :math:`O(V \log V + E)` time.
 
-Characteristics
--------------------------------------------------------------------------------
-
-The main Characteristics are:
+The main characteristics are:
   - It does not return a path.
   - Returns the sum of the costs of the shortest path for pair combination of nodes in the graph.
   - Process is done only on edges with positive costs.
@@ -70,155 +77,122 @@ The main Characteristics are:
 
   - Running time: :math:`O(| start\_vids | * (V \log V + E))`
 
-Signature Summary
--------------------------------------------------------------------------------
-
-.. code-block:: none
-
-     pgr_dijkstraCost(edges_sql, start_vid, end_vid);
-     pgr_dijkstraCost(edges_sql, start_vid, end_vid, directed);
-     pgr_dijkstraCost(edges_sql, start_vids, end_vid, directed);
-     pgr_dijkstraCost(edges_sql, start_vid, end_vids, directed);
-     pgr_dijkstraCost(edges_sql, start_vids, end_vids, directed);
-
-	 RETURNS SET OF (start_vid, end_vid, agg_cost) or EMPTY SET
-
-
-
 Signatures
 -------------------------------------------------------------------------------
 
-.. index::
-	single: dijkstraCost(Minimal Use)
-
-Minimal signature
-...............................................................................
-
-The minimal signature is for a **directed** graph from one ``start_vid`` to one ``end_vid``:
+.. rubric:: Summary
 
 .. code-block:: none
 
-     pgr_dijkstraCost(TEXT edges_sql, BIGINT start_vid, BIGINT end_vid)
-	 RETURNS SET OF (start_vid, end_vid, agg_cost) or EMPTY SET
+     pgr_dijkstraCost(edges_sql, from_vid,  to_vid  [, directed])
+     pgr_dijkstraCost(edges_sql, from_vid,  to_vids [, directed])
+     pgr_dijkstraCost(edges_sql, from_vids, to_vid  [, directed])
+     pgr_dijkstraCost(edges_sql, from_vids, to_vids [, directed])
+     RETURNS SET OF (start_vid, end_vid, agg_cost)
+     OR EMPTY SET
 
+.. rubric:: Using defaults
 
-.. rubric:: Example
+.. code-block:: none
+
+     pgr_dijkstraCost(edges_sql, from_vid,  to_vid)
+     RETURNS SET OF (start_vid, end_vid, agg_cost)
+     OR EMPTY SET
+
+:Example: From vertex :math:`2` to vertex  :math:`3` on a **directed** graph
 
 .. literalinclude:: doc-pgr_dijkstraCost.queries
    :start-after: --q1
    :end-before: --q2
 
-
-
 .. index::
 	single: dijkstraCost(One to One)
 
-pgr_dijkstraCost One to One
+One to One
 ...............................................................................
-
-
-This signature performs a Dijkstra from one ``start_vid`` to one ``end_vid``:
-  -  on a **directed** graph when ``directed`` flag is missing or is set to ``true``.
-  -  on an **undirected** graph when ``directed`` flag is set to ``false``.
 
 .. code-block:: none
 
-    pgr_dijkstraCost(TEXT edges_sql, BIGINT start_vid, BIGINT end_vid,
-			 BOOLEAN directed:=true);
-	RETURNS SET OF (start_vid, end_vid, agg_cost) or EMPTY SET
+    pgr_dijkstraCost(edges_sql, from_vid,  to_vid  [, directed])
+    RETURNS SET OF (start_vid, end_vid, agg_cost)
+    OR EMPTY SET
 
-:Example:
+:Example: From vertex :math:`2` to vertex  :math:`3` on an **undirected** graph
 
 .. literalinclude:: doc-pgr_dijkstraCost.queries
     :start-after: --q2
     :end-before: --q3
 
-
 .. index::
     single: dijkstraCost(One to Many)
 
-pgr_dijkstraCost One to Many
+One to Many
 ...............................................................................
 
 .. code-block:: none
 
-    pgr_dijkstraCost(TEXT edges_sql, BIGINT start_vid, array[ANY_INTEGER] end_vids,
-	    BOOLEAN directed:=true);
-	RETURNS SET OF (start_vid, end_vid, agg_cost) or EMPTY SET
+    pgr_dijkstraCost(edges_sql, from_vid,  to_vids [, directed])
+    RETURNS SET OF (start_vid, end_vid, agg_cost)
+    OR EMPTY SET
 
-This signature performs a Dijkstra from one ``start_vid`` to each ``end_vid`` in ``end_vids``:
-  -  on a **directed** graph when ``directed`` flag is missing or is set to ``true``.
-  -  on an **undirected** graph when ``directed`` flag is set to ``false``.
-
-
-:Example:
+:Example: From vertex :math:`2` to vertices :math:`\{3, 11\}` on a **directed** graph
 
 .. literalinclude:: doc-pgr_dijkstraCost.queries
    :start-after: --q4
    :end-before: --q5
 
-
-
-
 .. index::
 	single: dijkstraCost(Many to One)
 
-pgr_dijkstraCost Many to One
+Many to One
 ...............................................................................
 
 .. code-block:: none
 
-    pgr_dijkstraCost(TEXT edges_sql, array[ANY_INTEGER] start_vids, BIGINT end_vid,
-			 BOOLEAN directed:=true);
-	RETURNS SET OF (start_vid, end_vid, agg_cost) or EMPTY SET
+     pgr_dijkstraCost(edges_sql, from_vids, to_vid  [, directed])
+    RETURNS SET OF (start_vid, end_vid, agg_cost)
+    OR EMPTY SET
 
-This signature performs a Dijkstra from each ``start_vid`` in  ``start_vids`` to one ``end_vid``:
-  -  on a **directed** graph when ``directed`` flag is missing or is set to ``true``.
-  -  on an **undirected** graph when ``directed`` flag is set to ``false``.
-
-
-:Example:
+:Example: From vertices :math:`\{2, 7\}` to vertex :math:`3` on a **directed** graph
 
 .. literalinclude:: doc-pgr_dijkstraCost.queries
     :start-after: --q3
     :end-before: --q4
 
-
-
 .. index::
 	single: dijkstraCost(Many to Many)
 
-pgr_dijkstraCost Many to Many
+Many to Many
 ...............................................................................
 
 .. code-block:: none
 
-    pgr_dijkstraCost(TEXT edges_sql, array[ANY_INTEGER] start_vids, array[ANY_INTEGER] end_vids,
-	    BOOLEAN directed:=true);
-	RETURNS SET OF (start_vid, end_vid, agg_cost) or EMPTY SET
+    pgr_dijkstraCost(edges_sql, from_vids, to_vids [, directed])
+    RETURNS SET OF (start_vid, end_vid, agg_cost)
+    OR EMPTY SET
 
-This signature performs a Dijkstra from each ``start_vid`` in  ``start_vids`` to each ``end_vid`` in ``end_vids``:
-  -  on a **directed** graph when ``directed`` flag is missing or is set to ``true``.
-  -  on an **undirected** graph when ``directed`` flag is set to ``false``.
-
-:Example:
+:Example: From vertices :math:`\{2, 7\}` to vertices :math:`\{3, 11\}` on a **directed** graph
 
 .. literalinclude:: doc-pgr_dijkstraCost.queries
    :start-after: --q5
    :end-before: --q6
 
+Parameters
+-------------------------------------------------------------------------------
 
+.. include:: pgr_dijkstra.rst
+    :start-after: pgr_dijkstra_parameters_start
+    :end-before: pgr_dijkstra_parameters_end
 
-Description of the Signatures
+Inner query
 -------------------------------------------------------------------------------
 
 .. include:: pgRouting-concepts.rst
     :start-after: basic_edges_sql_start
     :end-before: basic_edges_sql_end
 
-.. include:: pgr_dijkstra.rst
-    :start-after: pgr_dijkstra_parameters_start
-    :end-before: pgr_dijkstra_parameters_end
+Return Columns
+-------------------------------------------------------------------------------
 
 .. include:: pgRouting-concepts.rst
     :start-after: return_cost_start
@@ -240,12 +214,10 @@ Additional Examples
     :start-after: --q7
     :end-before: --q8
 
-
-
 See Also
 -------------------------------------------------------------------------------
 
-* http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+* https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
 * :doc:`sampledata` network.
 
 .. rubric:: Indices and tables

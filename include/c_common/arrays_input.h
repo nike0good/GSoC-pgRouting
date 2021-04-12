@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #ifndef INCLUDE_C_COMMON_ARRAYS_INPUT_H_
 #define INCLUDE_C_COMMON_ARRAYS_INPUT_H_
@@ -29,13 +29,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <stdint.h>
 
-// first file to include
 #ifdef __GNUC__
-#if __GNUC__ > 5
-#pragma GCC diagnostic ignored "-Wpedantic"
-#else
-#pragma GCC diagnostic ignored "-pedantic"
-#endif
+#   if __GNUC__ > 5
+#       pragma GCC diagnostic ignored "-Wpedantic"
+#   else
+#       pragma GCC diagnostic ignored "-pedantic"
+#   endif
 #endif
 
 #include <postgres.h>

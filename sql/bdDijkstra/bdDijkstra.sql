@@ -22,34 +22,22 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
+
+
+-------------------
+-- pgr_bdDijkstra
+-------------------
+
 
 -- ONE TO ONE
 CREATE OR REPLACE FUNCTION pgr_bdDijkstra(
-    edges_sql TEXT,
-    start_vid BIGINT,
-    end_vid BIGINT,
-    OUT seq INTEGER,
-    OUT path_seq INTEGER,
-    OUT node BIGINT,
-    OUT edge BIGINT,
-    OUT cost FLOAT,
-    OUT agg_cost FLOAT)
-RETURNS SETOF RECORD AS
-$BODY$
-    SELECT a.seq, a.path_seq, a.node, a.edge, a.cost, a.agg_cost
-    FROM _pgr_bdDijkstra(_pgr_get_statement($1), ARRAY[$2]::BIGINT[], ARRAY[$3]::BIGINT[], true, false) AS a;
-$BODY$
-LANGUAGE sql VOLATILE STRICT
-COST 100
-ROWS 1000;
+    TEXT,   -- edges_sql (required)
+    BIGINT, -- from_vid
+    BIGINT, -- to_vid
 
--- TODO directed BOOLEAN DEFAULT TRUE,  on version 3
-CREATE OR REPLACE FUNCTION pgr_bdDijkstra(
-    edges_sql TEXT,
-    start_vid BIGINT,
-    end_vid BIGINT,
-    directed BOOLEAN,
+    directed BOOLEAN DEFAULT true,
+
     OUT seq INTEGER,
     OUT path_seq INTEGER,
     OUT node BIGINT,
@@ -65,12 +53,15 @@ LANGUAGE sql VOLATILE STRICT
 COST 100
 ROWS 1000;
 
+
 -- ONE TO MANY
 CREATE OR REPLACE FUNCTION pgr_bdDijkstra(
-    edges_sql TEXT,
-    start_vid BIGINT,
-    end_vids ANYARRAY,
+    TEXT,    -- edges_sql (required)
+    BIGINT,   -- from_vid (required)
+    ANYARRAY, -- to_vids (required)
+
     directed BOOLEAN DEFAULT TRUE,
+
     OUT seq INTEGER,
     OUT path_seq INTEGER,
     OUT end_vid BIGINT,
@@ -90,10 +81,12 @@ ROWS 1000;
 
 -- MANY TO ONE
 CREATE OR REPLACE FUNCTION pgr_bdDijkstra(
-    edges_sql TEXT,
-    start_vids ANYARRAY,
-    end_vid BIGINT,
+    TEXT,    -- edges_sql (required)
+    ANYARRAY, -- from_vids (required)
+    BIGINT,   -- to_vid (required)
+
     directed BOOLEAN DEFAULT TRUE,
+
     OUT seq INTEGER,
     OUT path_seq INTEGER,
     OUT start_vid BIGINT,
@@ -114,10 +107,12 @@ ROWS 1000;
 
 -- MANY TO MANY
 CREATE OR REPLACE FUNCTION pgr_bdDijkstra(
-    edges_sql TEXT,
-    start_vids ANYARRAY,
-    end_vids ANYARRAY,
+    TEXT,     -- edges_sql (required)
+    ANYARRAY, -- from_vids (required)
+    ANYARRAY, -- to_vids (required)
+
     directed BOOLEAN DEFAULT TRUE,
+
     OUT seq INTEGER,
     OUT path_seq INTEGER,
     OUT start_vid BIGINT,
@@ -134,3 +129,53 @@ $BODY$
 LANGUAGE SQL VOLATILE STRICT
 COST 100
 ROWS 1000;
+
+-- COMMENTS
+
+COMMENT ON FUNCTION pgr_bdDijkstra(TEXT, BIGINT, BIGINT, BOOLEAN)
+IS 'pgr_bdDijkstra(One to One)
+- Parameters:
+  - edges SQL with columns: id, source, target, cost [,reverse_cost]
+  - From vertex identifier
+  - To vertex identifier
+- Optional Parameters: 
+  - directed := true
+- Documentation:
+  - ${PGROUTING_DOC_LINK}/pgr_bdDijkstra.html
+';
+
+COMMENT ON FUNCTION pgr_bdDijkstra(TEXT, BIGINT, ANYARRAY, BOOLEAN)
+IS 'pgr_bdDijkstra(One to Many)
+- Parameters:
+  - Edges SQL with columns: id, source, target, cost [,reverse_cost]
+  - From vertex identifier
+  - To ARRAY[vertices identifiers]
+- Optional Parameters
+  - directed := true
+- Documentation:
+  - ${PGROUTING_DOC_LINK}/pgr_bdDijkstra.html
+';
+
+COMMENT ON FUNCTION pgr_bdDijkstra(TEXT, ANYARRAY, BIGINT, BOOLEAN)
+IS 'pgr_bdDijkstra(Many to One)
+- Parameters:
+  - Edges SQL with columns: id, source, target, cost [,reverse_cost]
+  - From ARRAY[vertices identifiers]
+  - To vertex identifier
+- Optional Parameters
+  - directed := true
+- Documentation:
+  - ${PGROUTING_DOC_LINK}/pgr_bdDijkstra.html
+';
+
+COMMENT ON FUNCTION pgr_bdDijkstra(TEXT, ANYARRAY, ANYARRAY, BOOLEAN)
+IS 'pgr_bdDijkstra(Many to Many)
+- Parameters:
+  - Edges SQL with columns: id, source, target, cost [,reverse_cost]
+  - From ARRAY[vertices identifiers]
+  - To ARRAY[vertices identifiers]
+- Optional Parameters
+  - directed := true
+- Documentation:
+  - ${PGROUTING_DOC_LINK}/pgr_bdDijkstra.html
+';

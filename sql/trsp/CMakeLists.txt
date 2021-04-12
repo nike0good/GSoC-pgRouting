@@ -2,8 +2,14 @@
 SET(LOCAL_FILES
     _trsp.sql
     trsp.sql
-    trsp_V2.2.sql
-    vias_trsp_V2.2.sql
+    _pgr_trsp.sql
+    _array_reverse.sql
+    pgr_trsp.sql
+
+    _pgr_trspViaVertices.sql
+    pgr_trspViaVertices.sql
+
+    pgr_trspViaEdges.sql
     )
 
 foreach (f ${LOCAL_FILES})
@@ -11,4 +17,4 @@ foreach (f ${LOCAL_FILES})
     list(APPEND PACKAGE_SQL_FILES  ${CMAKE_CURRENT_BINARY_DIR}/${f})
 endforeach()
 
-set(PgRouting_SQL_FILES ${PgRouting_SQL_FILES} ${PACKAGE_SQL_FILES} PARENT_SCOPE)
+set(PGROUTING_SQL_FILES ${PGROUTING_SQL_FILES} ${PACKAGE_SQL_FILES} PARENT_SCOPE)

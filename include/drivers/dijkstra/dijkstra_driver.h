@@ -6,7 +6,7 @@ Generated with Template by:
 Copyright (c) 2015 pgRouting developers
 Mail: project@pgrouting.org
 
-Function's developer: 
+Function's developer:
 Copyright (c) 2015 Celia Virginia Vergara Castillo
 Mail: vicky_vergara@hotmail.com
 
@@ -26,10 +26,17 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #ifndef INCLUDE_DRIVERS_DIJKSTRA_DIJKSTRA_DRIVER_H_
 #define INCLUDE_DRIVERS_DIJKSTRA_DIJKSTRA_DRIVER_H_
+
+/* for size-t */
+#ifdef __cplusplus
+#   include <cstddef>
+#else
+#   include <stddef.h>
+#endif
 
 #include "c_types/pgr_edge_t.h"
 #include "c_types/general_path_element_t.h"
@@ -54,6 +61,7 @@ extern "C" {
             bool directed,
             bool only_cost,
             bool normal,
+            int64_t n_goals,
 
             General_path_element_t **return_tuples,
             size_t *return_count,

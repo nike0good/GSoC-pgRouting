@@ -19,7 +19,19 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
+
+--------------
+--------------
+-- trsp
+--------------
+--------------
+
+
+--------------
+-- _trsp
+--------------
+
 
 CREATE OR REPLACE FUNCTION _trsp(
     TEXT, -- edges_sql
@@ -37,6 +49,12 @@ CREATE OR REPLACE FUNCTION _trsp(
     OUT cost FLOAT,
     OUT agg_cost FLOAT)
 RETURNS SETOF RECORD AS
-'${MODULE_PATHNAME}', 'turn_restriction'
+'MODULE_PATHNAME'
 LANGUAGE 'c' VOLATILE;
 
+
+-- COMMENTS
+
+
+COMMENT ON FUNCTION _trsp(TEXT, TEXT, ANYARRAY, ANYARRAY, BOOLEAN)
+IS 'pgRouting internal function';

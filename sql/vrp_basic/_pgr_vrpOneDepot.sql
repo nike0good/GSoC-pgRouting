@@ -25,7 +25,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
+
+--------------------
+-- _pgr_vrpOneDepot
+--------------------
 
 
 CREATE OR REPLACE FUNCTION _pgr_vrpOneDepot(
@@ -86,8 +90,8 @@ BEGIN
             $$' || orders_sql || '$$,
             $$' || trucks_sql || '$$,
             $$' || $3 || '$$,
-            max_cycles := 2,
-            initial_sol := 4 ); ';
+            max_cycles := 3,
+            initial_sol := 7 ); ';
 
     RAISE DEBUG '%', orders_sql;
     RAISE DEBUG '%', trucks_sql;
@@ -99,3 +103,9 @@ END;
 $BODY$
 LANGUAGE plpgsql VOLATILE STRICT;
 
+
+-- COMMENTS
+
+
+COMMENT ON FUNCTION _pgr_vrpOneDepot(TEXT, TEXT, TEXT, INTEGER)
+IS 'pgRouting internal function';

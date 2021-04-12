@@ -1,6 +1,6 @@
 
 SET(LOCAL_FILES
-    pgr_eucledianTSP.rst
+    pgr_TSPeuclidean.rst
     pgr_TSP.rst
     TSP-family.rst
     )
@@ -10,5 +10,5 @@ foreach (f ${LOCAL_FILES})
     list(APPEND LOCAL_DOC_FILES  ${PGR_DOCUMENTATION_SOURCE_DIR}/${f})
 endforeach()
 
-set(PgRouting_DOC_FILES ${PgRouting_DOC_FILES} ${LOCAL_DOC_FILES} PARENT_SCOPE)
+set(PGROUTING_DOC_FILES ${PGROUTING_DOC_FILES} ${LOCAL_DOC_FILES} PARENT_SCOPE)
 

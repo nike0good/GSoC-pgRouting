@@ -25,7 +25,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #include "drivers/lineGraph/lineGraphFull_driver.h"
 
@@ -80,7 +80,6 @@ do_pgr_lineGraphFull(
         pgassert(*return_count == 0);
         pgassert(total_edges != 0);
 
-        std::vector< Line_graph_full_rt > results;
         graphType gType = DIRECTED;
 
         pgrouting::DirectedGraph digraph(gType);

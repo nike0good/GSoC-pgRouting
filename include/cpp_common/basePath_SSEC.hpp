@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 /*! @file */
 
@@ -41,6 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "c_types/general_path_element_t.h"
 #include "cpp_common/path_t.h"
 #include "cpp_common/pgr_base_graph.hpp"
+#include "cpp_common/rule.h"
 
 
 class Path {
@@ -54,7 +55,8 @@ class Path {
     double m_tot_cost;
 
  public:
-    Path(): m_tot_cost(0) {}
+    Path(): m_start_id(0), m_end_id(0), m_tot_cost(0)
+    {}
     Path(int64_t s_id, int64_t e_id)
         : m_start_id(s_id), m_end_id(e_id), m_tot_cost(0)
     {}
@@ -68,6 +70,7 @@ class Path {
 
     size_t size() const {return path.size();}
     bool empty() const {return path.empty();}
+    size_t countInfinityCost() const;
 
     void push_front(Path_t data);
     void push_back(Path_t data);
@@ -90,6 +93,14 @@ class Path {
 
     void recalculate_agg_cost();
 
+    /** \brief get the iterator of the path where the (restriction) rule starts
+     *
+     * @param[in] rule A subpath of edges for turn restrictions
+     * @returns the iterator of the path
+     */
+    ConstpthIt find_restriction(const pgrouting::trsp::Rule &rule) const;
+    bool has_restriction(const pgrouting::trsp::Rule &rule) const;
+    Path inf_cost_on_restriction(const pgrouting::trsp::Rule &rule);
 
     Path_t set_data(
             int64_t d_from,
@@ -124,6 +135,10 @@ class Path {
             size_t &sequence) const;
 
     void get_pg_ksp_path(
+            General_path_element_t **ret_path,
+            size_t &sequence, int routeId) const;
+
+    void get_pg_turn_restricted_path(
             General_path_element_t **ret_path,
             size_t &sequence, int routeId) const;
 
@@ -164,6 +179,47 @@ class Path {
             }
         }
 
+
+    template <typename G> Path(
+            const G &graph,
+            const Path &original,
+            bool only_cost) :
+        m_start_id(original.m_start_id),
+        m_end_id(original.m_end_id),
+        m_tot_cost(0) {
+            if (original.path.empty()) return;
+
+            typename G::EO_i ei, ei_end;
+
+//            auto last_node = m_start_id;
+            for (const auto &p : original.path) {
+                boost::tie(ei, ei_end) = out_edges(
+                        graph.get_V(p.node),
+                        graph.graph);
+
+                if (p.edge == -1) {
+                    path.push_back({m_end_id, -1, 0, 0});
+                } else {
+                    for ( ; ei != ei_end; ++ei) {
+                        if (graph[*ei].id == p.edge) {
+                            auto cost = graph[*ei].cost;
+                            push_back({p.node, p.edge, cost, 0});
+                        }
+                    }
+                }
+//                last_node = p.node;
+            }
+            recalculate_agg_cost();
+
+            if (only_cost) {
+                path.clear();
+                path.push_back(
+                        {m_end_id,
+                        -1,
+                        m_tot_cost,
+                        m_tot_cost});
+            }
+        }
 
     template <typename G , typename V> Path(
             G &graph,

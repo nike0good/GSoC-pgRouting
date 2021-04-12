@@ -3,25 +3,73 @@
 set -e
 
 
-# This run.sh is intended for 2.6.1
-if [ -z $1 ]; then
-    VERSION="2.6.1"
-else
-    VERSION=$1
-fi
+# copy this file into the root of your repository
+# adjust to your needs
 
-# when more than one postgres version is installed on the computer
-PGSQL_VER="9.5"
-PGPORT=5432
+# This run.sh is intended for 3.0.0
+VERSION=$(grep -Po '(?<=project\(PGROUTING VERSION )[^;]+' CMakeLists.txt)
+echo "pgRouting VERSION ${VERSION}"
+
+# set up your postgres version and port
+PGVERSION="12"
+PGPORT="5432"
+PGBIN="/usr/lib/postgresql/${PGVERSION}/bin"
+
+# Compiler setup
+
+# When more than one compiler is installed
+GCC="8"
+
+# Using the default compiler version
+unset GCC
+
+
+ALLDIRS="
+allpairs
+alpha_shape
+astar
+bdAstar
+bdDijkstra
+bellman_ford
+breadthFirstSearch
+chinese
+common
+components
+contraction
+dagShortestPath
+dijkstra
+driving_distance
+internalQueryTests
+ksp
+lineGraph
+max_flow
+mincut
+pickDeliver
+spanningTree
+topologicalSort
+topology
+transitiveClosure
+trsp
+tsp
+version
+vrp_basic
+withPoints"
+
+TESTDIRS=${ALLDIRS}
+TESTDIRS="dijkstra"
+
 
 function test_compile {
 
 echo ------------------------------------
 echo ------------------------------------
-echo Compiling with $1
+echo "Compiling with G++-$1"
 echo ------------------------------------
 
-#sudo update-alternatives --set gcc /usr/bin/gcc-$1
+if [ ! -z "$1" ]; then
+    update-alternatives --set gcc "/usr/bin/gcc-$1"
+fi
+
 
 cd build/
 
@@ -31,76 +79,58 @@ cd build/
 # Options Release RelWithDebInfo MinSizeRel Debug
 #cmake  -DCMAKE_BUILD_TYPE=Debug ..
 
-# with documentation
-#cmake  -DDOC_USE_BOOTSTRAP=ON -DWITH_DOC=ON -DBUILD_DOXY=ON -DPgRouting_DEBUG=ON -DCMAKE_BUILD_TYPE=Debug ..
+# Additional debug information
+#cmake -DPgRouting_DEBUG=ON -DCMAKE_BUILD_TYPE=Debug ..
 
-# when more than one postgres version is installed on the computer
-cmake  -DPOSTGRESQL_BIN=/usr/lib/postgresql/$PGSQL_VER/bin -DDOC_USE_BOOTSTRAP=ON -DWITH_DOC=ON -DBUILD_DOXY=ON  -DBUILD_LATEX=ON  -DCMAKE_BUILD_TYPE=Debug ..
+# with documentation (like the one the website)
+#cmake  -DDOC_USE_BOOTSTRAP=ON -DWITH_DOC=ON ..
 
-make
+# with developers documentation
+#cmake  -DWITH_DOC=ON -DBUILD_DOXY=ON ..
+
+cmake  -DPOSTGRESQL_BIN=${PGBIN} -DDOC_USE_BOOTSTRAP=ON -DWITH_DOC=ON -DBUILD_DOXY=ON  -DBUILD_LATEX=ON  -DCMAKE_BUILD_TYPE=Debug ..
+
+make -j 4
 sudo make install
 cd ..
 
 
 echo
 echo --------------------------------------------
-echo  Execute documentation queries for a particular directory
+echo  Execute documentation queries for a particular directories
 echo --------------------------------------------
 
-# - when one postgres version is installed on the computer
-tools/testers/algorithm-tester.pl  -alg withPoints -documentation
 
-# - when more than one postgres version is installed on the computer
-tools/testers/algorithm-tester.pl  -alg withPoints -documentation  -pgport $PGPORT
+# choose what is going to be tested while developing
+for d in ${TESTDIRS}
+do
+    #tools/testers/doc_queries_generator.pl  -alg ${d} -documentation  -pgport ${PGPORT}
+    tools/testers/doc_queries_generator.pl  -alg ${d} -pgport ${PGPORT}
+    tools/developer/taptest.sh  ${d} -p ${PGPORT}
+done
 
 
-echo
-echo --------------------------------------------
-echo  Execute pgTap test  particular directory
-echo --------------------------------------------
 
-# - when one postgres version is installed on the computer
-tools/developer/taptest.sh  withPoints/*
-
-# - when more than one postgres version is installed on the computer
-tools/developer/taptest.sh  withPoints/* -p $PGPORT
-
-echo
-echo --------------------------------------------
-echo  Execute pgTap test  particular file
-echo --------------------------------------------
-
-# - when one postgres version is installed on the computer
-tools/developer/taptest.sh  withPoints/undirected_equalityDD.sql
-
-# - when more than one postgres version is installed on the computer
-tools/developer/taptest.sh  withPoints/undirected_equalityDD.sql  -p $PGPORT
 
 
 
 echo
 echo --------------------------------------------
-echo  Verify with signatures did not change
+echo  Update signatures
 echo --------------------------------------------
 
-# - when one postgres version is installed on the computer
-sh tools/release-scripts/get_signatures.sh $VERSION ____sigs_routing____ sql/sigs
+sh tools/release-scripts/get_signatures.sh -p ${PGPORT}
 
-# when more than one postgres version is installed on the computer
-sh tools/release-scripts/get_signatures.sh $VERSION ____sigs_routing____ sql/sigs -p $PGPORT
 
-# this is for version <2.6.0
-#cp build/sql/pgrouting--*.sql tools/sql-update-scripts
 if [[ $(git status | grep 'pgrouting--') ]]; then
     echo "**************************************************"
     echo "           WARNING"
-    echo "the signatures changed, copying generated files"
+    echo "the signatures changed, copyed the generated files"
     echo "Plese verify the changes are minimal"
     echo "**************************************************"
-    git diff
+    git diff sql/sigs
 fi
 
-exit 0
 
 ################################
 ################################
@@ -111,9 +141,9 @@ exit 0
 ################################
 echo
 echo --------------------------------------------
-echo  Verify NEWS
+echo  Update / Verify NEWS
 echo --------------------------------------------
-release-scripts/notes2news.pl
+tools/release-scripts/notes2news.pl
 if [[ $(git status | grep 'NEWS') ]]; then
     echo "**************************************************"
     echo "           WARNING"
@@ -126,36 +156,19 @@ fi
 ########################################################
 #  Execute documentation queries for the whole project
 ########################################################
-tools/testers/algorithm-tester.pl  -documentation  -pgport $PGPORT
+tools/testers/doc_queries_generator.pl  -documentation  -pgport $PGPORT
 
-# update the trsp README.md file
-mv doc/queries/trsp_notes_v${VERSION}.queries doc/doc/trsp/README.md
-cp test/trsp/trsp_notes_v${VERSION}.result doc/trsp/README.md
-
-if [[ $(git status | grep 'trsp_notes') ]]; then
-    echo "**************************************************"
-    echo "           WARNING"
-    echo "The trsp notes changed"
-    echo "Plese verify the changes are OK"
-    echo "**************************************************"
-    git diff
-fi
-
-
-
-
-tools/testers/algorithm-tester.pl -documentation  -pgport $PGPORT
-tools/testers/algorithm-tester.pl -pgport $PGPORT
+tools/testers/doc_queries_generator.pl -pgport $PGPORT
 
 cd build
-rm -rf doc/*
+#rm -rf doc/*
 make doc
-rm -rf doxygen/*
+#rm -rf doxygen/*
 make doxy
 cd ..
 
 ########################################################
-# pgTap testing only a particular directory and on a particular file:
+# pgTap test all
 ########################################################
 
 dropdb --if-exists -p $PGPORT ___pgr___test___
@@ -169,13 +182,11 @@ dropdb  -p $PGPORT ___pgr___test___
 }
 
 # Uncomment what you need
-#rm -rf build/*
-#test_compile 4.8
-#rm -rf build/*
-#test_compile 4.9
-#rm -rf build/*
-test_compile 5
-#rm -rf build/*
-#test_compile 6
-#rm -rf build/*
-#test_compile 7
+for compiler in ${GCC}
+do
+    if [ ! -z "$1" ]; then
+        echo "Fresh build"
+        rm -rf build/*
+    fi
+    test_compile ${compiler}
+done

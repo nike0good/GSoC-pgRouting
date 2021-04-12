@@ -1,10 +1,9 @@
 
 SET(LOCAL_FILES
-    tsp_v2.0_matrix.sql
-    tsp_v2.0_coordinates.sql
-    routing_tsp_wrappers.sql
+    _TSP.sql
+    _TSPeuclidean.sql
     TSP.sql
-    eucledianTSP.sql
+    TSPeuclidean.sql
     )
 
 foreach (f ${LOCAL_FILES})
@@ -12,4 +11,4 @@ foreach (f ${LOCAL_FILES})
     list(APPEND PACKAGE_SQL_FILES  ${CMAKE_CURRENT_BINARY_DIR}/${f})
 endforeach()
 
-set(PgRouting_SQL_FILES ${PgRouting_SQL_FILES} ${PACKAGE_SQL_FILES} PARENT_SCOPE)
+set(PGROUTING_SQL_FILES ${PGROUTING_SQL_FILES} ${PACKAGE_SQL_FILES} PARENT_SCOPE)

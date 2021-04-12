@@ -25,16 +25,34 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 CREATE OR REPLACE FUNCTION pgr_lineGraphFull(
-    TEXT, -- edges_sql
+    TEXT, -- edges_sql (required)
+
     OUT seq INTEGER,
     OUT source BIGINT,
     OUT target BIGINT,
     OUT cost FLOAT,
     OUT edge BIGINT)
-
 RETURNS SETOF RECORD AS
-'$libdir/${PGROUTING_LIBRARY_NAME}', 'lineGraphFull'
-LANGUAGE c IMMUTABLE STRICT;
+$BODY$
+    SELECT *
+    FROM _pgr_lineGraphFull(_pgr_get_statement($1))
+$BODY$
+LANGUAGE SQL VOLATILE STRICT
+COST 100
+ROWS 1000;
+
+
+-- COMMENTS
+
+COMMENT ON FUNCTION pgr_lineGraphFull(TEXT)
+IS 'pgr_lineGraphFull
+- EXPERIMENTAL
+- For Directed Graph
+- Parameters:
+  - edges SQL with columns: id, source, target, cost [,reverse_cost]
+- Documentation:
+  - ${PGROUTING_DOC_LINK}/pgr_lineGraphFull.html
+';

@@ -20,43 +20,20 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 /*! @file */
 
 #ifndef INCLUDE_C_TYPES_PGR_EDGE_XY_T_H_
 #define INCLUDE_C_TYPES_PGR_EDGE_XY_T_H_
 #pragma once
 
-
+/* for int64_t */
 #ifdef __cplusplus
-
-#include <cstddef>
-
-#else  // __cplusplus
-
-// for bool
-#ifdef __GNUC__
-#if __GNUC__ > 5
-#pragma GCC diagnostic ignored "-Wpedantic"
+#   include <cstdint>
 #else
-#pragma GCC diagnostic ignored "-pedantic"
-#endif
-#endif
-
-#include <postgres.h>
-
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
+#   include <stdint.h>
 #endif
 
-// For NULL & size_t
-#include <stdlib.h>
-
-
-#endif  // __cplusplus
-
-// For int64_t etc
-#include <stdint.h>
 
 typedef struct {
     int64_t id;

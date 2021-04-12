@@ -25,8 +25,9 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
+#include <stdbool.h>
 #include "c_common/postgres_connection.h"
 #include "utils/array.h"
 
@@ -43,8 +44,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "drivers/astar/astar_driver.h"
 #include "drivers/bdAstar/bdAstar_driver.h"
 
-PGDLLEXPORT Datum bd_astar(PG_FUNCTION_ARGS);
-PG_FUNCTION_INFO_V1(bd_astar);
+PGDLLEXPORT Datum _pgr_bdastar(PG_FUNCTION_ARGS);
+PG_FUNCTION_INFO_V1(_pgr_bdastar);
 
 
 static
@@ -63,14 +64,12 @@ process(char* edges_sql,
 
     pgr_SPI_connect();
 
-    int64_t* start_vidsArr = NULL;
     size_t size_start_vidsArr = 0;
-    start_vidsArr = (int64_t*)
+    int64_t* start_vidsArr = (int64_t*)
         pgr_get_bigIntArray(&size_start_vidsArr, starts);
 
-    int64_t* end_vidsArr = NULL;
     size_t size_end_vidsArr = 0;
-    end_vidsArr = (int64_t*)
+    int64_t* end_vidsArr = (int64_t*)
         pgr_get_bigIntArray(&size_end_vidsArr, ends);
 
     PGR_DBG("Load data");
@@ -133,7 +132,7 @@ process(char* edges_sql,
 }
 
 PGDLLEXPORT Datum
-bd_astar(PG_FUNCTION_ARGS) {
+_pgr_bdastar(PG_FUNCTION_ARGS) {
     FuncCallContext     *funcctx;
     TupleDesc           tuple_desc;
 

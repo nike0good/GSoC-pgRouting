@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #include "c_common/postgres_connection.h"
 
@@ -72,8 +72,7 @@ pgr_SPI_finish(void) {
 #if 0
     PGR_DBG("Disconnecting SPI");
 #endif
-    int code = SPI_OK_FINISH;
-    code = SPI_finish();
+    int code = SPI_finish();
     if (code != SPI_OK_FINISH) {  // SPI_ERROR_UNCONNECTED
         elog(ERROR, "There was no connection to SPI");
     }

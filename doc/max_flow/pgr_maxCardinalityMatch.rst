@@ -4,37 +4,50 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
 
-.. _pgr_maxCardinalityMatch:
-
-pgr_maxCardinalityMatch - Proposed
-============================================================
-
-
-Synopsis
-------------------------------------------------------------
+pgr_maxCardinalityMatch
+===============================================================================
 
 ``pgr_maxCardinalityMatch`` — Calculates a maximum cardinality matching in a graph.
 
-.. include:: proposed.rst
-   :start-after: begin-warn-expr
-   :end-before: end-warn-expr
-
-
 .. figure:: images/boost-inside.jpeg
-   :target: http://www.boost.org/libs/graph/doc/maximum_matching.html
+   :target: https://www.boost.org/libs/graph/doc/maximum_matching.html
 
    Boost Graph Inside
 
-.. Rubric:: Availability:
+.. Rubric:: Availability
 
-* Renamed 2.5.0, Previous name pgr_maximumCardinalityMatching
-* New in 2.3.0
+* Version 3.0.0
+
+  * **Official** function
+
+* Version 2.5.0
+
+  * Renamed from ``pgr_maximumCardinalityMatching``
+  * **Proposed** function
+
+* Version 2.3.0
+
+  * New **Experimental** function
+
+.. rubric:: Support
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/pgr_maxCardinalityMatch.html>`__)
+
+* **Unsupported versions:**
+  `2.6 <https://docs.pgrouting.org/2.6/en/pgr_maxCardinalityMatch.html>`__
+  `2.5 <https://docs.pgrouting.org/2.5/en/pgr_maxCardinalityMatch.html>`__
+  `2.4 <https://docs.pgrouting.org/2.4/en/pgr_maximumCardinalityMatching.html>`__
+  `2.3 <https://docs.pgrouting.org/2.3/en/src/max_flow/doc/pgr_maximumCardinalityMatching.html#pgr-maximumcardinalitymatching>`__
 
 
-.. rubric:: Characteristics
+Description
+-------------------------------------------------------------------------------
+
+**The main characteristics are:**
 
 * A matching or independent edge set in a graph is a set of edges without common vertices.
 * A maximum matching is a matching that contains the largest possible number of edges.
@@ -43,76 +56,49 @@ Synopsis
   * Calculates **one** possible maximum cardinality matching in a graph.
 
 * The graph can be **directed** or **undirected**.
+
 * Running time: :math:`O( E*V * \alpha(E,V))`
 
-    * :math:`\alpha(E,V)` is the inverse of the `Ackermann function`_.
-
+  * :math:`\alpha(E,V)` is the inverse of the `Ackermann function`_.
 
 .. _Ackermann function: https://en.wikipedia.org/wiki/Ackermann_function
 
-Signature Summary
-------------------------------------------------------------
+Signatures
+-------------------------------------------------------------------------------
+
+.. index::
+    single: MaximumCardinalityMatch
 
 .. code-block:: none
 
-    pgr_MaximumCardinalityMatching(edges_sql) - Proposed
-    pgr_MaximumCardinalityMatching(edges_sql, directed) - Proposed
+    pgr_maxCardinalityMatch(Edges SQL [, directed])
 
     RETURNS SET OF (seq, edge_id, source, target)
-        OR EMPTY SET
+    OR EMPTY SET
 
-
-.. index::
-    single: MaximumCardinalityMatching(Minimal Use) - Proposed
-
-
-
-Minimal Use
-.............................................
-
-.. code-block:: none
-
-    pgr_MaximumCardinalityMatching(edges_sql)
-    RETURNS SET OF (seq, edge_id, source, target) OR EMPTY SET
-
-The minimal use calculates one possible maximum cardinality matching on a **directed** graph.
-
-:Example:
-
-.. literalinclude:: doc-pgr_maxCardinalityMatch.queries
-   :start-after: -- q1
-   :end-before: -- q2
-
-.. index::
-    single: MaximumCardinalityMatching(Complete Signature) - Proposed
-
-Complete signature
-.............................................
-
-.. code-block:: none
-
-    pgr_MaximumCardinalityMatching(edges_sql, directed)
-    RETURNS SET OF (seq, edge_id, source, target) OR EMPTY SET
-
-
-The complete signature calculates one possible maximum cardinality matching.
-
-:Example:
+:Example: For an **undirected** graph
 
 .. literalinclude:: doc-pgr_maxCardinalityMatch.queries
    :start-after: -- q2
    :end-before: -- q3
 
+Parameters
+-------------------------------------------------------------------------------
 
+============== ================== ======== =========================================
+Parameter         Type            Default       Description
+============== ================== ======== =========================================
+**edges_sql**  ``TEXT``                    SQL query as described above.
+**directed**   ``BOOLEAN``        ``true`` Determines the type of the graph.
+                                           - When ``true`` Graph is considered `Directed`
+                                           - When ``false`` the graph is considered as `Undirected`.
 
-Description of the Signatures
---------------------------------------------------------
+============== ================== ======== =========================================
 
+Inner query
+-------------------------------------------------------------------------------
 
-Description of the SQL query
-...........................................................
-
-:edges_sql: an SQL query, which should return a set of rows with the following columns:
+:Edges SQL: an SQL query, which should return a set of rows with the following columns:
 
 ====================  ===================   =================================================
 Column                Type                  Description
@@ -120,42 +106,32 @@ Column                Type                  Description
 **id**                ``ANY-INTEGER``       Identifier of the edge.
 **source**            ``ANY-INTEGER``       Identifier of the first end point vertex of the edge.
 **target**            ``ANY-INTEGER``       Identifier of the second end point vertex of the edge.
-**going**             ``ANY-NUMERIC``       A positive value represents the existence of the edge (source, target).
-**coming**            ``ANY-NUMERIC``       A positive value represents the existence of the edge (target, source).
+**going**             ``ANY-NUMERIC``       A positive value represents the existence of the edge (``source``, ``target``).
+**coming**            ``ANY-NUMERIC``       A positive value represents the existence of the edge (``target``, ``source``).
 ====================  ===================   =================================================
 
 Where:
 
-  - :ANY-INTEGER: SMALLINT, INTEGER, BIGINT
-  - :ANY-NUMERIC: SMALLINT, INTEGER, BIGINT, REAL, DOUBLE PRECISION
+:ANY-INTEGER: SMALLINT, INTEGER, BIGINT
+:ANY-NUMERIC: SMALLINT, INTEGER, BIGINT, REAL FLOAT
 
-Description of the parameters of the signatures
-...........................................................
-
-================= ====================== =================================================
-Column            Type                   Description
-================= ====================== =================================================
-**edges_sql**     ``TEXT``               SQL query as described above.
-**directed**      ``BOOLEAN``            (optional) Determines the type of the graph. Default TRUE.
-================= ====================== =================================================
-
-Description of the Result
-...........................................................
+Result Columns
+-------------------------------------------------------------------------------
 
 =====================  ====================  =================================================
 Column                 Type                  Description
 =====================  ====================  =================================================
 **seq**                ``INT``               Sequential value starting from **1**.
-**edge**               ``BIGINT``            Identifier of the edge in the original query(edges_sql).
+**edge**               ``BIGINT``            Identifier of the edge in the original query.
 **source**             ``BIGINT``            Identifier of the first end point of the edge.
 **target**             ``BIGINT``            Identifier of the second end point of the edge.
 =====================  ====================  =================================================
 
 See Also
---------
+-------------------------------------------------------------------------------
 
-* :ref:`maxFlow`
-* http://www.boost.org/libs/graph/doc/maximum_matching.html
+* :doc:`flow-family`
+* https://www.boost.org/libs/graph/doc/maximum_matching.html
 * https://en.wikipedia.org/wiki/Matching_%28graph_theory%29
 * https://en.wikipedia.org/wiki/Ackermann_function
 

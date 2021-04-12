@@ -4,80 +4,86 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
-
-.. _pgr_ksp:
 
 pgr_KSP
 ===============================================================================
-
-Name
--------------------------------------------------------------------------------
 
 ``pgr_KSP`` — Returns the "K" shortest paths.
 
 
 .. figure:: images/boost-inside.jpeg
-   :target: http://www.boost.org/libs/graph
+   :target: https://www.boost.org/libs/graph/doc/table_of_contents.html
 
    Boost Graph Inside
 
-.. rubric:: Availability: 2.0.0
+.. rubric:: Availability
 
-* Signature change 2.1.0
+* Version 2.1.0
+
+  * Signature change
+
+    * Old signature no longer supported
+
+* Version 2.0.0
+
+  * **Official** function
+
+.. rubric:: Support
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/pgr_KSP.html>`__)
+  `2.6 <https://docs.pgrouting.org/2.6/en/pgr_KSP.html>`__
+
+* **Unsupported versions:**
+  `2.5 <https://docs.pgrouting.org/2.5/en/pgr_KSP.html>`__
+  `2.4 <https://docs.pgrouting.org/2.4/en/pgr_KSP.html>`__
+  `2.3 <https://docs.pgrouting.org/2.3/en/src/ksp/doc/pgr_ksp.html>`__
+  `2.2 <https://docs.pgrouting.org/2.2/en/src/ksp/doc/pgr_ksp.html>`__
+  `2.1 <https://docs.pgrouting.org/2.1/en/src/ksp/doc/index.html>`__
+  `2.0 <https://docs.pgrouting.org/2.0/en/src/ksp/doc/index.html>`__
 
 
-Synopsis
+Description
 -------------------------------------------------------------------------------
 
 The K shortest path routing algorithm based on Yen's algorithm. "K" is the number of shortest paths desired.
 
-Signature Summary
--------------------------------------------------------------------------------
-
-.. code-block:: sql
-
-    pgr_KSP(edges_sql, start_vid, end_vid, K);
-    pgr_KSP(edges_sql, start_vid, end_vid, k, directed, heap_paths)
-    RETURNS SET OF (seq, path_id, path_seq, node, edge, cost, agg_cost) or EMPTY SET
-
 Signatures
 -------------------------------------------------------------------------------
 
-.. index::
-  single: KSP(Minimal Signature)
+.. rubric:: Summary
 
-Minimal Signature
-..................
+.. code-block:: sql
+
+    pgr_KSP(edges_sql, start_vid, end_vid, K [, directed] [, heap_paths])
+    RETURNS SET OF (seq, path_id, path_seq, node, edge, cost, agg_cost) or EMPTY SET
+
+.. rubric:: Using defaults
 
 .. code-block:: sql
 
     pgr_ksp(edges_sql, start_vid, end_vid, K);
     RETURNS SET OF (seq, path_id, path_seq, node, edge, cost, agg_cost) or EMPTY SET
 
+:Example: **TBD**
 
 .. index::
-  single: ksp(Complete Signature)
+    single: KSP
 
 Complete Signature
-...................
+...............................................................................
 
 .. code-block:: sql
 
-    pgr_KSP(edges_sql, start_vid, end_vid, k, directed, heap_paths)
+    pgr_KSP(edges_sql, start_vid, end_vid, K [, directed] [, heap_paths])
     RETURNS SET OF (seq, path_id, path_seq, node, edge, cost, agg_cost) or EMPTY SET
 
+:Example: **TBD**
 
-Description of the Signatures
+Parameters
 -------------------------------------------------------------------------------
-
-.. include:: pgRouting-concepts.rst
-    :start-after: basic_edges_sql_start
-    :end-before: basic_edges_sql_end
-
-Description of the parameters of the signatures
-..................................................
 
 ============== ============ =================================================
 Column         Type           Description
@@ -92,10 +98,15 @@ Column         Type           Description
 
 Roughly, if the shortest path has ``N`` edges, the heap will contain about than ``N * k`` paths for small value of ``k`` and ``k > 1``.
 
+Inner query
+-------------------------------------------------------------------------------
 
+.. include:: pgRouting-concepts.rst
+    :start-after: basic_edges_sql_start
+    :end-before: basic_edges_sql_end
 
-Description of the return values
-...................................
+Result Columns
+-------------------------------------------------------------------------------
 
 Returns set of ``(seq, path_seq, path_id, node, edge, cost, agg_cost)``
 
@@ -111,15 +122,10 @@ Column         Type        Description
 **agg_cost**   ``FLOAT``   Aggregate cost from ``start_vid`` to ``node``.
 ============== =========== =================================================
 
-
-.. warning:: During the transition to 3.0, because pgr_ksp version 2.0 doesn't have defined a directed flag nor a heap_path flag, when pgr_ksp is used with only one flag version 2.0 signature will be used.
-
-
 Additional Examples
 ------------------------------------------------------------------------------------------
 
-Examples to handle the one flag to choose signatures
-.........................................................................................
+:Example: To handle the one flag to choose signatures
 
 The examples in this section use the following :ref:`fig1`
 
@@ -127,9 +133,7 @@ The examples in this section use the following :ref:`fig1`
     :start-after: --q1
     :end-before: --q2
 
-
-Examples for queries marked as ``directed`` with ``cost`` and ``reverse_cost`` columns
-.........................................................................................
+:Example: For queries marked as ``directed`` with ``cost`` and ``reverse_cost`` columns
 
 The examples in this section use the following :ref:`fig1`
 
@@ -137,10 +141,7 @@ The examples in this section use the following :ref:`fig1`
     :start-after: --q2
     :end-before: --q3
 
-
-
-Examples for queries marked as ``undirected`` with ``cost`` and ``reverse_cost`` columns
-.........................................................................................
+:Examples: For queries marked as ``undirected`` with ``cost`` and ``reverse_cost`` columns
 
 The examples in this section use the following :ref:`fig2`
 
@@ -148,20 +149,15 @@ The examples in this section use the following :ref:`fig2`
     :start-after: --q3
     :end-before: --q4
 
-
-Examples for queries marked as ``directed`` with ``cost`` column
-.........................................................................................
+:Example: For queries marked as ``directed`` with ``cost`` column
 
 The examples in this section use the following :ref:`fig3`
-
 
 .. literalinclude:: doc-ksp.queries
     :start-after: --q4
     :end-before: --q5
 
-
-Examples for queries marked as ``undirected`` with ``cost`` column
-.........................................................................................
+:Example: For queries marked as ``undirected`` with ``cost`` column
 
 The examples in this section use the following :ref:`fig4`
 
@@ -172,7 +168,7 @@ The examples in this section use the following :ref:`fig4`
 See Also
 -------------------------------------------------------------------------------
 
-* http://en.wikipedia.org/wiki/K_shortest_path_routing
+* https://en.wikipedia.org/wiki/K_shortest_path_routing
 * :doc:`sampledata` network.
 
 .. rubric:: Indices and tables

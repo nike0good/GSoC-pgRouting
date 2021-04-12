@@ -4,29 +4,40 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
 
-.. _pgr_articulationPoints:
-
-pgr_articulationPoints - Experimental
+pgr_articulationPoints
 ===============================================================================
 
-
 ``pgr_articulationPoints`` - Return the articulation points of an undirected graph.
-In particular, the algorithm implemented by Boost.Graph.
 
 .. figure:: images/boost-inside.jpeg
-   :target: http://www.boost.org/libs/graph/doc/connected_components.html
+   :target: https://www.boost.org/libs/graph/doc/biconnected_components.html
 
    Boost Graph Inside
 
-.. include:: proposed.rst
-   :start-after: begin-warn-expr
-   :end-before: end-warn-expr
+.. rubric:: Availability
 
+* Version 3.0.0
 
-Synopsis
+  * Return columns change: ``seq`` is removed
+  * **Official** function
+
+* Version 2.5.0
+
+  * New **experimental** function
+
+.. rubric:: Support
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/pgr_articulationPoints.html>`__)
+
+* **Unsupported versions:**
+  `2.6 <https://docs.pgrouting.org/2.6/en/pgr_articulationPoints.html>`__
+  `2.5 <https://docs.pgrouting.org/2.5/en/pgr_articulationPoints.html>`__
+
+Description
 -------------------------------------------------------------------------------
 
 Those vertices that belong to more than one biconnected component are called
@@ -35,16 +46,14 @@ vertices whose removal would increase the number of connected components in
 the graph.
 This implementation can only be used with an undirected graph.
 
-Characteristics
--------------------------------------------------------------------------------
+**The main characteristics are:**
 
-The main Characteristics are:
+- The signature is for an **undirected** graph.
+- The returned values are ordered:
 
-  - The returned values are ordered:
+  - `node` ascending
 
-    - `node` ascending
-
-  - Running time: :math:`O(V + E)`
+- Running time: :math:`O(V + E)`
 
 Signatures
 -------------------------------------------------------------------------------
@@ -54,44 +63,55 @@ Signatures
 
 .. code-block:: none
 
-    pgr_articulationPoints(edges_sql)
+    pgr_articulationPoints(Edges SQL)
 
-    RETURNS SET OF (seq, node)
-        OR EMPTY SET
+    RETURNS SET OF (node)
+    OR EMPTY SET
 
-The signature is for a **undirected** graph.
-
-:Example:
+:Example: The articulation points of the graph
 
 .. literalinclude:: doc-pgr_articulationPoints.queries
    :start-after: -- q1
    :end-before: -- q2
 
-.. image:: images/ap_sampledata.png
-   :width: 560px
-   :height: 362px
-
-Description of the Signatures
+Parameters
 -------------------------------------------------------------------------------
-
-.. include:: components-family.rst
-    :start-after: components_edges_sql_start
-    :end-before: components_edges_sql_end
 
 .. include:: components-family.rst
     :start-after: components_parameters_start
     :end-before: components_parameters_end
 
-.. include:: components-family.rst
-    :start-after: return_cutvertices_start
-    :end-before: return_cutvertices_end
+Inner query
+-------------------------------------------------------------------------------
 
+:edges SQL: an SQL query of an **undirected** graph, which should return a set of rows with the following columns:
+
+.. include:: pgRouting-concepts.rst
+    :start-after: basic_edges_sql_start
+    :end-before: basic_edges_sql_end
+
+Result Columns
+-------------------------------------------------------------------------------
+
+.. return_articulation_start
+
+Returns set of ``(node)``
+
+============== ========== =================================================
+Column         Type       Description
+============== ========== =================================================
+**node**       ``BIGINT`` Identifier of the vertex.
+============== ========== =================================================
+
+.. return_articulation_end
 
 See Also
 -------------------------------------------------------------------------------
 
-* http://en.wikipedia.org/wiki/Biconnected_component
+* :doc:`components-family`
 * The queries use the :doc:`sampledata` network.
+* Boost: `Biconnected components & articulation points <https://www.boost.org/libs/graph/doc/biconnected_components.html>`__
+* wikipedia: `Biconnected component <https://en.wikipedia.org/wiki/Biconnected_component>`__
 
 .. rubric:: Indices and tables
 

@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
  ********************************************************************PGR-GNU*/
 
+#include <stdbool.h>
 #include "c_common/postgres_connection.h"
 #include "utils/array.h"
 
@@ -34,8 +35,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "drivers/driving_distance/drivedist_driver.h"
 
 
-PGDLLEXPORT Datum driving_many_to_dist(PG_FUNCTION_ARGS);
-PG_FUNCTION_INFO_V1(driving_many_to_dist);
+PGDLLEXPORT Datum _pgr_drivingdistance(PG_FUNCTION_ARGS);
+PG_FUNCTION_INFO_V1(_pgr_drivingdistance);
 
 
 static
@@ -98,7 +99,7 @@ void process(
 
 
 PGDLLEXPORT Datum
-driving_many_to_dist(PG_FUNCTION_ARGS) {
+_pgr_drivingdistance(PG_FUNCTION_ARGS) {
     FuncCallContext     *funcctx;
     TupleDesc            tuple_desc;
 

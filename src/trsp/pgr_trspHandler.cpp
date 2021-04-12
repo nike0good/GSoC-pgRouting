@@ -18,10 +18,10 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-aint64_t with this program; if not, write to the Free Software
+along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #include "trsp/pgr_trspHandler.h"
 
@@ -46,7 +46,6 @@ Pgr_trspHandler::Pgr_trspHandler(
         const bool directed,
         const std::vector<Rule> &ruleList) :
     m_ruleTable() {
-
     initialize_restrictions(ruleList);
 
     m_min_id = renumber_edges(edges, edge_count);
@@ -55,7 +54,6 @@ Pgr_trspHandler::Pgr_trspHandler(
             edges,
             edge_count,
             directed);
-
 }
 
 
@@ -187,7 +185,6 @@ void Pgr_trspHandler::explore(
         int64_t cur_node,
         const EdgeInfo cur_edge,
         bool isStart) {
-    double extra_cost = 0.0;
     double totalCost;
 
     auto vecIndex = cur_edge.get_idx(isStart);
@@ -195,7 +192,7 @@ void Pgr_trspHandler::explore(
     for (const auto &index : vecIndex) {
         auto edge = m_edges[index];
 
-        extra_cost = getRestrictionCost(
+        auto extra_cost = getRestrictionCost(
                 cur_edge.idx(),
                 edge, isStart);
 
@@ -207,7 +204,7 @@ void Pgr_trspHandler::explore(
 
             if (totalCost < m_dCost[index].endCost) {
                 m_dCost[index].endCost = totalCost;
-                m_parent[edge.idx()].v_pos[RC_EDGE] = (isStart? C_EDGE : RC_EDGE);
+                m_parent[edge.idx()].v_pos[RC_EDGE] = isStart? C_EDGE : RC_EDGE;
                 m_parent[edge.idx()].e_idx[RC_EDGE] =
                     cur_edge.idx();
 
@@ -223,7 +220,7 @@ void Pgr_trspHandler::explore(
 
             if (totalCost < m_dCost[index].startCost) {
                 m_dCost[index].startCost = totalCost;
-                m_parent[edge.idx()].v_pos[C_EDGE] = (isStart? C_EDGE : RC_EDGE);
+                m_parent[edge.idx()].v_pos[C_EDGE] = isStart? C_EDGE : RC_EDGE;
                 m_parent[edge.idx()].e_idx[C_EDGE] = cur_edge.idx();
 
                 add_to_que(totalCost, edge.idx(), false);
@@ -437,7 +434,6 @@ void Pgr_trspHandler::construct_graph(
         pgr_edge_t* edges,
         const size_t edge_count,
         const bool directed) {
-
     for (size_t i = 0; i < edge_count; i++) {
         auto current_edge = &edges[i];
 

@@ -4,37 +4,35 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
 
-.. _pgr_analyze_oneway:
-
-pgr_analyzeOneway
+pgr_analyzeOneWay
 ===============================================================================
 
-
-Name
--------------------------------------------------------------------------------
-
-``pgr_analyzeOneway`` — Analyzes oneway Sstreets and identifies flipped segments.
-
-
-Synopsis
--------------------------------------------------------------------------------
+``pgr_analyzeOneWay`` — Analyzes oneway Sstreets and identifies flipped segments.
 
 This function analyzes oneway streets in a graph and identifies any flipped segments.
 
-.. index::
-	single: analyzeOneway(Complete Signature)
+.. rubric:: Availability
 
-.. code-block:: sql
+* Version 2.0.0
 
-	text pgr_analyzeOneway(geom_table text,
-			       text[] s_in_rules, text[] s_out_rules,
-                               text[] t_in_rules, text[] t_out_rules,
-			       text oneway='oneway', text source='source', text target='target',
-			       boolean two_way_if_null=true);
+  * **Official** function
 
+.. rubric:: Support
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/pgr_analyzeOneWay.html>`__)
+  `2.6 <https://docs.pgrouting.org/2.6/en/pgr_analyzeOneWay.html>`__
+
+* **Unsupported versions:**
+  `2.5 <https://docs.pgrouting.org/2.5/en/pgr_analyzeOneWay.html>`__
+  `2.4 <https://docs.pgrouting.org/2.4/en/pgr_analyzeOneWay.html>`__
+  `2.3 <https://docs.pgrouting.org/2.3/en/src/topology/doc/pgr_analyzeOneWay.html>`__
+  `2.2 <https://docs.pgrouting.org/2.2/en/src/topology/doc/pgr_analyzeOneWay.html>`__
+  `2.1 <https://docs.pgrouting.org/2.1/en/src/common/doc/functions/analyze_oneway.html>`__
+  `2.0 <https://docs.pgrouting.org/2.0/en/src/common/doc/functions/analyze_oneway.html>`__
 
 Description
 -------------------------------------------------------------------------------
@@ -49,10 +47,22 @@ So by counting the number of edges entering and exiting each node we can identif
 
 The  edge table to be analyzed must contain a source column and a target column filled with id's of the vertices of the segments and the corresponding vertices table <edge_table>_vertices_pgr that stores the vertices information.
 
-- Use :ref:`pgr_createVerticesTable <pgr_create_vert_table>` to create the vertices table.
-- Use :ref:`pgr_createTopology <pgr_create_topology>` to create the topology and the vertices table.
+- Use :doc:`pgr_createVerticesTable <pgr_createVerticesTable>` to create the vertices table.
+- Use :doc:`pgr_createTopology <pgr_createTopology>` to create the topology and the vertices table.
 
-.. rubric:: Parameters
+Signatures
+-------------------------------------------------------------------------------
+
+.. code-block:: sql
+
+	text pgr_analyzeOneWay(geom_table text,
+			       text[] s_in_rules, text[] s_out_rules,
+                               text[] t_in_rules, text[] t_out_rules,
+			       text oneway='oneway', text source='source', text target='target',
+			       boolean two_way_if_null=true);
+
+Parameters
+-------------------------------------------------------------------------------
 
 :edge_table: ``text`` Network table name. (may contain the schema name as well)
 :s_in_rules: ``text[]`` source node **in** rules
@@ -64,8 +74,7 @@ The  edge table to be analyzed must contain a source column and a target column 
 :target: ``text``  Target column name of the network table.  Default value is ``target``.
 :two_way_if_null: ``boolean`` flag to treat oneway NULL values as bi-directional.  Default value is ``true``.
 
-.. note:: It is strongly recommended to use the named notation. See :ref:`pgr_createVerticesTable <pgr_create_vert_table>` or :ref:`pgr_createTopology <pgr_create_topology>` for examples.
-
+.. note:: It is strongly recommended to use the named notation. See :doc:`pgr_createVerticesTable <pgr_createVerticesTable>` or :doc:`pgr_createTopology <pgr_createTopology>` for examples.
 
 The function returns:
 
@@ -84,58 +93,33 @@ The rules are defined as an array of text strings that if match the ``oneway`` v
 
 .. rubric:: The Vertices Table
 
-The vertices table can be created with :ref:`pgr_createVerticesTable <pgr_create_vert_table>` or :ref:`pgr_createTopology <pgr_create_topology>`
+The vertices table can be created with :doc:`pgr_createVerticesTable <pgr_createVerticesTable>` or :doc:`pgr_createTopology <pgr_createTopology>`
 
 The structure of the vertices table is:
 
 :id: ``bigint`` Identifier of the vertex.
-:cnt: ``integer`` Number of vertices in the edge_table that reference this vertex. See :ref:`pgr_analyzeGgraph <pgr_analyze_graph>`.
-:chk: ``integer``  Indicator that the vertex might have a problem. See :ref:`pgr_analyzeGraph <pgr_analyze_graph>`.
+:cnt: ``integer`` Number of vertices in the edge_table that reference this vertex. See :doc:`pgr_analyzeGgraph <pgr_analyzeGraph>`.
+:chk: ``integer``  Indicator that the vertex might have a problem. See :doc:`pgr_analyzeGraph <pgr_analyzeGraph>`.
 :ein: ``integer`` Number of vertices in the edge_table that reference this vertex as incoming.
 :eout: ``integer`` Number of vertices in the edge_table that reference this vertex as outgoing.
 :the_geom: ``geometry`` Point geometry of the vertex.
 
-
-.. rubric:: History
-
-* New in version 2.0.0
-
-
-Examples
+Additional Examples
 -------------------------------------------------------------------------------
 
-.. code-block:: sql
-
-	SELECT pgr_analyzeOneway('edge_table',
-        ARRAY['', 'B', 'TF'],
-        ARRAY['', 'B', 'FT'],
-        ARRAY['', 'B', 'FT'],
-        ARRAY['', 'B', 'TF'],
-        oneway:='dir');
-	NOTICE:  PROCESSING:
-	NOTICE:  pgr_analyzeGraph('edge_table','{"",B,TF}','{"",B,FT}','{"",B,FT}','{"",B,TF}','dir','source','target',t)
-	NOTICE:  Analyzing graph for one way street errors.
-	NOTICE:  Analysis 25% complete ...
-	NOTICE:  Analysis 50% complete ...
-	NOTICE:  Analysis 75% complete ...
-	NOTICE:  Analysis 100% complete ...
-	NOTICE:  Found 0 potential problems in directionality
-
-	pgr_analyzeoneway
-	-------------------
-	OK
-	(1 row)
+.. literalinclude:: doc-pgr_analyzeOneWay.queries
+   :start-after: --q1
+   :end-before: --q1.1
 
 The queries use the :doc:`sampledata` network.
-
 
 See Also
 -------------------------------------------------------------------------------
 
-* :ref:`topology`  for an overview of a topology for routing algorithms.
+* :doc:`topology-functions`  for an overview of a topology for routing algorithms.
 * :ref:`analytics` for an overview of the analysis of a graph.
-* :ref:`pgr_analyze_graph` to analyze the edges and vertices of the edge table.
-* :ref:`pgr_create_vert_table` to reconstruct the vertices table based on the source and target information.
+* :doc:`pgr_analyzeGraph` to analyze the edges and vertices of the edge table.
+* :doc:`pgr_createVerticesTable` to reconstruct the vertices table based on the source and target information.
 
 .. rubric:: Indices and tables
 

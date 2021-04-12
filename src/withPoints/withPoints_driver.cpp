@@ -25,7 +25,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #include "drivers/withPoints/withPoints_driver.h"
 
@@ -60,7 +60,7 @@ pgr_dijkstra(
             std::unique(targets.begin(), targets.end()),
             targets.end());
 
-    Pgr_dijkstra< G > fn_dijkstra;
+    pgrouting::Pgr_dijkstra< G > fn_dijkstra;
     auto paths = fn_dijkstra.dijkstra(graph, sources, targets, only_cost);
 
     if (!normal) {

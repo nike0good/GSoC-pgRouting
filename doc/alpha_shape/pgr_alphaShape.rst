@@ -4,96 +4,111 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
-
-.. _pgr_alphashape:
 
 pgr_alphaShape
 ===============================================================================
 
-.. index::
-	single: pgr_alphashape(text,float8)
+``pgr_alphaShape`` — Polygon part of an alpha shape.
 
-Name
--------------------------------------------------------------------------------
+.. rubric:: Availability
 
-``pgr_alphaShape`` — Core function for alpha shape computation.
+* Version 3.0.0
 
+  * Breaking change on signature
+  * Old signature no longer supported
 
-Synopsis
--------------------------------------------------------------------------------
+* Version 2.1.0
 
-Returns a table with (x, y) rows that describe the vertices of an alpha shape.
+  * Added alpha argument with default 0 (use optimal value)
+  * Support to return multiple outer/inner ring
 
-.. code-block:: sql
+* Version 2.0.0
 
-	table() pgr_alphaShape(text sql [, float8 alpha]);
+  * **Official** function
+  * Renamed from version 1.x
 
+.. rubric:: Support
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/pgr_alphaShape.html>`__)
+
+* **Unsupported versions:**
+  `2.6 <https://docs.pgrouting.org/2.6/en/pgr_alphaShape.html>`__
+  `2.5 <https://docs.pgrouting.org/2.5/en/pgr_alphaShape.html>`__
+  `2.4 <https://docs.pgrouting.org/2.4/en/pgr_alphaShape.html>`__
+  `2.3 <https://docs.pgrouting.org/2.3/en/src/alpha_shape/doc/pgr_alphaShape.html>`__
+  `2.2 <https://docs.pgrouting.org/2.2/en/src/alpha_shape/doc/pgr_alphaShape.html>`__
+  `2.1 <https://docs.pgrouting.org/2.1/en/src/driving_distance/doc/dd_alphashape.html>`__
+  `2.0 <https://docs.pgrouting.org/2.0/en/src/driving_distance/doc/dd_alphashape.html>`__
 
 Description
 -------------------------------------------------------------------------------
 
-:sql: ``text`` a SQL query, which should return a set of rows with the following columns:
+Returns the polygon part of an alpha shape.
 
-    .. code-block:: sql
+Characteristics
 
-        SELECT id, x, y FROM vertex_table
+* Input is a *geometry* and returns a *geometry*
+* Uses PostGis ST_DelaunyTriangles
+* Instead of using CGAL's definition of `alpha` it use the ``spoon_radius``
 
-    :id: ``int4`` identifier of the vertex
-    :x: ``float8`` x-coordinate
-    :y: ``float8`` y-coordinate
+  * :math:`spoon\_radius = \sqrt alpha`
 
-:alpha: (optional) ``float8`` alpha value. If specified alpha value equals 0 (default), then optimal alpha value is used.
-    For more information, see `CGAL - 2D Alpha Shapes <http://doc.cgal.org/latest/Alpha_shapes_2/group__PkgAlphaShape2.html>`_.
+* A Triangle area is considered part of the alpha shape when :math:`circumcenter\ radius < spoon\_radius`
+* When the total number of points is less than 3, returns an EMPTY geometry
 
-Returns a vertex record for each row:
 
-:x: x-coordinate
-:y: y-coordinate
-
-If a result includes multiple outer/inner rings, return those with separator row (x=NULL and y=NULL).
-
-.. rubric:: History
-
-* Renamed in version 2.0.0
-* Added alpha argument with default 0 (use optimal value) in version 2.1.0
-* Supported to return multiple outer/inner ring coordinates with separator row (x=NULL and y=NULL) in version 2.1.0
-
-Examples
+Signatures
 -------------------------------------------------------------------------------
-PgRouting's alpha shape implementation has no way to control the order of the output points, so the actual output might different for the same input data.
-The first query, has the output ordered, he second query shows an example usage:
+.. rubric:: Summary
+
+.. index::
+    single: alphaShape
+
+.. code-block:: none
+
+   pgr_alphaShape(geometry,   [spoon_radius])
+   RETURNS geometry
 
 
-.. rubric:: Example: the (ordered) results
+.. rubric:: Example: passing a geometry collection with spoon radius :math:`1.5` using the return variable ``geom``
 
 .. literalinclude:: doc-pgr_alphashape.queries
    :start-after: -- q1
    :end-before: -- q2
 
-.. rubric:: Example: calculating the area
 
-Steps:
+Parameters
+-------------------------------------------------------------------------------
 
-- Calculates the alpha shape
-    - the :code:`ORDER BY` clause is not used.
-- constructs a polygon
-- and computes the area
+================= ================== ======== =================================================
+Parameter         Type               Default     Description
+================= ================== ======== =================================================
+**geometry**      ``geometry``                Geometry with at least :math:`3` points
+**spoon_radius**  ``FLOAT``                   The radius of the spoon
+================= ================== ======== =================================================
 
-.. literalinclude:: doc-pgr_alphashape.queries
-   :start-after: -- q2
-   :end-before: -- q3
+Return Value
+-------------------------------------------------------------------------------
+
+==================== ========================
+Kind of geometry     Description
+==================== ========================
+GEOMETRY COLLECTION  A Geometry collection of Polygons
+==================== ========================
 
 
 
-The queries use the :doc:`sampledata` network.
+
 
 See Also
 -------------------------------------------------------------------------------
 
-* :ref:`pgr_drivingDistance` - Driving Distance
-* :ref:`pgr_points_as_polygon` - Polygon around set of points
+* :doc:`pgr_drivingDistance`
+* :doc:`sampledata` network.
+* `ST_ConcaveHull <https://postgis.net/docs/ST_ConcaveHull.html>`__
 
 .. rubric:: Indices and tables
 

@@ -1,745 +1,813 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) pgRouting Contributors - Version v3.0.0-rc1
+# This file is distributed under the same license as the pgRouting package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
 # 
+# Translators:
+# MarPetra <mvergaratrejo@gmail.com>, 2019
+# Vicky Vergara <vicky@georepublic.de>, 2020
+# 
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pgRouting v2.5.0-alpha\n"
+"Project-Id-Version: pgRouting v3.0.0-rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-26 16:13-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2020-07-09 09:02-0500\n"
+"PO-Revision-Date: 2019-09-07 11:57+0000\n"
+"Last-Translator: Vicky Vergara <vicky@georepublic.de>, 2020\n"
+"Language-Team: Spanish (https://www.transifex.com/pgrouting/teams/1219/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../../build/doc/contraction-family.rst:14
+#: ../../build/doc/contraction-family.rst:11
 msgid "Contraction - Family of functions"
-msgstr ""
+msgstr "Contraction - Familia de funciones"
 
-#: ../../build/doc/proposed.rst:3
-msgid "Experimental functions"
-msgstr ""
+#: ../../build/doc/contraction-family.rst:15
+msgid ":doc:`pgr_contraction`"
+msgstr ":doc:`pgr_contraction`"
 
-#: ../../build/doc/proposed.rst:5
-msgid "They are not officially of the current release."
-msgstr ""
+#: ../../build/doc/contraction-family.rst:26
+msgid "Previous versions of this page"
+msgstr "Versiones anteriores de esta página"
 
-#: ../../build/doc/proposed.rst:6
-msgid "They likely will not be officially be part of the next release:"
+#: ../../build/doc/contraction-family.rst:27
+msgid ""
+"**Supported versions:** current(`3.0 <https://docs.pgrouting.org/3.0/en"
+"/contraction-family.html>`__) `2.6 <https://docs.pgrouting.org/2.6/en"
+"/contraction-family.html>`__"
 msgstr ""
-
-#: ../../build/doc/proposed.rst:8
-msgid "The functions might not make use of ANY-INTEGER and ANY-NUMERICAL"
-msgstr ""
-
-#: ../../build/doc/proposed.rst:9
-msgid "Name might change."
-msgstr ""
-
-#: ../../build/doc/proposed.rst:10
-msgid "Signature might change."
-msgstr ""
-
-#: ../../build/doc/proposed.rst:11
-msgid "Functionality might change."
-msgstr ""
-
-#: ../../build/doc/proposed.rst:12
-msgid "pgTap tests might be missing."
-msgstr ""
-
-#: ../../build/doc/proposed.rst:13
-msgid "Might need c/c++ coding."
-msgstr ""
-
-#: ../../build/doc/proposed.rst:14
-msgid "May lack documentation."
-msgstr ""
-
-#: ../../build/doc/proposed.rst:15
-msgid "Documentation if any might need to be rewritten."
-msgstr ""
-
-#: ../../build/doc/proposed.rst:16
-msgid "Documentation examples might need to be automatically generated."
-msgstr ""
-
-#: ../../build/doc/proposed.rst:17
-msgid "Might need a lot of feedback from the comunity."
-msgstr ""
-
-#: ../../build/doc/proposed.rst:18
-msgid "Might depend on a proposed function of pgRouting"
-msgstr ""
-
-#: ../../build/doc/proposed.rst:19
-msgid "Might depend on a deprecated function of pgRouting"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:21
-msgid ":ref:`pgr_contractGraph`"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:29
-msgid "Introduction"
-msgstr ""
+"**Versiones soportadas:** actual(`3.0 <https://docs.pgrouting.org/3.0/es"
+"/contraction-family.html>`__) `2.6 <https://docs.pgrouting.org/2.6/en"
+"/contraction-family.html>`__"
 
 #: ../../build/doc/contraction-family.rst:31
 msgid ""
-"In big graphs, like the road graphs, or electric networks, graph contraction"
-" can be used to speed up some graph algorithms. Contraction reduces the size"
-" of the graph by removing some of the vertices and edges and, for example, "
-"might add edges that represent a sequence of original edges decreasing the "
-"total time and space used in graph algorithms."
+"**Unsupported versions:** `2.5 <https://docs.pgrouting.org/2.5/en"
+"/contraction-family.html>`__ `2.4 <https://docs.pgrouting.org/2.4/en"
+"/contraction-family.html>`__ `2.3 "
+"<https://docs.pgrouting.org/2.3/en/src/contraction/doc/contraction.html>`__ "
+"`2.2 "
+"<https://docs.pgrouting.org/2.2/en/src/contraction/doc/contraction.html>`__"
 msgstr ""
+"**Versiones no soportadas:** `2.5 <https://docs.pgrouting.org/2.5/en"
+"/contraction-family.html>`__ `2.4 <https://docs.pgrouting.org/2.4/en"
+"/contraction-family.html>`__ `2.3 "
+"<https://docs.pgrouting.org/2.3/en/src/contraction/doc/contraction.html>`__ "
+"`2.2 "
+"<https://docs.pgrouting.org/2.2/en/src/contraction/doc/contraction.html>`__"
 
-#: ../../build/doc/contraction-family.rst:33
+#: ../../build/doc/contraction-family.rst:39
+msgid "Introduction"
+msgstr "Introducción"
+
+#: ../../build/doc/contraction-family.rst:41
+msgid ""
+"In large graphs, like the road graphs, or electric networks, graph "
+"contraction can be used to speed up some graph algorithms. Contraction "
+"reduces the size of the graph by removing some of the vertices and edges "
+"and, for example, might add edges that represent a sequence of original "
+"edges decreasing the total time and space used in graph algorithms."
+msgstr ""
+"En grafos grandes, como los grafos de carretera o de redes eléctricas, la "
+"contracción de grafos se puede utilizar para acelerar algunos algoritmos. La"
+" contracción reduce el tamaño del grafo eliminando algunos de los vértices y"
+" aristas, por ejemplo, podría agregar aristas que representen una secuencia "
+"de las aristas originales disminuyendo el tiempo total y el espacio "
+"utilizados en los algoritmos de grafos."
+
+#: ../../build/doc/contraction-family.rst:47
 msgid ""
 "This implementation gives a flexible framework for adding contraction "
 "algorithms in the future, currently, it supports two algorithms:"
 msgstr ""
+"Esta implementación proporciona un marco flexible para agregar algoritmos de"
+" contracción en el futuro, actualmente, admite dos algoritmos:"
 
-#: ../../build/doc/contraction-family.rst:35
-#: ../../build/doc/contraction-family.rst:46
+#: ../../build/doc/contraction-family.rst:50
+#: ../../build/doc/contraction-family.rst:60
 msgid "Dead end contraction"
-msgstr ""
+msgstr "Contracción sin salida"
 
-#: ../../build/doc/contraction-family.rst:36
-#: ../../build/doc/contraction-family.rst:166
+#: ../../build/doc/contraction-family.rst:51
+#: ../../build/doc/contraction-family.rst:213
 msgid "Linear contraction"
-msgstr ""
+msgstr "Contracción lineal"
 
-#: ../../build/doc/contraction-family.rst:38
+#: ../../build/doc/contraction-family.rst:53
 msgid "Allowing the user to:"
-msgstr ""
+msgstr "Permitiendo que el usuario:"
 
-#: ../../build/doc/contraction-family.rst:40
+#: ../../build/doc/contraction-family.rst:55
 msgid "Forbid contraction on a set of nodes."
-msgstr ""
+msgstr "Prohíba la contracción en un conjunto de nodos."
 
-#: ../../build/doc/contraction-family.rst:41
+#: ../../build/doc/contraction-family.rst:56
 msgid ""
 "Decide the order of the contraction algorithms and set the maximum number of"
 " times they are to be executed."
 msgstr ""
-
-#: ../../build/doc/contraction-family.rst:43
-msgid "UNDER DISCUSSION:  Forbid contraction on a set of edges"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:47
-msgid "In the algorithm, dead end contraction is represented by 1."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:50
-msgid "Dead end nodes"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:52
-msgid ""
-"The definition of a dead end node is different for a directed and an "
-"undirected graph."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:54
-msgid "In case of a undirected graph, a node is considered a dead end node if"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:56
-msgid "The number of adjacent vertices is 1."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:58
-msgid "In case of an directed graph, a node is considered a dead end node if"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:60
-msgid "There are no outgoing edges and has at least one incoming edge."
-msgstr ""
+"Decida el orden de los algoritmos de contracción y establezca el número "
+"máximo de veces que se van a ejecutar."
 
 #: ../../build/doc/contraction-family.rst:61
-msgid "There is one incoming and one outgoing edge with the same identifier."
-msgstr ""
+msgid "In the algorithm, dead end contraction is represented by 1."
+msgstr "En el algoritmo, la contracción sin salida se representa mediante 1."
 
 #: ../../build/doc/contraction-family.rst:64
-#: ../../build/doc/contraction-family.rst:178
-msgid "Examples"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:65
-msgid "The green node ``B`` represents a dead end node"
-msgstr ""
+msgid "Dead end"
+msgstr "Sin salida"
 
 #: ../../build/doc/contraction-family.rst:66
-msgid "The node ``A`` is the only node connecting to ``B``."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:67
-#: ../../build/doc/contraction-family.rst:181
 msgid ""
-"Node ``A`` is part of the rest of the graph and has an unlimited number of "
-"incoming and outgoing edges."
+"In case of an undirected graph, a node is considered a `dead end` node when"
 msgstr ""
+"En el caso de un grafo no dirigido, un nodo se considera `dead end` (sin "
+"salida) "
 
 #: ../../build/doc/contraction-family.rst:68
-#: ../../build/doc/contraction-family.rst:183
-msgid "Directed graph"
-msgstr ""
+#: ../../build/doc/contraction-family.rst:72
+msgid "`The number of adjacent vertices is 1.`_"
+msgstr "`El número de vértices adyacentes es 1.`_"
 
-#: ../../build/doc/contraction-family.rst:86
-msgid "Operation: Dead End Contraction"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:88
+#: ../../build/doc/contraction-family.rst:70
 msgid ""
-"The dead end contraction will stop until there are no more dead end nodes. "
-"For example from the following graph:"
+"In case of a directed graph, a node is considered a `dead end` node when"
 msgstr ""
+"En el caso de un grafo dirigido, un nodo se considera 'sin salida' cuando"
 
-#: ../../build/doc/contraction-family.rst:91
-#: ../../build/doc/contraction-family.rst:208
+#: ../../build/doc/contraction-family.rst:74
+msgid "`There are no outgoing edges and has at least one incoming edge.`_"
+msgstr "`No hay aristas salientes y tiene al menos un arista entrante.`_"
+
+#: ../../build/doc/contraction-family.rst:75
+msgid "`There are no incoming edges and has at least one outgoing edge.`_"
+msgstr "`No hay bordes entrantes y tiene al menos una arista saliente.`_"
+
+#: ../../build/doc/contraction-family.rst:78
 msgid ""
-"Node ``A`` is connected to the rest of the graph by an unlimited number of "
-"edges."
+"When the conditions are true then the `Operation: Dead End Contraction`_ can"
+" be done."
 msgstr ""
+"Cuando las condiciones son verdaderas, se puede hacer la `Operation: Dead "
+"End Contraction`_"
 
-#: ../../build/doc/contraction-family.rst:92
-msgid ""
-"Node ``B`` is connected to the rest of the graph with one incoming edge."
-msgstr ""
+#: ../../build/doc/contraction-family.rst:81
+msgid "The number of adjacent vertices is 1."
+msgstr "El número de vértices adyacentes es 1."
 
-#: ../../build/doc/contraction-family.rst:93
-msgid "Node ``B`` is the only node connecting to ``C``."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:94
-msgid "The green node ``C`` represents a `Dead End` node"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:113
-msgid ""
-"After contracting ``C``, node ``B`` is now a `Dead End` node and is "
-"contracted:"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:129
-msgid "Node ``B`` gets contracted"
-msgstr ""
-
+#: ../../build/doc/contraction-family.rst:83
+#: ../../build/doc/contraction-family.rst:121
 #: ../../build/doc/contraction-family.rst:143
-msgid "Nodes ``B`` and ``C`` belong to node ``A``."
-msgstr ""
+msgid "The green nodes are `dead end`_ nodes"
+msgstr "Los nodos verdes son nodos `dead end`_"
 
+#: ../../build/doc/contraction-family.rst:84
+#: ../../build/doc/contraction-family.rst:122
+#: ../../build/doc/contraction-family.rst:144
+#: ../../build/doc/contraction-family.rst:233
+msgid ""
+"The blue nodes have an unlimited number of incoming and outgoing edges."
+msgstr ""
+"Los nodos azules tienen un número ilimitado de aristas entrantes y "
+"salientes."
+
+#: ../../build/doc/contraction-family.rst:87
+#: ../../build/doc/contraction-family.rst:125
 #: ../../build/doc/contraction-family.rst:148
-msgid "Not Dead End nodes"
-msgstr ""
+msgid "Directed graph"
+msgstr "Grafo dirigido"
 
-#: ../../build/doc/contraction-family.rst:150
-msgid "In this graph ``B`` is not a `dead end` node."
-msgstr ""
+#: ../../build/doc/contraction-family.rst:102
+msgid "Undirected graph"
+msgstr "Grafo no dirigido"
+
+#: ../../build/doc/contraction-family.rst:119
+msgid "There are no outgoing edges and has at least one incoming edge."
+msgstr "No hay aristas salientes y tiene al menos una arista entrante."
+
+#: ../../build/doc/contraction-family.rst:141
+msgid "There are no incoming edges and has at least one outgoing edge."
+msgstr "No hay aristas entrantes y tiene al menos una arista saliente."
+
+#: ../../build/doc/contraction-family.rst:145
+msgid "Considering that the nodes are `dead starts` nodes"
+msgstr "Teniendo en cuenta que los nodos son `dead starts` (sin comienzo)"
+
+#: ../../build/doc/contraction-family.rst:165
+msgid "Operation: Dead End Contraction"
+msgstr "Operación: Contracción sin salida"
 
 #: ../../build/doc/contraction-family.rst:167
-msgid "In the algorithm, linear contraction is represented by 2."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:170
-msgid "Linear nodes"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:172
-msgid "A node is considered a linear node if satisfies the following:"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:174
-msgid "The number of adjacent vertices are 2."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:175
-msgid "Should have at least one incoming edge and one outgoing edge."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:179
-msgid "The green node ``B`` represents a linear node"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:180
-msgid "The nodes ``A`` and ``C`` are the only nodes connecting to ``B``."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:182
 msgid ""
-"Node ``C`` is part of the rest of the graph and has an unlimited number of "
-"incoming and outgoing edges."
+"The dead end contraction will stop until there are no more dead end nodes. "
+"For example from the following graph where ``w`` is the `dead end`_ node:"
 msgstr ""
+"La contracción sin salida se detendrá hasta que no haya más nodos sin "
+"salida. Por ejemplo, del siguiente grafo donde ``w`` es el nodo `dead end`_:"
 
-#: ../../build/doc/contraction-family.rst:203
-msgid "Operation: Linear Contraction"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:205
+#: ../../build/doc/contraction-family.rst:183
 msgid ""
-"The linear contraction will stop until there are no more linear nodes. For "
-"example from the following graph:"
+"After contracting ``w``, node ``v`` is now a `dead end`_ node and is "
+"contracted:"
 msgstr ""
+"Después de contraer ``w``, el nodo ``v`` es ahora un nodo `dead end`_ y es "
+"contraído:"
+
+#: ../../build/doc/contraction-family.rst:197
+msgid ""
+"After contracting ``v``, stop. Node ``u`` has the information of nodes that "
+"were contrcted."
+msgstr ""
+"Después de contraer ``v``,  deténgase. El nodo ``u`` tiene la información de"
+" los nodos que se contraen."
 
 #: ../../build/doc/contraction-family.rst:209
+msgid "Node ``u`` has the information of nodes that were contracted."
+msgstr "El nodo ``u`` tiene la información de los nodos que se contrajeron."
+
+#: ../../build/doc/contraction-family.rst:214
+msgid "In the algorithm, linear contraction is represented by 2."
+msgstr "En el algoritmo, la contracción lineal es representada con un 2."
+
+#: ../../build/doc/contraction-family.rst:217
+msgid "Linear"
+msgstr "Lineal"
+
+#: ../../build/doc/contraction-family.rst:219
 msgid ""
-"Node ``B`` is connected to the rest of the graph with one incoming edge and "
-"one outgoing edge."
+"In case of an undirected graph, a node is considered a `linear` node when"
 msgstr ""
+"En el caso de un grafo no dirigido, un nodo se considera un nodo `lineal` "
+"cuando"
 
-#: ../../build/doc/contraction-family.rst:210
+#: ../../build/doc/contraction-family.rst:221
+#: ../../build/doc/contraction-family.rst:225
+msgid "`The number of adjacent vertices is 2.`_"
+msgstr "`El número de vértices adyacentes es 2.`_"
+
+#: ../../build/doc/contraction-family.rst:223
+msgid "In case of a directed graph, a node is considered a `linear` node when"
+msgstr "En el caso de un grafo dirigido, un nodo se considera `lineal` cuando"
+
+#: ../../build/doc/contraction-family.rst:227
+msgid "`Linearity is symmetrical`_"
+msgstr "`La linealidad es simétrica`_"
+
+#: ../../build/doc/contraction-family.rst:230
+msgid "The number of adjacent vertices is 2."
+msgstr "El número de vértices adyacentes es 2."
+
+#: ../../build/doc/contraction-family.rst:232
+msgid "The green nodes are `linear`_ nodes"
+msgstr "Los nodos verdes son `lineales`_"
+
+#: ../../build/doc/contraction-family.rst:236
+msgid "Directed"
+msgstr "Dirigido"
+
+#: ../../build/doc/contraction-family.rst:252
+msgid "Undirected"
+msgstr "No dirigido"
+
+#: ../../build/doc/contraction-family.rst:266
+msgid "Linearity is symmetrical"
+msgstr "La linealidad es simétrica"
+
+#: ../../build/doc/contraction-family.rst:268
 msgid ""
-"Node ``C`` is connected to the rest of the graph with one incoming edge and "
-"one outgoing edge."
+"Using a contra example, vertex ``v`` is not linear because it's not possible"
+" to go from ``w`` to ``u`` via ``v``."
 msgstr ""
+"Usando un contra ejemplo, el vértice ``v`` no es lineal porque no es posible"
+" pasar de ``w`` a ``u`` a través de ``v``."
 
-#: ../../build/doc/contraction-family.rst:211
+#: ../../build/doc/contraction-family.rst:283
+msgid "Operation: Linear Contraction"
+msgstr "Operación: Contracción Lineal"
+
+#: ../../build/doc/contraction-family.rst:285
 msgid ""
-"Node ``D`` is connected to the rest of the graph by an unlimited number of "
-"edges."
+"The linear contraction will stop until there are no more linear nodes. For "
+"example from the following graph where ``v`` and ``w`` are `linear`_ nodes:"
 msgstr ""
-
-#: ../../build/doc/contraction-family.rst:212
-msgid "The green nodes ``B`` and ``C`` represents `Linear` nodes."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:234
-msgid ""
-"After contracting ``B``, a new edge gets inserted between ``A`` and ``C`` "
-"which is represented by red color."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:254
-msgid "Node ``C`` is `linear node` and gets contracted."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:272
-msgid ""
-"Nodes ``B`` and ``C`` belong to edge connecting ``A`` and ``D`` which is "
-"represented by red color."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:275
-msgid "Not Linear nodes"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:277
-msgid "In this graph ``B`` is not a `linear` node."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:298
-msgid "The cycle"
-msgstr ""
+"La contracción lineal se detendrá hasta que no haya más nodos lineales. Por "
+"ejemplo, en el siguiente grafo donde ``v`` y ``w`` son nodos `lineales`_ :"
 
 #: ../../build/doc/contraction-family.rst:300
+msgid "After contracting ``w``,"
+msgstr "Después de contraer ``w``,"
+
+#: ../../build/doc/contraction-family.rst:302
+msgid "The vertex ``w`` is removed from the graph"
+msgstr "El vértice ``w`` se elimina del grafo"
+
+#: ../../build/doc/contraction-family.rst:304
+msgid ""
+"The edges :math:`v \\rightarrow w` and  :math:`w \\rightarrow z` are removed"
+" from the graph."
+msgstr ""
+"Los aristas :math:`v \\rightarrow w` y  :math:`w \\rightarrow z` fueron "
+"eliminados del grafo."
+
+#: ../../build/doc/contraction-family.rst:306
+msgid ""
+"A new edge :math:`v \\rightarrow z` is inserted represented with red color."
+msgstr ""
+"Se inserta un nuevo arista :math:`v \\rightarrow z` y se representa con "
+"color rojo."
+
+#: ../../build/doc/contraction-family.rst:321
+msgid "Contracting ``v``:"
+msgstr "Contracción ``v``:"
+
+#: ../../build/doc/contraction-family.rst:323
+msgid "The vertex ``v`` is removed from the graph"
+msgstr "El vértice ``v`` se elimina del grafo"
+
+#: ../../build/doc/contraction-family.rst:325
+msgid ""
+"The edges :math:`u \\rightarrow v` and  :math:`v \\rightarrow z` are removed"
+" from the graph."
+msgstr ""
+"Los aristas :math:`u \\rightarrow v`  y  :math:`v \\rightarrow z`  son "
+"removidos del grafo."
+
+#: ../../build/doc/contraction-family.rst:327
+msgid ""
+"A new edge :math:`u \\rightarrow z` is inserted represented with red color."
+msgstr ""
+"Se inserta un nuevo arista :math:`u \\rightarrow z`  y se representa con "
+"color rojo.  "
+
+#: ../../build/doc/contraction-family.rst:341
+msgid ""
+"Edge :math:`u \\rightarrow z` has the information of nodes that were "
+"contracted."
+msgstr ""
+"El arista :math:`u \\rightarrow z` tiene la información de los nodos que "
+"fueron contraídos."
+
+#: ../../build/doc/contraction-family.rst:345
+msgid "The cycle"
+msgstr "El ciclo"
+
+#: ../../build/doc/contraction-family.rst:347
 msgid ""
 "Contracting a graph, can be done with more than one operation. The order of "
 "the operations affect the resulting contracted graph, after applying one "
 "operation, the set of vertices that can be contracted by another operation "
 "changes."
 msgstr ""
+"Contraer un grafo se puede hacer con más de una operación. El orden de las "
+"operaciones afecta al gráfico contraído resultante; después de aplicar una "
+"operación, el conjunto de vértices que se pueden contraer con otra operación"
+" cambia."
 
-#: ../../build/doc/contraction-family.rst:302
+#: ../../build/doc/contraction-family.rst:352
 msgid ""
 "This implementation, cycles ``max_cycles`` times through "
 "``operations_order`` ."
 msgstr ""
+"Esta implementación alterna los tiempos `` max_cycles`` a través de `` "
+"operations_order``."
 
-#: ../../build/doc/contraction-family.rst:315
+#: ../../build/doc/contraction-family.rst:365
 msgid "Contracting Sample Data"
-msgstr ""
+msgstr "Contracción de Datos de Muestra"
 
-#: ../../build/doc/contraction-family.rst:317
+#: ../../build/doc/contraction-family.rst:367
 msgid ""
 "In this section, building and using a contracted graph will be shown by "
 "example."
 msgstr ""
+"En esta sección, la creación y el uso de un grafo contraído se mostrarán en "
+"el ejemplo."
 
-#: ../../build/doc/contraction-family.rst:319
+#: ../../build/doc/contraction-family.rst:369
 msgid "The :doc:`sampledata` for an undirected graph is used"
-msgstr ""
+msgstr "Se usa :doc:`sampledata` para un grafo no dirigido."
 
-#: ../../build/doc/contraction-family.rst:320
+#: ../../build/doc/contraction-family.rst:370
 msgid "a dead end operation first followed by a linear operation."
-msgstr ""
+msgstr "una operación sin salida primero seguida de una operación lineal."
 
-#: ../../build/doc/contraction-family.rst:322
-msgid "The original graph:"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:326
-msgid "After doing a dead end contraction operation:"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:330
-msgid "Doing a linear contraction operation to the graph above"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:335
-msgid ""
-"There are five cases, in this documentation, which arise when calculating "
-"the shortest path between a given source and target. In this examples, "
-"``pgr_dijkstra`` is used."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:338
-msgid "**Case 1**: Both source and target belong to the contracted graph."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:339
-msgid ""
-"**Case 2**: Source belongs to a contracted graph, while target belongs to a "
-"edge subgraph."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:340
-msgid ""
-"**Case 3**: Source belongs to a vertex subgraph, while target belongs to an "
-"edge subgraph."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:341
-msgid ""
-"**Case 4**: Source belongs to a contracted graph, while target belongs to an"
-" vertex subgraph."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:342
-msgid ""
-"**Case 5**: The path contains a new edge added by the contraction algorithm."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:345
+#: ../../build/doc/contraction-family.rst:376
 msgid "Construction of the graph in the database"
-msgstr ""
+msgstr "Construcción del grafo en la base de datos"
 
-#: ../../build/doc/contraction-family.rst:348
+#: ../../build/doc/contraction-family.rst:379
 msgid "Original Data"
-msgstr ""
+msgstr "Datos Originales"
 
-#: ../../build/doc/contraction-family.rst:349
+#: ../../build/doc/contraction-family.rst:380
 msgid ""
 "The following query shows the original data involved in the contraction "
 "operation."
 msgstr ""
+"La siguiente consulta muestra los datos originales implicados en la "
+"operación de contracción."
 
-#: ../../build/doc/contraction-family.rst:356
+#: ../../build/doc/contraction-family.rst:386
+msgid "The original graph:"
+msgstr "El grafo original:"
+
+#: ../../build/doc/contraction-family.rst:392
 msgid "Contraction Results"
-msgstr ""
+msgstr "Resultados de la Contracción"
 
-#: ../../build/doc/contraction-family.rst:361
+#: ../../build/doc/contraction-family.rst:394
 msgid ""
-"The above results do not represent the contracted graph. They represent the "
-"changes done to the graph after applying the contraction algorithm. We can "
-"see that vertices like 6 and 11 do not appear in the contraction results "
-"because they were not affected by the contraction algorithm."
+"The results do not represent the contracted graph. They represent the "
+"changes done to the graph after applying the contraction algorithm."
 msgstr ""
+"Los resultados no representan al grafo contraído. Representan los cambios "
+"realizados en el grafo después de aplicar el algoritmo de contracción."
 
-#: ../../build/doc/contraction-family.rst:364
-msgid "step 1"
+#: ../../build/doc/contraction-family.rst:397
+msgid ""
+"Observe that vertices, for example, :math:`6` do not appear in the results "
+"because it was not affected by the contraction algorithm."
 msgstr ""
+"Observe que los vértices, por ejemplo, :math:`6` , no aparecen en los "
+"resultados porque no se vieron afectados por el algoritmo de contracción."
 
-#: ../../build/doc/contraction-family.rst:365
+#: ../../build/doc/contraction-family.rst:404
+msgid "After doing the dead end contraction operation:"
+msgstr "Después de realizar la operación de contracción sin salida:"
+
+#: ../../build/doc/contraction-family.rst:409
+msgid "After doing the linear contraction operation to the graph above:"
+msgstr ""
+"Después de hacer la operación de contracción lineal al grafo anterior:"
+
+#: ../../build/doc/contraction-family.rst:414
+msgid "The process to create the contraction graph on the database:"
+msgstr "El proceso para crear el grafo de contracción en la base de datos:"
+
+#: ../../build/doc/contraction-family.rst:416
+msgid "`Add additional columns`_"
+msgstr "`Añadir columnas adicionales`_"
+
+#: ../../build/doc/contraction-family.rst:417
+msgid "`Store contraction information`_"
+msgstr "`Almacenar información de la contracción`_"
+
+#: ../../build/doc/contraction-family.rst:418
+msgid "`Update the vertices and edge tables`_"
+msgstr "`Actualizar los vértices y tablas de aristas`_"
+
+#: ../../build/doc/contraction-family.rst:422
+msgid "Add additional columns"
+msgstr "Añadir columnas adicionales"
+
+#: ../../build/doc/contraction-family.rst:424
 msgid ""
 "Adding extra columns to the ``edge_table`` and ``edge_table_vertices_pgr`` "
-"tables:"
+"tables, where:"
 msgstr ""
-
-#: ../../build/doc/contraction-family.rst:368
-msgid "Column"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:368
-msgid "Description"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:370
-msgid "**contracted_vertices**"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:370
-msgid "The vertices set belonging to the vertex/edge"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:371
-#: ../../build/doc/contraction-family.rst:372
-msgid "**is_contracted**"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:371
-msgid ""
-"On a `vertex` table: when ``true`` the vertex is contracted, so is not part "
-"of the contracted graph."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:372
-msgid ""
-"On an `edge` table: when ``true`` the edge was generated by the contraction "
-"algorithm."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:375
-msgid "Using the following queries:"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:382
-msgid "step 2"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:383
-msgid ""
-"For simplicity, in this documentation, store the results of the call to "
-"pgr_contractGraph in a temporary table"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:390
-msgid "step 3"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:391
-msgid ""
-"Update the `vertex` and `edge` tables using the results of the call to "
-"pgr_contraction"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:393
-msgid ""
-"In `edge_table_vertices_pgr.is_contracted` indicate the vertices that are "
-"contracted."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:399
-msgid ""
-"Add to `edge_table_vertices_pgr.contracted_vertices`  the contracted "
-"vertices belonging to the vertices."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:405
-msgid "Insert the new edges generated by  pgr_contractGraph."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:412
-msgid "step 3.1"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:413
-msgid "Verify visually the updates."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:415
-msgid "On the `edge_table_vertices_pgr`"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:421
-msgid "On the `edge_table`"
-msgstr ""
+"Adición de columnas adicionales a las tablas ``edge_table`` y  "
+"``edge_table_vertices_pgr`` donde:"
 
 #: ../../build/doc/contraction-family.rst:427
-msgid ""
-"vertices that belong to the contracted graph are the non contracted vertices"
-msgstr ""
+msgid "Column"
+msgstr "Columna"
 
-#: ../../build/doc/contraction-family.rst:434
-msgid "case 1: Both source and target belong to the contracted graph."
+#: ../../build/doc/contraction-family.rst:427
+msgid "Description"
+msgstr "Descripción"
+
+#: ../../build/doc/contraction-family.rst:429
+msgid "**contracted_vertices**"
+msgstr "**contracted_vertices**"
+
+#: ../../build/doc/contraction-family.rst:429
+msgid "The vertices set belonging to the vertex/edge"
+msgstr "El conjunto de vértices que pertenecen al vértice/arista "
+
+#: ../../build/doc/contraction-family.rst:430
+msgid "**is_contracted**"
+msgstr "**is_contracted**"
+
+#: ../../build/doc/contraction-family.rst:430
+msgid "On the `vertex` table"
+msgstr "En la tabla `vértice`"
+
+#: ../../build/doc/contraction-family.rst:432
+msgid ""
+"when ``true`` the vertex is contracted, its not part of the contracted "
+"graph."
 msgstr ""
+"En caso de ''true'' se contrae el vértice, no forma parte del grafo "
+"contraído."
+
+#: ../../build/doc/contraction-family.rst:433
+msgid ""
+"when ``false`` the vertex is not contracted, its part of the contracted "
+"graph."
+msgstr ""
+"En caso de ''false'' el vértice no se contrae, su parte del grafo contraído."
 
 #: ../../build/doc/contraction-family.rst:435
-msgid ""
-"Inspecting the contracted graph above, vertex 3 and vertex 11 are part of "
-"the contracted graph. In the following query:"
-msgstr ""
+msgid "**is_new**"
+msgstr "**is_new**"
+
+#: ../../build/doc/contraction-family.rst:435
+msgid "On the `edge` table:"
+msgstr "En la tabla `edge`:"
 
 #: ../../build/doc/contraction-family.rst:437
 msgid ""
-"vertices_in_graph hold the vertices that belong to the contracted graph."
+"when ``true`` the edge was generated by the contraction algorithm. its part "
+"of the contracted graph."
 msgstr ""
+"En caso de `` true``, la arista se generó por el algoritmo de contracción. "
+"Es parte del grafo contraído."
 
 #: ../../build/doc/contraction-family.rst:438
-#: ../../build/doc/contraction-family.rst:452
-#: ../../build/doc/contraction-family.rst:469
-#: ../../build/doc/contraction-family.rst:485
-#: ../../build/doc/contraction-family.rst:507
 msgid ""
-"when selecting the edges, only edges that have the source and the target in "
-"that set are the edges belonging to the contracted graph, that is done in "
-"the WHERE clause."
+"when ``false`` the edge is an original edge, might be or not part of the "
+"contracted graph."
 msgstr ""
+"En caso de ``false`` , la arista es una arista original, podría ser o no "
+"parte del grafo contraído."
 
-#: ../../build/doc/contraction-family.rst:440
-msgid ""
-"Visually, looking at the original graph, going from 3 to 11: 3 -> 6 -> 11, "
-"and in the contracted graph, it is also 3 -> 6 -> 11. The results, on the "
-"contracted graph match the results as if it was done on the original graph."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:448
-msgid ""
-"case 2: Source belongs to the contracted graph, while target belongs to a "
-"edge subgraph."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:452
-msgid ""
-"Inspecting the contracted graph above, vertex 3 is part of the contracted "
-"graph and vertex 1 belongs to the contracted subgraph of edge 19. In the "
-"following query:"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:450
-msgid ""
-"expand1 holds the contracted vertices of the edge where vertex 1 belongs. "
-"(belongs to edge 19)."
-msgstr ""
+#: ../../build/doc/contraction-family.rst:449
+msgid "Store contraction information"
+msgstr "Almacenar información de contracción"
 
 #: ../../build/doc/contraction-family.rst:451
-msgid ""
-"vertices_in_graph hold the vertices that belong to the contracted graph and "
-"also the contracted vertices of edge 19."
-msgstr ""
+msgid "Store the `contraction results`_ in a table"
+msgstr "Almacenar los `resultados de la contracción`_ en una tabla"
 
-#: ../../build/doc/contraction-family.rst:454
-msgid ""
-"Visually, looking at the original graph, going from 3 to 1: 3 -> 2 -> 1, and"
-" in the contracted graph, it is also 3 -> 2 -> 1. The results, on the "
-"contracted graph match the results as if it was done on the original graph."
-msgstr ""
+#: ../../build/doc/contraction-family.rst:458
+msgid "Update the vertices and edge tables"
+msgstr "Actualizar los vértices y las tablas de aristas"
 
-#: ../../build/doc/contraction-family.rst:463
-msgid ""
-"case 3: Source belongs to a vertex subgraph, while target belongs to an edge"
-" subgraph."
-msgstr ""
+#: ../../build/doc/contraction-family.rst:461
+msgid "Update the `vertex` table using the contraction information"
+msgstr "Actualice la tabla `vértice` utilizando la información de contracción"
 
-#: ../../build/doc/contraction-family.rst:464
+#: ../../build/doc/contraction-family.rst:462
 msgid ""
-"Inspecting the contracted graph above, vertex 7 belongs to the contracted "
-"subgraph of vertex 5 and vertex 13 belongs to the contracted subgraph of "
-"edge 21. In the following query:"
+"Use ``edge_table_vertices_pgr.is_contracted`` to indicate the vertices that "
+"are contracted."
 msgstr ""
-
-#: ../../build/doc/contraction-family.rst:466
-#: ../../build/doc/contraction-family.rst:483
-msgid ""
-"expand7 holds the contracted vertices of vertex where vertex 7 belongs. "
-"(belongs to vertex 5)"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:467
-msgid ""
-"expand13 holds the contracted vertices of edge where vertex 13 belongs. "
-"(belongs to edge 21)"
-msgstr ""
+"Use ``edge_table_vertices_pgr.is_contracted`` para indicar los vértices que "
+"son contraídos."
 
 #: ../../build/doc/contraction-family.rst:468
 msgid ""
-"vertices_in_graph hold the vertices that belong to the contracted graph, "
-"contracted vertices of vertex 5 and contracted vertices of edge 21."
+"Add to ``edge_table_vertices_pgr.contracted_vertices`` the contracted "
+"vertices belonging to the vertices."
 msgstr ""
+"Agregar a  ``edge_table_vertices_pgr.contracted_vertices`` los vértices "
+"contraídos que pertenecen a los vértices."
 
-#: ../../build/doc/contraction-family.rst:471
-msgid ""
-"Visually, looking at the original graph, going from 7 to 13: 7 -> 8 -> 5 -> "
-"10 -> 13, and in the contracted graph, it is also 7 -> 8 -> 5 -> 10 -> 13. "
-"The results, on the contracted graph match the results as if it was done on "
-"the original graph."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:480
-msgid ""
-"case 4: Source belongs to the contracted graph, while target belongs to an "
-"vertex subgraph."
-msgstr ""
+#: ../../build/doc/contraction-family.rst:474
+msgid "The modified ``edge_table_vertices_pgr``."
+msgstr "El modificado ``edge_table_vertices_pgr``."
 
 #: ../../build/doc/contraction-family.rst:481
-msgid ""
-"Inspecting the contracted graph above, vertex 3 is part of the contracted "
-"graph and vertex 7 belongs to the contracted subgraph of vertex 5. In the "
-"following query:"
-msgstr ""
+msgid "Update the `edge` table using the contraction information"
+msgstr "Actualice la tabla `edge` utilizando la información de la contracción"
 
-#: ../../build/doc/contraction-family.rst:484
-msgid ""
-"vertices_in_graph hold the vertices that belong to the contracted graph and "
-"the contracted vertices of vertex 5."
-msgstr ""
+#: ../../build/doc/contraction-family.rst:482
+msgid "Insert the new edges generated by pgr_contraction."
+msgstr "Inserte las nuevas aristas generadas por pgr_contraction."
 
-#: ../../build/doc/contraction-family.rst:487
-msgid ""
-"Visually, looking at the original graph, going from 3 to 7: 3 -> 2 -> 5 -> 8"
-" -> 7, but in the contracted graph, it is 3 -> 5 -> 8 -> 7. The results, on "
-"the contracted graph do not match the results as if it was done on the "
-"original graph. This is because the path contains edge 19 which is added by "
-"the contraction algorithm."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:495
-msgid "case 5: The path contains an edge added by the contraction algorithm."
-msgstr ""
+#: ../../build/doc/contraction-family.rst:488
+msgid "The modified ``edge_table``."
+msgstr "La modificada ``edge_table``."
 
 #: ../../build/doc/contraction-family.rst:496
-msgid ""
-"In the previous example we can see that the path from vertex 3 to vertex 7 "
-"contains an edge which is added by the contraction algorithm."
-msgstr ""
+msgid "The contracted graph"
+msgstr "El grafo contraído"
 
-#: ../../build/doc/contraction-family.rst:502
-msgid ""
-"Inspecting the contracted graph above, edge 19 should be expanded. In the "
-"following query:"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:504
-msgid "first_dijkstra holds the results of the dijkstra query."
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:505
-msgid ""
-"edges_to_expand holds the edges added by the contraction algorithm and "
-"included in the path."
-msgstr ""
+#: ../../build/doc/contraction-family.rst:499
+msgid "Vertices that belong to the contracted graph."
+msgstr "Vértices que pertenecen al grafo contraído."
 
 #: ../../build/doc/contraction-family.rst:506
-msgid ""
-"vertices_in_graph hold the vertices that belong to the contracted graph, "
-"vertices of the contracted solution and the contracted vertices of the edges"
-" added by the contraction algorithm and included in the contracted solution."
-msgstr ""
+msgid "Edges that belong to the contracted graph."
+msgstr "Aristas que pertenecen al grafo contraído."
 
-#: ../../build/doc/contraction-family.rst:509
-msgid ""
-"Visually, looking at the original graph, going from 3 to 7: 3 -> 2 -> 5 -> 8"
-" -> 7, and in the contracted graph, it is also 3 -> 2 -> 5 -> 8 -> 7. The "
-"results, on the contracted graph match the results as if it was done on the "
-"original graph."
-msgstr ""
+#: ../../build/doc/contraction-family.rst:516
+msgid "Using the contracted graph"
+msgstr "Usando el grafo contraído"
 
-#: ../../build/doc/contraction-family.rst:517
-msgid "See Also"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:519
-msgid ""
-"http://www.cs.cmu.edu/afs/cs/academic/class/15210-f12/www/lectures/lecture16.pdf"
-msgstr ""
+#: ../../build/doc/contraction-family.rst:518
+msgid "Using the contracted graph with ``pgr_dijkstra``"
+msgstr "Uso del grafo contraído con ``pgr_dijkstra``"
 
 #: ../../build/doc/contraction-family.rst:520
-msgid "http://algo2.iti.kit.edu/documents/routeplanning/geisberger_dipl.pdf"
-msgstr ""
-
-#: ../../build/doc/contraction-family.rst:521
 msgid ""
-"The queries use :ref:`pgr_contractGraph` function and the :doc:`sampledata` "
-"network."
+"There are three cases when calculating the shortest path between a given "
+"source and target in a contracted graph:"
 msgstr ""
+"Hay tres casos al calcular la ruta más corta entre un origen y un destino "
+"determinados en un grafo contraído:"
+
+#: ../../build/doc/contraction-family.rst:523
+#: ../../build/doc/contraction-family.rst:528
+msgid "Case 1: Both source and target belong to the contracted graph."
+msgstr ""
+"Caso 1: Tanto el origen como el destino pertenecen al grafo contraído."
 
 #: ../../build/doc/contraction-family.rst:524
-msgid "Indices and tables"
-msgstr ""
+#: ../../build/doc/contraction-family.rst:569
+msgid "Case 2: Source and/or target belong to an edge subgraph."
+msgstr "Caso 2: El origen y/o el destino pertenecen a un subgrafo de aristas."
 
 #: ../../build/doc/contraction-family.rst:525
-msgid ":ref:`genindex`"
-msgstr ""
+#: ../../build/doc/contraction-family.rst:612
+msgid "Case 3: Source and/or target belong to a vertex."
+msgstr "Caso 3: El origen y/o el destino pertenecen a un vértice."
 
-#: ../../build/doc/contraction-family.rst:526
-msgid ":ref:`search`"
+#: ../../build/doc/contraction-family.rst:530
+msgid ""
+"Using the `Edges that belong to the contracted graph.`_ on lines 10 to 19."
 msgstr ""
+"Usando las `Aristas que pertenecen al grafo contraído.`_ en las líneas 10 a "
+"19."
+
+#: ../../build/doc/contraction-family.rst:539
+#: ../../build/doc/contraction-family.rst:583
+#: ../../build/doc/contraction-family.rst:626
+msgid "Case 1"
+msgstr "Caso 1"
+
+#: ../../build/doc/contraction-family.rst:540
+#: ../../build/doc/contraction-family.rst:584
+#: ../../build/doc/contraction-family.rst:627
+msgid ""
+"When both source and target belong to the contracted graph, a path is found."
+msgstr ""
+"Cuando el origen y el destino pertenecen al grafo contraído, se encuentra "
+"ruta."
+
+#: ../../build/doc/contraction-family.rst:547
+#: ../../build/doc/contraction-family.rst:591
+#: ../../build/doc/contraction-family.rst:634
+msgid "Case 2"
+msgstr "Caso 2"
+
+#: ../../build/doc/contraction-family.rst:548
+msgid ""
+"When source and/or target belong to an edge subgraph then a path is not "
+"found."
+msgstr ""
+"Cuando el origen y/o el destino pertenecen a un subgrafo de aristas, no se "
+"encuentra una ruta."
+
+#: ../../build/doc/contraction-family.rst:550
+msgid ""
+"In this case, the contracted graph do not have an edge connecting with node "
+":math:`4`."
+msgstr ""
+"En este caso, el grafo contraído no tiene una arista que se conecte con el "
+"nodo :math:`4`."
+
+#: ../../build/doc/contraction-family.rst:558
+#: ../../build/doc/contraction-family.rst:601
+#: ../../build/doc/contraction-family.rst:643
+msgid "Case 3"
+msgstr "Caso 3"
+
+#: ../../build/doc/contraction-family.rst:559
+#: ../../build/doc/contraction-family.rst:602
+msgid "When source and/or target belong to a vertex then a path is not found."
+msgstr ""
+"Cuando el origen y/o el destino pertenecen a un vértice, no se encuentra "
+"ruta."
+
+#: ../../build/doc/contraction-family.rst:561
+msgid ""
+"In this case, the contracted graph do not have an edge connecting with node "
+":math:`7` and of node :math:`4` of the second case."
+msgstr ""
+"En este caso, el grafo contraído no tiene algún arista que conecte con el "
+"nodo :math:`7` ni con el nodo :math:`4` del segundo caso."
+
+#: ../../build/doc/contraction-family.rst:571
+#: ../../build/doc/contraction-family.rst:614
+msgid "Refining the above function to include nodes that belong to an edge."
+msgstr ""
+"Refinar la función anterior para incluir nodos que pertenezcan a una arista."
+
+#: ../../build/doc/contraction-family.rst:573
+msgid ""
+"The vertices that need to be expanded are calculated on lines 10 to 16."
+msgstr "Los vértices que deben ampliarse se calculan en las líneas 10 a 16."
+
+#: ../../build/doc/contraction-family.rst:574
+msgid ""
+"Adding to the contracted graph that additional section on lines 25 to 27."
+msgstr ""
+"Añadiendo al grafo contraído esa sección adicional en las líneas 25 a 27."
+
+#: ../../build/doc/contraction-family.rst:592
+msgid ""
+"When source and/or target belong to an edge subgraph, now, a path is found."
+msgstr ""
+"Cuando el origen y/o el destino pertenecen a un subgrafo de arista, entonces"
+" se encuentra una ruta."
+
+#: ../../build/doc/contraction-family.rst:594
+msgid "The routing graph now has an edge connecting with node :math:`4`."
+msgstr ""
+"El grafo de ruteo ahora tiene un arista que se conecta con el nodo "
+":math:`4`."
+
+#: ../../build/doc/contraction-family.rst:604
+msgid ""
+"In this case, the contracted graph do not have an edge connecting with node "
+":math:`7`."
+msgstr ""
+"En este caso, el grafo contraído no tiene una arista que se conecte con el "
+"nodo :math:`7`."
+
+#: ../../build/doc/contraction-family.rst:616
+msgid ""
+"The vertices that need to be expanded are calculated on lines 18 to 23."
+msgstr "Los vértices que deben ampliarse se calculan en las líneas 18 a 23."
+
+#: ../../build/doc/contraction-family.rst:617
+msgid ""
+"Adding to the contracted graph that additional section on lines 38 to 40."
+msgstr ""
+"Añadiendo al grafo contraído esa sección adicional en las líneas 38 a 40."
+
+#: ../../build/doc/contraction-family.rst:635
+msgid ""
+"The code change do not affect this case so when source and/or target belong "
+"to an edge subgraph, a path is still found."
+msgstr ""
+"El cambio de código no afecta a este caso, por lo que cuando el origen o el "
+"destino pertenecen a un subgrafo de aristas, aún se puede encontrar ruta."
+
+#: ../../build/doc/contraction-family.rst:644
+msgid "When source and/or target belong to a vertex, now, a path is found."
+msgstr ""
+"Cuando el origen y/o el destino pertenecen a un vértice, entonces se "
+"encuentra ruta."
+
+#: ../../build/doc/contraction-family.rst:646
+msgid "Now, the routing graph has an edge connecting with node :math:`7`."
+msgstr ""
+"Ahora, el grafo de ruteo tiene un arista que se conecta con el nodo "
+":math:`7`."
+
+#: ../../build/doc/contraction-family.rst:653
+msgid "See Also"
+msgstr "Ver también"
+
+#: ../../build/doc/contraction-family.rst:655
+msgid ""
+"https://www.cs.cmu.edu/afs/cs/academic/class/15210-f12/www/lectures/lecture16.pdf"
+msgstr ""
+"https://www.cs.cmu.edu/afs/cs/academic/class/15210-f12/www/lectures/lecture16.pdf"
+
+#: ../../build/doc/contraction-family.rst:656
+msgid "https://algo2.iti.kit.edu/documents/routeplanning/geisberger_dipl.pdf"
+msgstr "https://algo2.iti.kit.edu/documents/routeplanning/geisberger_dipl.pdf"
+
+#: ../../build/doc/contraction-family.rst:657
+msgid ""
+"The queries use :doc:`pgr_contraction` function and the :doc:`sampledata` "
+"network."
+msgstr ""
+"Las consultas usan la función :doc:`pgr_contraction` y la red "
+":doc:`sampledata` ."
+
+#: ../../build/doc/contraction-family.rst:660
+msgid "Indices and tables"
+msgstr "Índices y tablas"
+
+#: ../../build/doc/contraction-family.rst:661
+msgid ":ref:`genindex`"
+msgstr ":ref:`genindex`"
+
+#: ../../build/doc/contraction-family.rst:662
+msgid ":ref:`search`"
+msgstr ":ref:`search`"
+
+#~ msgid ""
+#~ "when ``false`` the edge is an original edgei, might be or not part of the "
+#~ "contracted graph."
+#~ msgstr ""
+#~ "En caso de ``false`` , la arista es una arista original, podría ser o no "
+#~ "parte del grafo contraído."
+
+#~ msgid ""
+#~ "**Supported versions:** current(`3.0 <https://docs.pgrouting.org/dev/en"
+#~ "/contraction-family.html>`__) `2.6 <https://docs.pgrouting.org/2.6/en"
+#~ "/contraction-family.html>`__"
+#~ msgstr ""
+#~ "**Versiones soportadas:** actual(`3.0 <https://docs.pgrouting.org/doc/es"
+#~ "/contraction-family.html>`__) `2.6 <https://docs.pgrouting.org/2.6/en"
+#~ "/contraction-family.html>`__"

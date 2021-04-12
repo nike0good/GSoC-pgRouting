@@ -10,22 +10,22 @@
  * Mail: vicky_vergara@hotmail.com
  *
  * ------
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- *
- *  ********************************************************************PGR-GNU*/
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ ********************************************************************PGR-GNU*/
 
 #ifndef INCLUDE_TSP_PGR_TSP_HPP_
 #define INCLUDE_TSP_PGR_TSP_HPP_
@@ -43,7 +43,7 @@
 
 #include "cpp_common/pgr_assert.h"
 #include "cpp_common/Dmatrix.h"
-#include "tsp/eucledianDmatrix.h"
+#include "tsp/euclideanDmatrix.h"
 #include "tsp/tour.h"
 
 
@@ -148,7 +148,7 @@ class TSP: public MATRIX {
 
      size_t find_closest_city(
              size_t current_city,
-             const std::set<size_t> inserted) const;
+             const std::set<size_t> &inserted) const;
 
      double getDeltaSlide(
              size_t posP,
@@ -201,7 +201,7 @@ template < typename MATRIX >
 size_t
 TSP<MATRIX>::find_closest_city(
         size_t current_city,
-        const std::set<size_t> inserted) const {
+        const std::set<size_t> &inserted) const {
     invariant();
 
     auto distance_row(get_row(current_city));
@@ -504,6 +504,7 @@ template < typename MATRIX >
 void
 TSP<MATRIX>::swapClimb() {
     invariant();
+    if (!(n > 2)) return;
     pgassert(n > 2);
 
     //    auto first = std::rand() % n;
@@ -537,6 +538,8 @@ TSP<MATRIX>::annealing(
         bool randomize,
         double time_limit) {
     invariant();
+    if (!(n > 2)) return;
+
     clock_t start_time(clock());
 
     if (randomize) {

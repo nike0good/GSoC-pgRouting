@@ -4,6 +4,7 @@ SET(LOCAL_FILES
     pgr_withPoints.rst
     withPoints-family.rst
     pgr_withPointsCost.rst
+    pgr_withPointsCostMatrix.rst
     pgr_withPointsKSP.rst
     pgr_withPointsVia.rst
     )
@@ -15,6 +16,6 @@ endforeach()
 
 
 add_subdirectory("images")
-set(PgRouting_DOC_FILES ${PgRouting_DOC_FILES} ${LOCAL_DOC_FILES} PARENT_SCOPE)
-set(PgRouting_IMG_FILES ${PgRouting_IMG_FILES} PARENT_SCOPE)
+set(PGROUTING_DOC_FILES ${PGROUTING_DOC_FILES} ${LOCAL_DOC_FILES} PARENT_SCOPE)
+set(PGROUTING_IMG_FILES ${PGROUTING_IMG_FILES} PARENT_SCOPE)
 

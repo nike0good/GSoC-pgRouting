@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #include "c_common/restrictions_input.h"
 
@@ -45,7 +45,11 @@ void fetch_restriction(
     /*
      * reading the cost
      */
-    restriction->cost = pgr_SPI_getFloat8(tuple, tupdesc,  info[1]);
+    if (column_found(info[1].colNumber)) {
+        restriction->cost = pgr_SPI_getFloat8(tuple, tupdesc, info[1]);
+    } else {
+        restriction->cost = -1;
+    }
 
     restriction->via = NULL;
     restriction->via_size = 0;
@@ -85,8 +89,8 @@ pgr_get_restrictions(
     info[1].eType = ANY_NUMERICAL;
     info[2].eType = ANY_INTEGER_ARRAY;
 
+    info[1].strict = false;
 
-    size_t ntuples;
     size_t total_tuples;
 
     void *SPIplan;
@@ -105,7 +109,7 @@ pgr_get_restrictions(
         if (total_tuples == 0) {
             pgr_fetch_column_info(info, 3);
         }
-        ntuples = SPI_processed;
+        size_t ntuples = SPI_processed;
         total_tuples += ntuples;
         PGR_DBG("Restrictions to be processed %ld", ntuples);
         PGR_DBG("size of structure %ld",  sizeof(Restriction_t));

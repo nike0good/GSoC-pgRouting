@@ -21,7 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 
 #include "drivers/trsp/trsp_driver.h"
@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sstream>
 #include <algorithm>
 #include "trsp/pgr_trspHandler.h"
-#include "trsp/rule.h"
+#include "cpp_common/rule.h"
 #include "cpp_common/pgr_assert.h"
 #include "cpp_common/pgr_alloc.hpp"
 
@@ -67,7 +67,6 @@ do_trsp(
         pgassert(*log_msg == NULL);
         pgassert(*notice_msg == NULL);
         pgassert(*err_msg == NULL);
-
 
         std::vector<pgrouting::trsp::Rule> ruleList;
         for (size_t i = 0; i < restrictions_size; ++i) {
@@ -120,6 +119,13 @@ do_trsp(
         (*return_tuples) = pgr_alloc(count, (*return_tuples));
         (*return_count) = collapse_paths(return_tuples, paths);
 
+
+        *log_msg = log.str().empty()?
+            *log_msg :
+            pgr_msg(log.str().c_str());
+        *notice_msg = notice.str().empty()?
+            *notice_msg :
+            pgr_msg(notice.str().c_str());
 
         return;
     } catch (AssertFailedException &except) {

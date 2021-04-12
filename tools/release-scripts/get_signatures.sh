@@ -1,32 +1,30 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
-if [  "$#" -lt 3 ] ; then
-    echo "Usage: getSignatures.sh VERSION DB_ARGS"
-    echo "  VERSION like '2.5.0'"
-    echo "  DB_NAME like 'routing'  (will be deleted if it exists)"
-    echo "  DIR: 'sql/sigs'  is relative to the root of the repository"
-    echo "  (optional) DB_ARGS like  -U postgres -h localhost -p 5432 "
+if [  "$1" = "--help" ] ; then
+    echo "Usage: getSignatures.sh [DB_ARGS]"
+    echo "  DB_ARGS optional"
+    echo "example"
+    echo "get_signatures.sql -U postgres -h localhost -p 5432 "
     echo "Exeute from the root of the repository"
     exit 0
 fi
 
-VERSION=$1
-DB_NAME=$2
-DIR=$3
-shift
-shift
-shift
-# DB_ARGS is the remaining of the arguments
+VERSION=$(grep -Po '(?<=project\(PGROUTING VERSION )[^;]+' CMakeLists.txt)
 
-FILE=$DIR/pgrouting--$VERSION.sig
-#FILE=test.sig
+DB_NAME="____sigs_routing____"
+DIR="sql/sigs"
 
-dropdb --if-exists $* $DB_NAME
-createdb $* $DB_NAME
+# DB_ARGS are the remaining of the arguments
+DB_ARGS="$*"
 
-psql  $*  $DB_NAME <<EOF
+FILE="$DIR/pgrouting--$VERSION.sig"
+
+dropdb --if-exists $DB_ARGS $DB_NAME
+createdb $DB_ARGS $DB_NAME
+
+psql  $DB_ARGS  $DB_NAME <<EOF
 SET client_min_messages = WARNING;
 drop extension if exists pgrouting;
 drop extension if exists postgis;
@@ -34,10 +32,9 @@ create extension postgis;
 create extension pgrouting with version '$VERSION';
 EOF
 
-echo "#VERSION pgrouting $VERSION" > $FILE
+echo "#VERSION pgrouting $VERSION" > "$FILE"
 echo "#TYPES" >> $FILE
-psql $* $DB_NAME -c '\dx+ pgrouting' -A | grep '^type' | cut -d ' ' -f2- | sort >> $FILE
-echo "#FUNCTIONS" >> $FILE
-psql $* $DB_NAME -c '\dx+ pgrouting' -A | grep '^function' | cut -d ' ' -f2- | sort >> $FILE
+psql $DB_ARGS $DB_NAME -c '\dx+ pgrouting' -A | grep '^type' | cut -d ' ' -f2- | sort -d >> $FILE
+echo "#FUNCTIONS" >> "$FILE"
+psql $DB_ARGS $DB_NAME -c '\dx+ pgrouting' -A | grep '^function' | cut -d ' ' -f2- | sort -d >> $FILE
 
-dropdb --if-exists $* $DB_NAME

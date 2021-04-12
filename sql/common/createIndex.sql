@@ -21,7 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 
 
@@ -113,3 +113,8 @@ $BODY$
   LANGUAGE plpgsql VOLATILE STRICT;
 
 
+COMMENT ON FUNCTION _pgr_createIndex(TEXT, TEXT, TEXT, TEXT, INTEGER, TEXT)
+IS 'pgRouting internal function';
+
+COMMENT ON FUNCTION _pgr_createIndex(TEXT, TEXT, TEXT, INTEGER, TEXT)
+IS 'pgRouting internal function';

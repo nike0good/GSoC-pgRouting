@@ -4,10 +4,8 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
-
-.. _pgr_lineGraph:
 
 pgr_lineGraph - Experimental
 ===============================================================================
@@ -15,97 +13,79 @@ pgr_lineGraph - Experimental
 ``pgr_lineGraph`` — Transforms a given graph into its corresponding edge-based graph.
 
 .. figure:: images/boost-inside.jpeg
-   :target: http://www.boost.org/libs/graph/doc/dijkstra_shortest_paths.html
+   :target: https://www.boost.org/libs/graph/doc/dijkstra_shortest_paths.html
 
    Boost Graph Inside
 
-
-.. include:: proposed.rst
+.. include:: experimental.rst
    :start-after: begin-warn-expr
    :end-before: end-warn-expr
 
+.. rubric:: Availability
 
-Synopsis
+* Version 2.5.0
+
+  * New **Experimental** function
+
+.. rubric:: Support
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/pgr_lineGraph.html>`__)
+
+* **Unsupported versions:**
+  `2.6 <https://docs.pgrouting.org/2.6/en/pgr_lineGraph.html>`__
+  `2.5 <https://docs.pgrouting.org/2.5/en/pgr_lineGraph.html>`__
+
+Description
 -------------------------------------------------------------------------------
 
-Given a graph G, its line graph L(G) is a graph such that:-
+Given a graph G, its line graph L(G) is a graph such that:
 
-- each vertex of L(G) represents an edge of G
-- two vertices of L(G) are adjacent if and only if their corresponding edges share a common endpoint in G.
+- Each vertex of L(G) represents an edge of G
+- Two vertices of L(G) are adjacent if and only if their corresponding edges share a common endpoint in G.
 
-The following figures show a graph (left, with blue vertices) and its
-Line Graph (right, with green vertices).
+Signatures
+-------------------------------------------------------------------------------
 
-| |first|
-
-.. |first| image:: images/lineGraph.png
-   :align: middle
-
-Signature Summary
------------------
+.. rubric:: Summary
 
 .. code-block:: none
 
     pgr_lineGraph(edges_sql, directed)
     RETURNS SET OF (seq, source, target, cost, reverse_cost)
-        OR EMPTY SET
+    OR EMPTY SET
 
-
-Signatures
--------------------------------------------------------------------------------
-
-.. index::
-    single: lineGraph(Minimal Use)
-
-Minimal signature
-.......................................
+.. rubric:: Using defaults
 
 .. code-block:: none
 
     pgr_lineGraph(edges_sql)
-    RETURNS SET OF (seq, source, target, cost, reverse_cost) or EMPTY SET
+    RETURNS SET OF (seq, source, target, cost, reverse_cost) OR EMPTY SET
 
-The minimal signature is for a **directed** graph:
-
-:Example:
+:Example: For a **directed** graph
 
 .. literalinclude:: doc-pgr_lineGraph.queries
    :start-after: -- q1
    :end-before: -- q2
 
-
 .. index::
     single: lineGraph(Complete signature)
 
 Complete Signature
-.......................................
+...............................................................................
 
 .. code-block:: none
 
     pgr_lineGraph(edges_sql, directed);
-    RETURNS SET OF (seq, source, target, cost, reverse_cost) or EMPTY SET
+    RETURNS SET OF (seq, source, target, cost, reverse_cost) OR EMPTY SET
 
-This signature returns the Line Graph of the current graph:
-  -  on a **directed** graph when ``directed`` flag is missing or is set to ``true``.
-  -  on an **undirected** graph when ``directed`` flag is set to ``false``.
-
-:Example:
+:Example: For an **undirected** graph
 
 .. literalinclude:: doc-pgr_lineGraph.queries
    :start-after: -- q2
    :end-before: -- q3
 
-
-
-Description of the Signatures
--------------------------------------------------------------------------------
-
-.. include:: pgRouting-concepts.rst
-    :start-after: basic_edges_sql_start
-    :end-before: basic_edges_sql_end
-
-
-Description of the parameters of the signatures
+Parameters
 -------------------------------------------------------------------------------
 
 ======================= ====================== =================================================
@@ -116,7 +96,14 @@ Column                  Type                   Description
                                                * When ``false`` the graph is considered as `Undirected`.
 ======================= ====================== =================================================
 
-Description of the return values
+Inner query
+-------------------------------------------------------------------------------
+
+.. include:: pgRouting-concepts.rst
+    :start-after: basic_edges_sql_start
+    :end-before: basic_edges_sql_end
+
+Result Columns
 -------------------------------------------------------------------------------
 
 RETURNS SETOF  (seq, source, target, cost, reverse_cost)
@@ -142,7 +129,6 @@ Column                       Type                Description
 
                                                  * When `negative`: edge (`target`, `source`) does not exist, therefore it’s not part of the graph.
 ============================ =================   ===================================================================
-
 
 See Also
 -------------------------------------------------------------------------------

@@ -22,15 +22,23 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
--- bdDijkstra MANY TO MANY
+-------------
+-------------
+-- bdDijkstra
+-------------
+-------------
+
+
 CREATE OR REPLACE FUNCTION _pgr_bdDijkstra(
-    edges_sql TEXT,
-    start_vids ANYARRAY,
-    end_vids ANYARRAY,
-    directed BOOLEAN DEFAULT true,
+    TEXT,     -- edges_sql (required)
+    ANYARRAY, -- start_vids (required)
+    ANYARRAY, -- end_vids (required)
+
+    directed BOOLEAN,
     only_cost BOOLEAN DEFAULT false,
+
     OUT seq INTEGER,
     OUT path_seq INTEGER,
     OUT start_vid BIGINT,
@@ -40,6 +48,11 @@ CREATE OR REPLACE FUNCTION _pgr_bdDijkstra(
     OUT cost FLOAT,
     OUT agg_cost FLOAT)
 RETURNS SETOF RECORD AS
-'${MODULE_PATHNAME}', 'bdDijkstra'
+'MODULE_PATHNAME'
 LANGUAGE c VOLATILE STRICT;
 
+
+-- COMMENTS
+
+COMMENT ON FUNCTION _pgr_bdDijkstra(TEXT, ANYARRAY, ANYARRAY, BOOLEAN, BOOLEAN)
+IS 'pgRouting internal function';

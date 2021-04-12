@@ -4,51 +4,124 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
 
-
-.. _routing_functions:
-
 *******************************************************************************
-Routing Functions
+Function Families
 *******************************************************************************
 
 ..
     from-here
 
 
-:ref:`all_pairs`
+:doc:`allpairs-family`
 
-- :ref:`pgr_floydWarshall` - Floyd-Warshall's Algorithm
-- :ref:`pgr_johnson`- Johnson’s Algorithm
+.. include:: allpairs-family.rst
+   :start-after: index from here
+   :end-before: index to here
 
-:ref:`pgr_astar` - Shortest Path A*
+:doc:`aStar-family`
 
-:ref:`pgr_bdAstar` - Bi-directional A* Shortest Path
+.. include:: aStar-family.rst
+   :start-after: index from here
+   :end-before: index to here
 
-:ref:`pgr_bdDijkstra` - Bi-directional Dijkstra Shortest Path
 
+:doc:`bdAstar-family`
 
-:ref:`dijkstra`
+.. include:: bdAstar-family.rst
+   :start-after: index from here
+   :end-before: index to here
+
+:doc:`bdDijkstra-family`
+
+.. include:: bdDijkstra-family.rst
+   :start-after: index from here
+   :end-before: index to here
+
+:doc:`components-family`
+
+.. include:: components-family.rst
+   :start-after: index from here
+   :end-before: index to here
+
+:doc:`contraction-family`
+
+.. include:: contraction-family.rst
+   :start-after: index from here
+   :end-before: index to here
+
+:doc:`dijkstra-family`
 
 .. include:: dijkstra-family.rst
    :start-after: index from here
    :end-before: index to here
 
-:ref:`pgr_ksp` - K-Shortest Path
+:doc:`flow-family`
 
-:ref:`pgr_trsp<trsp>` - Turn Restriction Shortest Path (TRSP)
+.. include:: flow-family.rst
+   :start-after: index from here
+   :end-before: index to here
 
-:ref:`tsp`
+:doc:`kruskal-family`
+
+.. include:: kruskal-family.rst
+      :start-after: index from here
+      :end-before: index to here
+
+:doc:`prim-family`
+
+.. include:: prim-family.rst
+      :start-after: index from here
+      :end-before: index to here
+
+:doc:`topology-functions`
+
+.. include:: topology-functions.rst
+   :start-after: topology_index_start
+   :end-before: topology_index_end
+
+:doc:`TSP-family`
 
 .. include:: TSP-family.rst
    :start-after: index from here
    :end-before: index to here
 
-:ref:`drivingDistance`
+:doc:`pgr_trsp` - Turn Restriction Shortest Path (TRSP)
+
+
+Functions by categories
+===============================================================================
+
+:doc:`cost-category`
+
+.. include:: cost-category.rst
+   :start-after: index from here
+   :end-before: index to here
+
+:doc:`costMatrix-category`
+
+.. include:: costMatrix-category.rst
+   :start-after: index from here
+   :end-before: index to here
+
+
+:doc:`drivingDistance-category`
 
 .. include:: drivingDistance-category.rst
+   :start-after: index from here
+   :end-before: index to here
+
+:doc:`KSP-category`
+
+.. include:: KSP-category.rst
+   :start-after: index from here
+   :end-before: index to here
+
+:doc:`spanningTree-family`
+
+.. include:: spanningTree-family.rst
    :start-after: index from here
    :end-before: index to here
 
@@ -58,13 +131,28 @@ Routing Functions
     :hidden:
 
     allpairs-family
-    pgr_bdAstar
-    pgr_bdDijkstra
+    aStar-family
+    bdAstar-family
+    bdDijkstra-family
+    components-family
+    contraction-family
     dijkstra-family
-    pgr_KSP
-    pgr_trsp
+    flow-family
+    kruskal-family
+    prim-family
+    topology-functions
     TSP-family
+    spanningTree-family
+    KSP-category
+    pgr_trsp
+
+.. toctree::
+    :hidden:
+
+    cost-category
+    costMatrix-category
     drivingDistance-category
+    spanningTree-family
 
 See Also
 -------------------------------------------------------------------------------

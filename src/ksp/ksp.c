@@ -20,8 +20,9 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
+#include <stdbool.h>
 #include "c_common/postgres_connection.h"
 
 #include "c_common/debug_macro.h"
@@ -32,19 +33,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include "drivers/yen/ksp_driver.h"
 
-PGDLLEXPORT Datum kshortest_path(PG_FUNCTION_ARGS);
-PG_FUNCTION_INFO_V1(kshortest_path);
+PGDLLEXPORT Datum _pgr_ksp(PG_FUNCTION_ARGS);
+PG_FUNCTION_INFO_V1(_pgr_ksp);
 
 static
 void compute(
         char* edges_sql,
         int64_t start_vertex,
         int64_t end_vertex,
-        int k,
+
+        int p_k,
         bool directed,
         bool heap_paths,
         General_path_element_t **result_tuples, size_t *result_count) {
     pgr_SPI_connect();
+    if (p_k < 0) {
+        return;
+    }
+
+    size_t k = (size_t)p_k;
 
     PGR_DBG("Load data");
     pgr_edge_t *edges = NULL;
@@ -110,7 +117,7 @@ void compute(
 
 
 PGDLLEXPORT Datum
-kshortest_path(PG_FUNCTION_ARGS) {
+_pgr_ksp(PG_FUNCTION_ARGS) {
     FuncCallContext     *funcctx;
     TupleDesc            tuple_desc;
     General_path_element_t      *path = NULL;

@@ -20,8 +20,6 @@ if [  "$#" -lt 1 ] ; then
 fi
 }
 
-ACTION="$1"
-
 if [[  ! ( "$1" == "clean" || "$1" == "overwrite" || "$1" == "missing" ) ]] ; then
     usage
 fi
@@ -31,7 +29,7 @@ fi
 #dont put pgr_ on MY_FUNCTION_NAME that is done automatically
 MY_FUNCTION_NAME="funnyDijkstra"
 DEVELOPER_NAME="Celia Virginia Vergara Castillo"
-DEVELOPER_EMAIL="vicky_vergara\@hotmail.com"
+DEVELOPER_EMAIL="vicky_vergara@hotmail.com"
 YEAR="2017"
 
 # Note: the "\n     " (change line and four spaces) after each comma
@@ -45,17 +43,17 @@ MY_QUERY_LINE1="TEXT,\n    BIGINT,\n    BIGINT,\n    directed BOOLEAN DEFAULT tr
 MY_QUERY_LINE2="    OUT seq INTEGER,\n    OUT path_seq INTEGER,\n    OUT node BIGINT,\n    OUT edge BIGINT,\n    OUT cost FLOAT,\n    OUT agg_cost FLOAT"
 
 
-MY_FUNCTION_NAME_UPPER=$(echo $MY_FUNCTION_NAME | tr 'a-z' 'A-Z')
-MY_FUNCTION_NAME_LOWER=$(echo $MY_FUNCTION_NAME | tr 'A-Z' 'a-z')
+MY_FUNCTION_NAME_UPPER=$(echo $MY_FUNCTION_NAME | tr '[:upper:]' '[:lower:]')
+MY_FUNCTION_NAME_LOWER=$(echo $MY_FUNCTION_NAME | tr '[:upper:]' '[:lower:]')
 
 # Available types to store the edge information:
 #  http://docs.pgrouting.org/doxy/dev/structpgr__edge__t.html
 #  http://docs.pgrouting.org/doxy/dev/structPgr__edge__xy__t.html
 MY_RETURN_VALUE_TYPE="General_path_element_t"
-MY_RETURN_VALUE_FILE=$(echo $MY_RETURN_VALUE_TYPE | tr 'A-Z' 'a-z')
+MY_RETURN_VALUE_FILE=$(echo $MY_RETURN_VALUE_TYPE | tr '[:upper:]' '[:lower:]')
 
 MY_EDGE_TYPE="pgr_edge_t"
-MY_EDGE_FILE=$(echo $MY_EDGE_TYPE | tr 'A-Z' 'a-z')
+MY_EDGE_FILE=$(echo $MY_EDGE_TYPE | tr '[:upper:]' '[:lower:]')
 
 # Available functions that read the edge information:
 # http://docs.pgrouting.org/doxy/dev/edges__input_8h.html#
@@ -99,33 +97,33 @@ substitute "MY_QUERY_LINE1" "$MY_QUERY_LINE1"
 substitute "MY_QUERY_LINE2" "$MY_QUERY_LINE2"
 substitute "DEVELOPER_NAME" "$DEVELOPER_NAME"
 substitute "DEVELOPER_EMAIL" "$DEVELOPER_EMAIL"
-substitute "MY_FUNCTION_NAME" $MY_FUNCTION_NAME
-substitute "MY_FUNCTION_NAME" $MY_FUNCTION_NAME
+substitute "MY_FUNCTION_NAME" "$MY_FUNCTION_NAME"
+substitute "MY_FUNCTION_NAME" "$MY_FUNCTION_NAME"
 substitute "YEAR" $YEAR
-substitute "MY_EDGE_TYPE" $MY_EDGE_TYPE
-substitute "MY_EDGE_FILE" $MY_EDGE_FILE
-substitute "MY_EDGE_FUNCTION" $MY_EDGE_FUNCTION
-substitute "MY_RETURN_VALUE_TYPE" $MY_RETURN_VALUE_TYPE
-substitute "MY_RETURN_VALUE_FILE" $MY_RETURN_VALUE_FILE
+substitute "MY_EDGE_TYPE" "$MY_EDGE_TYPE"
+substitute "MY_EDGE_FILE" "$MY_EDGE_FILE"
+substitute "MY_EDGE_FUNCTION" "$MY_EDGE_FUNCTION"
+substitute "MY_RETURN_VALUE_TYPE" "$MY_RETURN_VALUE_TYPE"
+substitute "MY_RETURN_VALUE_FILE" "$MY_RETURN_VALUE_FILE"
 
 
 
 #renaming the files
-mv $MY_FUNCTION_NAME/src/function1.c                       $MY_FUNCTION_NAME/src/$MY_FUNCTION_NAME.c
-mv $MY_FUNCTION_NAME/src/function1_driver.cpp              $MY_FUNCTION_NAME/src/"$MY_FUNCTION_NAME"_driver.cpp
-mv $MY_FUNCTION_NAME/src/function1_driver.h                $MY_FUNCTION_NAME/src/"$MY_FUNCTION_NAME"_driver.h
+mv "$MY_FUNCTION_NAME"/src/function1.c                       "$MY_FUNCTION_NAME"/src/"$MY_FUNCTION_NAME".c
+mv "$MY_FUNCTION_NAME"/src/function1_driver.cpp              "$MY_FUNCTION_NAME"/src/"$MY_FUNCTION_NAME"_driver.cpp
+mv "$MY_FUNCTION_NAME"/src/function1_driver.h                "$MY_FUNCTION_NAME"/src/"$MY_FUNCTION_NAME"_driver.h
 
-mv $MY_FUNCTION_NAME/doc/doc-pgr_function1.queries         $MY_FUNCTION_NAME/doc/doc-pgr_$MY_FUNCTION_NAME.queries
-mv $MY_FUNCTION_NAME/doc/pgr_function1.rst                 $MY_FUNCTION_NAME/doc/pgr_$MY_FUNCTION_NAME.rst
+mv "$MY_FUNCTION_NAME"/doc/doc-pgr_function1.queries         "$MY_FUNCTION_NAME"/doc/doc-pgr_"$MY_FUNCTION_NAME".queries
+mv "$MY_FUNCTION_NAME"/doc/pgr_function1.rst                 "$MY_FUNCTION_NAME"/doc/pgr_"$MY_FUNCTION_NAME".rst
 
-mv $MY_FUNCTION_NAME/test/doc-function1.test.sql           $MY_FUNCTION_NAME/test/doc-$MY_FUNCTION_NAME.test.sql
-mv $MY_FUNCTION_NAME/test/doc-function1.result             $MY_FUNCTION_NAME/test/doc-$MY_FUNCTION_NAME.result
+mv "$MY_FUNCTION_NAME"/test/doc-function1.test.sql           "$MY_FUNCTION_NAME"/test/doc-"$MY_FUNCTION_NAME".test.sql
+mv "$MY_FUNCTION_NAME"/test/doc-function1.result             "$MY_FUNCTION_NAME"/test/doc-"$MY_FUNCTION_NAME".result
 
-mv $MY_FUNCTION_NAME/sql/function1.sql                     $MY_FUNCTION_NAME/sql/$MY_FUNCTION_NAME.sql
+mv "$MY_FUNCTION_NAME"/sql/function1.sql                     "$MY_FUNCTION_NAME"/sql/"$MY_FUNCTION_NAME".sql
 
-mv $MY_FUNCTION_NAME/pgtap/function1-typesCheck.sql        $MY_FUNCTION_NAME/pgtap/$MY_FUNCTION_NAME-typesCheck.sql
-mv $MY_FUNCTION_NAME/pgtap/function1-compare-dijkstra.sql  $MY_FUNCTION_NAME/pgtap/$MY_FUNCTION_NAME-compare-dijkstra.sql
-mv $MY_FUNCTION_NAME/pgtap/function1-innerQuery.sql        $MY_FUNCTION_NAME/pgtap/$MY_FUNCTION_NAME-innerQuery.sql
+mv "$MY_FUNCTION_NAME"/pgtap/function1-typesCheck.sql        "$MY_FUNCTION_NAME"/pgtap/"$MY_FUNCTION_NAME"-typesCheck.sql
+mv "$MY_FUNCTION_NAME"/pgtap/function1-compare-dijkstra.sql  "$MY_FUNCTION_NAME"/pgtap/"$MY_FUNCTION_NAME"-compare-dijkstra.sql
+mv "$MY_FUNCTION_NAME"/pgtap/function1-innerQuery.sql        "$MY_FUNCTION_NAME"/pgtap/"$MY_FUNCTION_NAME"-innerQuery.sql
 
 
 

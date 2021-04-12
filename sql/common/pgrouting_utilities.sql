@@ -22,7 +22,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 
 
@@ -129,6 +129,10 @@ END;
 $$
 LANGUAGE plpgsql VOLATILE STRICT;
 
+COMMENT ON FUNCTION _pgr_getTableName(TEXT, INTEGER, TEXT)
+IS 'pgRouting internal function';
+
+
 
 
 /*
@@ -202,6 +206,10 @@ END;
 $BODY$
 LANGUAGE plpgsql VOLATILE STRICT;
 
+COMMENT ON FUNCTION _pgr_getColumnName(TEXT, TEXT, TEXT, INTEGER, TEXT)
+IS 'pgRouting internal function';
+COMMENT ON FUNCTION _pgr_getColumnName(TEXT, TEXT, INTEGER, TEXT)
+IS 'pgRouting internal function';
 
 /*
 .. function:: _pgr_isColumnInTable(tab, col)
@@ -233,6 +241,8 @@ END;
 $BODY$
   LANGUAGE plpgsql VOLATILE STRICT;
 
+COMMENT ON FUNCTION _pgr_isColumnInTable(TEXT, TEXT)
+IS 'pgRouting internal function';
 
 /*
 .. function:: _pgr_isColumnIndexed(tab, col)
@@ -342,6 +352,10 @@ END
 $BODY$
   LANGUAGE plpgsql VOLATILE STRICT;
 
+COMMENT ON FUNCTION _pgr_isColumnIndexed(TEXT, TEXT, TEXT, INTEGER, TEXT)
+IS 'pgRouting internal function';
+COMMENT ON FUNCTION _pgr_isColumnIndexed(TEXT, TEXT, INTEGER, TEXT)
+IS 'pgRouting internal function';
 /*
 .. function:: _pgr_quote_ident(text)
 
@@ -377,6 +391,9 @@ begin
 end;
 $body$
 language plpgsql immutable;
+
+COMMENT ON FUNCTION _pgr_quote_ident(TEXT)
+IS 'pgRouting internal function';
 
 /*
  * function for comparing version strings.
@@ -437,35 +454,5 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 1;
 
-create or replace function _pgr_startPoint(g geometry)
-    returns geometry as
-$body$
-declare
-
-begin
-    if geometrytype(g) ~ '^MULTI' then
-        return st_startpoint(st_geometryn(g,1));
-    else
-        return st_startpoint(g);
-    end if;
-end;
-$body$
-language plpgsql IMMUTABLE;
-
-
-
-create or replace function _pgr_endPoint(g geometry)
-    returns geometry as
-$body$
-declare
-
-begin
-    if geometrytype(g) ~ '^MULTI' then
-        return st_endpoint(st_geometryn(g,1));
-    else
-        return st_endpoint(g);
-    end if;
-end;
-$body$
-language plpgsql IMMUTABLE;
-
+COMMENT ON FUNCTION _pgr_versionless(TEXT, TEXT)
+IS 'pgRouting internal function';

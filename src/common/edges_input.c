@@ -20,9 +20,19 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-********************************************************************PGR-GNU*/
+ ********************************************************************PGR-GNU*/
 
 #include "c_common/edges_input.h"
+
+#include <math.h>
+#include <float.h>
+#include <limits.h>
+/* for size-t */
+#ifdef __cplusplus
+#   include <cstddef>
+#else
+#   include <stddef.h>
+#endif
 
 #include "c_types/column_info_t.h"
 
@@ -89,8 +99,58 @@ void fetch_edge(
         edge->reverse_cost = default_rcost;
     }
 
+    edge->cost = isinf(edge->cost)?
+        DBL_MAX : edge->cost;
+
+    edge->reverse_cost = isinf(edge->reverse_cost)?
+        DBL_MAX : edge->reverse_cost;
+
     *valid_edges = edge->cost < 0? *valid_edges: *valid_edges + 1;
     *valid_edges = edge->reverse_cost < 0? *valid_edges: *valid_edges + 1;
+}
+
+static
+void fetch_costFlow_edge(
+        HeapTuple *tuple,
+        TupleDesc *tupdesc,
+        Column_info_t info[7],
+        int64_t *default_id,
+        int64_t default_rcapacity,
+        float8 default_rcost,
+        pgr_costFlow_t *edge,
+        size_t *valid_edges,
+        bool normal) {
+    if (column_found(info[0].colNumber)) {
+        edge->edge_id = pgr_SPI_getBigInt(tuple, tupdesc, info[0]);
+    } else {
+        edge->edge_id = *default_id;
+        ++(*default_id);
+    }
+
+    if (normal) {
+        edge->source = pgr_SPI_getBigInt(tuple, tupdesc,  info[1]);
+        edge->target = pgr_SPI_getBigInt(tuple, tupdesc, info[2]);
+    } else {
+        edge->target = pgr_SPI_getBigInt(tuple, tupdesc,  info[1]);
+        edge->source = pgr_SPI_getBigInt(tuple, tupdesc, info[2]);
+    }
+
+    edge->capacity = pgr_SPI_getBigInt(tuple, tupdesc, info[3]);
+    if (column_found(info[4].colNumber)) {
+        edge->reverse_capacity = pgr_SPI_getBigInt(tuple, tupdesc, info[4]);
+    } else {
+        edge->reverse_capacity = default_rcapacity;
+    }
+
+    edge->cost = pgr_SPI_getFloat8(tuple, tupdesc, info[5]);
+    if (column_found(info[6].colNumber)) {
+        edge->reverse_cost = pgr_SPI_getFloat8(tuple, tupdesc, info[6]);
+    } else {
+        edge->reverse_cost = default_rcost;
+    }
+
+    *valid_edges = edge->capacity < 0? *valid_edges: *valid_edges + 1;
+    *valid_edges = edge->reverse_capacity < 0? *valid_edges: *valid_edges + 1;
 }
 
 static
@@ -129,6 +189,12 @@ void fetch_edge_with_xy(
     edge->y1 = pgr_SPI_getFloat8(tuple, tupdesc, info[6]);
     edge->x2 = pgr_SPI_getFloat8(tuple, tupdesc, info[7]);
     edge->y2 = pgr_SPI_getFloat8(tuple, tupdesc, info[8]);
+#if 0
+    PGR_DBG("%ld", edge->id);
+    PGR_DBG("x1=%f y1=%.15lf", edge->x1, edge->y1);
+    PGR_DBG("x2=%f y2=%.15lf", edge->x2, edge->y2);
+#endif
+
 
     *valid_edges = edge->cost < 0? *valid_edges: *valid_edges + 1;
     *valid_edges = edge->reverse_cost < 0? *valid_edges: *valid_edges + 1;
@@ -145,7 +211,6 @@ get_edges_9_columns(
 
     const int tuple_limit = 1000000;
 
-    size_t ntuples;
     size_t total_tuples;
     size_t valid_edges;
 
@@ -197,7 +262,7 @@ get_edges_9_columns(
         if (total_tuples == 0)
             pgr_fetch_column_info(info, 9);
 
-        ntuples = SPI_processed;
+        size_t ntuples = SPI_processed;
         total_tuples += ntuples;
 
         if (ntuples > 0) {
@@ -253,7 +318,6 @@ get_edges_5_columns(
 
     const int tuple_limit = 1000000;
 
-    size_t ntuples;
     size_t total_tuples;
     size_t valid_edges;
 
@@ -296,7 +360,7 @@ get_edges_5_columns(
         if (total_tuples == 0)
             pgr_fetch_column_info(info, 5);
 
-        ntuples = SPI_processed;
+        size_t ntuples = SPI_processed;
         total_tuples += ntuples;
 
         if (ntuples > 0) {
@@ -350,7 +414,6 @@ get_edges_flow(
 
     const int tuple_limit = 1000000;
 
-    size_t ntuples;
     size_t total_tuples;
     size_t valid_edges;
 
@@ -389,7 +452,7 @@ get_edges_flow(
         if (total_tuples == 0)
             pgr_fetch_column_info(info, 5);
 
-        ntuples = SPI_processed;
+        size_t ntuples = SPI_processed;
         total_tuples += ntuples;
 
         if (ntuples > 0) {
@@ -435,6 +498,105 @@ get_edges_flow(
 
 static
 void
+get_edges_costFlow(
+    char *sql,
+    pgr_costFlow_t **edges,
+    size_t *totalTuples,
+    bool ignore_id) {
+    clock_t start_t = clock();
+
+    const int tuple_limit = 1000000;
+
+    size_t total_tuples;
+    size_t valid_edges;
+
+    Column_info_t info[7];
+
+    int i;
+    for (i = 0; i < 5; ++i) {
+        info[i].colNumber = -1;
+        info[i].type = 0;
+        info[i].strict = true;
+        info[i].eType = ANY_INTEGER;
+    }
+    info[0].name = "id";
+    info[1].name = "source";
+    info[2].name = "target";
+    info[3].name = "capacity";
+    info[4].name = "reverse_capacity";
+    info[5].name = "cost";
+    info[6].name = "reverse_cost";
+
+    info[0].strict = !ignore_id;
+    info[4].strict = false;
+    info[6].strict = false;
+
+    info[5].eType = ANY_NUMERICAL;
+    info[6].eType = ANY_NUMERICAL;
+
+    void *SPIplan;
+    SPIplan = pgr_SPI_prepare(sql);
+
+    Portal SPIportal;
+    SPIportal = pgr_SPI_cursor_open(SPIplan);
+
+
+    bool moredata = true;
+    (*totalTuples) = total_tuples = valid_edges = 0;
+
+
+    int64_t default_id = 0;
+    while (moredata == true) {
+        SPI_cursor_fetch(SPIportal, true, tuple_limit);
+        if (total_tuples == 0)
+            pgr_fetch_column_info(info, 7);
+
+        size_t ntuples = SPI_processed;
+        total_tuples += ntuples;
+
+        if (ntuples > 0) {
+            if ((*edges) == NULL)
+                (*edges) = (pgr_costFlow_t *)
+                    palloc0(total_tuples * sizeof(pgr_costFlow_t));
+            else
+                (*edges) = (pgr_costFlow_t *)
+                    repalloc((*edges), total_tuples * sizeof(pgr_costFlow_t));
+
+            if ((*edges) == NULL) {
+                elog(ERROR, "Out of memory");
+            }
+
+            size_t t;
+            SPITupleTable *tuptable = SPI_tuptable;
+            TupleDesc tupdesc = SPI_tuptable->tupdesc;
+
+            for (t = 0; t < ntuples; t++) {
+                HeapTuple tuple = tuptable->vals[t];
+                fetch_costFlow_edge(&tuple, &tupdesc, info,
+                                    &default_id, -1, 0,
+                                    &(*edges)[total_tuples - ntuples + t],
+                                    &valid_edges,
+                                    true);
+            }
+            SPI_freetuptable(tuptable);
+        } else {
+            moredata = false;
+        }
+    }
+
+    SPI_cursor_close(SPIportal);
+
+    if (total_tuples == 0 || valid_edges == 0) {
+        PGR_DBG("No edges found");
+    }
+
+    (*totalTuples) = total_tuples;
+    PGR_DBG("Reading %ld edges", total_tuples);
+    time_msg("reading edges", start_t, clock());
+}
+
+static
+void
 get_edges_basic(
     char *sql,
     pgr_basic_edge_t **edges,
@@ -444,7 +606,6 @@ get_edges_basic(
 
     const int tuple_limit = 1000000;
 
-    size_t ntuples;
     size_t total_tuples;
     size_t valid_edges;
 
@@ -487,7 +648,7 @@ get_edges_basic(
         if (total_tuples == 0)
             pgr_fetch_column_info(info, 5);
 
-        ntuples = SPI_processed;
+        size_t ntuples = SPI_processed;
         total_tuples += ntuples;
 
         if (ntuples > 0) {
@@ -538,6 +699,16 @@ pgr_get_flow_edges(
     size_t *total_edges) {
     bool ignore_id = false;
     get_edges_flow(sql, edges, total_edges, ignore_id);
+}
+
+/* select id, source, target, capacity, reverse_capacity, cost, reverse_cost */
+void
+pgr_get_costFlow_edges(
+    char *sql,
+    pgr_costFlow_t **edges,
+    size_t *total_edges) {
+    bool ignore_id = false;
+    get_edges_costFlow(sql, edges, total_edges, ignore_id);
 }
 
 /* select id, source, target, cost, reverse_cost */

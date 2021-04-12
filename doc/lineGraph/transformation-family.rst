@@ -4,18 +4,20 @@
     Copyright(c) pgRouting Contributors
 
     This documentation is licensed under a Creative Commons Attribution-Share
-    Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/
+    Alike 3.0 License: https://creativecommons.org/licenses/by-sa/3.0/
    ****************************************************************************
 
-.. _transformation:
-
-Transformation - Family of functions
+Transformation - Family of functions (Experimental)
 ===============================================================================
+
+.. include:: experimental.rst
+   :start-after: begin-warn-expr
+   :end-before: end-warn-expr
 
 .. index from here
 
-* :ref:`pgr_lineGraph` - Transformation algorithm for generating a Line Graph.
-* :ref:`pgr_lineGraphFull` - Transformation algorithm for generating a Line Graph out of each vertex in the input graph.
+* :doc:`pgr_lineGraph` - Transformation algorithm for generating a Line Graph.
+* :doc:`pgr_lineGraphFull` - Transformation algorithm for generating a Line Graph out of each vertex in the input graph.
 
 .. index to here
 
@@ -26,6 +28,13 @@ Transformation - Family of functions
     pgr_lineGraph
     pgr_lineGraphFull
 
+.. rubric:: Previous versions of this page
+
+* **Supported versions:**
+  current(`3.0 <https://docs.pgrouting.org/3.0/en/transformation-family.html>`__)
+
+* **Unsupported versions:**
+  `2.6 <https://docs.pgrouting.org/2.6/en/transformation-family.html>`__
 
 Introduction
 ------------------------
